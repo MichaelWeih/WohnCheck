@@ -82,7 +82,7 @@ export default function WriteReviewPage() {
 
           <div>
             <Label>Titel deiner Bewertung *</Label>
-            <Input className="mt-1.5" placeholder="z.B. „Guter Vermieter, schnelle Reparaturen"" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} />
+            <Input className="mt-1.5" placeholder="z.B. Guter Vermieter, schnelle Reparaturen" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} />
           </div>
 
           <div>
