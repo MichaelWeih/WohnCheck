@@ -1,11 +1,11 @@
 import { StarRating } from "./StarRating";
 import { ThumbsUp, Flag, BadgeCheck } from "lucide-react";
-import { Review } from "@/data/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ReviewViewModel } from "@/features/reviews/review-types";
 
 interface ReviewCardProps {
-  review: Review;
+  review: ReviewViewModel;
   onReport?: (id: string) => void;
 }
 
@@ -29,7 +29,12 @@ export function ReviewCard({ review, onReport }: ReviewCardProps) {
               <ThumbsUp size={13} /> {review.helpful_count}
             </Button>
             {onReport && (
-              <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground gap-1" onClick={() => onReport(review.id)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 text-xs text-muted-foreground gap-1"
+                onClick={() => onReport(review.id)}
+              >
                 <Flag size={13} /> Melden
               </Button>
             )}

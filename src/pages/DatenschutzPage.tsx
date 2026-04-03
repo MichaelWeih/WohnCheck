@@ -15,6 +15,9 @@ export default function DatenschutzPage() {
         <h2 className="text-lg font-semibold text-foreground">4. Ihre Rechte</h2>
         <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten. Kontaktieren Sie uns hierzu unter datenschutz@wohncheck.de.</p>
 
+        <h2 className="text-lg font-semibold text-foreground">5. Externe Karteninhalte</h2>
+        <p>Fuer die Kartenansicht binden wir Inhalte von OpenStreetMap ein. Diese externen Inhalte werden erst geladen, wenn Sie dazu ausdruecklich einwilligen. Ohne Einwilligung bleibt die Kartenfunktion deaktiviert.</p>
+
         <p className="border-t pt-4 text-xs">
           Dies ist ein Platzhalter-Datenschutztext für Demo-Zwecke. In der Produktivversion muss hier eine vollständige DSGVO-konforme Datenschutzerklärung stehen.
         </p>

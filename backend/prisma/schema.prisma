@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  LANDLORD
+  ADMIN
+}
+
+enum TargetType {
+  LANDLORD
+  PROPERTY
+  NEIGHBORHOOD
+}
+
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+  REPORTED
+  REJECTED
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
+enum ImportJobStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+model User {
+  id             String       @id @default(cuid())
+  email          String       @unique
+  displayName    String
+  passwordHash   String?
+  landlordId     String?
+  isVerified     Boolean      @default(false)
+  role           UserRole     @default(USER)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  landlord       Landlord?    @relation(fields: [landlordId], references: [id], onDelete: SetNull)
+  reviews        Review[]
+  reports        ReviewReport[]
+  reviewVotes    ReviewVote[]
+}
+
+model Landlord {
+  id             String        @id @default(cuid())
+  name           String
+  companyType    String
+  city           String
+  website        String?
+  slug           String        @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  properties     Property[]
+  userAccounts   User[]
+}
+
+model Property {
+  id             String         @id @default(cuid())
+  street         String
+  houseNumber    String
+  postalCode     String
+  city           String
+  slug           String         @unique
+  landlordId     String
+  neighborhoodId String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  landlord       Landlord       @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  neighborhood   Neighborhood?  @relation(fields: [neighborhoodId], references: [id], onDelete: SetNull)
+}
+
+model Neighborhood {
+  id             String      @id @default(cuid())
+  districtName   String
+  city           String
+  postalCode     String
+  slug           String      @unique
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  properties     Property[]
+}
+
+model Review {
+  id                 String         @id @default(cuid())
+  userId             String
+  targetType         TargetType
+  targetId           String
+  title              String
+  text               String
+  overallRating      Decimal        @db.Decimal(3, 2)
+  categoryRatings    Json
+  status             ReviewStatus   @default(PENDING)
+  helpfulCount       Int            @default(0)
+  verificationLevel  String?
+  moderationReason   String?
+  moderatedAt        DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reports            ReviewReport[]
+  votes              ReviewVote[]
+
+  @@index([targetType, targetId, status])
+  @@index([userId])
+}
+
+model ReviewReport {
+  id             String        @id @default(cuid())
+  reviewId       String
+  userId         String
+  reason         String
+  status         ReportStatus  @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  review         Review        @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ReviewVote {
+  id             String      @id @default(cuid())
+  reviewId       String
+  userId         String
+  isHelpful      Boolean
+  createdAt      DateTime    @default(now())
+  review         Review      @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, userId])
+}
+
+model PublicSourceSnapshot {
+  id             String      @id @default(cuid())
+  targetType     TargetType
+  targetId       String
+  sourceKey      String
+  payload        Json
+  capturedAt     DateTime    @default(now())
+  importJobId    String?
+  importJob      ImportJob?  @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+
+  @@index([targetType, targetId])
+}
+
+model ScoreResult {
+  id                 String           @id @default(cuid())
+  targetType         TargetType
+  targetId           String
+  totalScore         Decimal          @db.Decimal(5, 2)
+  confidenceScore    Decimal?         @db.Decimal(5, 2)
+  calculationVersion String
+  computedAt         DateTime         @default(now())
+  components         ScoreComponent[]
+
+  @@unique([targetType, targetId, calculationVersion])
+}
+
+model ScoreComponent {
+  id             String       @id @default(cuid())
+  scoreResultId  String
+  key            String
+  label          String
+  value          Decimal      @db.Decimal(5, 2)
+  weight         Decimal?     @db.Decimal(5, 2)
+  source         String?
+  metadata       Json?
+  scoreResult    ScoreResult  @relation(fields: [scoreResultId], references: [id], onDelete: Cascade)
+
+  @@index([scoreResultId])
+}
+
+model ImportJob {
+  id             String                 @id @default(cuid())
+  sourceKey      String
+  status         ImportJobStatus        @default(QUEUED)
+  message        String?
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  snapshots      PublicSourceSnapshot[]
+}
