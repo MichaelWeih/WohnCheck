@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .stroke-green {
+        stroke: #49BFA8;
+        stroke-width: 18;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+
+  <path
+    d="M130 54H382C438.333 54 484 99.6669 484 156V292C484 348.333 438.333 394 382 394H250L172 468V394H130C73.6669 394 28 348.333 28 292V156C28 99.6669 73.6669 54 130 54Z"
+    class="stroke-green"
+    fill="none"
+  />
+
+  <path d="M144 250L256 160L368 250" class="stroke-green" fill="none"/>
+  <path d="M174 231V337" class="stroke-green" fill="none"/>
+  <path d="M338 231V294" class="stroke-green" fill="none"/>
+  <rect x="230" y="274" width="52" height="63" rx="10" class="stroke-green" fill="none"/>
+  <path d="M194 315L229 350L326 258" class="stroke-green" fill="none"/>
+</svg>

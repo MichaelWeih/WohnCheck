@@ -3,7 +3,7 @@ import { SearchBar } from "./SearchBar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/features/auth/auth-context";
-import { Home, LogIn, LogOut, UserPlus, Shield, PenSquare } from "lucide-react";
+import { LogIn, LogOut, UserPlus, Shield, PenSquare } from "lucide-react";
 
 export function Navbar() {
   const { isAuthenticated, user, logout, hasRole } = useAuth();
@@ -11,11 +11,18 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       <div className="container flex items-center h-16 gap-4">
-        <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <Home size={18} className="text-primary-foreground" />
+        <Link to="/" className="flex items-center shrink-0">
+          <div className="flex items-center gap-2">
+            <img
+              src="/branding/wohncheck-icon.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-9 w-9 shrink-0"
+            />
+            <span className="hidden text-lg font-bold tracking-tight text-foreground sm:inline">
+              WohnCheck
+            </span>
           </div>
-          <span className="font-bold text-lg text-foreground hidden sm:inline">WohnCheck</span>
         </Link>
 
         <div className="flex-1 flex justify-center">

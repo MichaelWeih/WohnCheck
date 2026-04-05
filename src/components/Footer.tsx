@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Home } from "lucide-react";
 
 export function Footer() {
   return (
@@ -7,13 +6,18 @@ export function Footer() {
       <div className="container py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-                <Home size={14} className="text-primary-foreground" />
-              </div>
-              <span className="font-bold text-foreground">WohnCheck</span>
+            <div className="mb-3 flex items-center gap-3">
+              <img
+                src="/branding/wohncheck-icon.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-11 w-11 shrink-0"
+              />
+              <span className="text-xl font-bold tracking-tight text-foreground">WohnCheck</span>
             </div>
-            <p className="text-sm text-muted-foreground">Transparenz im Wohnungsmarkt – echte Erfahrungsberichte von Mietern.</p>
+            <p className="text-sm text-muted-foreground">
+              Transparenz im Wohnungsmarkt - echte Erfahrungsberichte von Mietern.
+            </p>
           </div>
           <div>
             <h4 className="font-semibold text-foreground mb-3 text-sm">Entdecken</h4>
