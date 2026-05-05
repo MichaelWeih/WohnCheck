@@ -5,11 +5,13 @@ import { ScoreBadge } from "@/components/ScoreBadge";
 import { StarRating } from "@/components/StarRating";
 import { RatingBar } from "@/components/RatingBar";
 import { ReviewCard } from "@/components/ReviewCard";
+import { PublicScoreCard } from "@/components/PublicScoreCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/auth-context";
 import { adaptApiReview } from "@/features/reviews/review-adapter";
 import { fetchReviewAggregate, fetchReviews, reportReview } from "@/features/reviews/review-api";
+import { fetchScore } from "@/features/scores/score-api";
 import { MapPin, PenSquare } from "lucide-react";
 import { toast } from "sonner";
 
@@ -30,6 +32,11 @@ export default function NeighborhoodDetailPage() {
   const { data: apiAggregate } = useQuery({
     queryKey: ["review-aggregate", "neighborhood", neighborhood.id],
     queryFn: () => fetchReviewAggregate("neighborhood", neighborhood.id),
+  });
+
+  const { data: publicScore } = useQuery({
+    queryKey: ["score", "neighborhood", neighborhood.id],
+    queryFn: () => fetchScore("neighborhood", neighborhood.id),
   });
 
   const reviews = apiReviews?.map(adaptApiReview) ?? getReviewsForTarget("neighborhood", neighborhood.id);
@@ -87,6 +94,8 @@ export default function NeighborhoodDetailPage() {
             ))}
           </div>
         </Card>
+
+        <PublicScoreCard score={publicScore} title="Nachbarschafts-Score" />
 
         <h2 className="font-semibold text-foreground text-lg mb-4">Erfahrungsberichte ({reviews.length})</h2>
         {reviews.length === 0 ? (

@@ -105,9 +105,9 @@ async function main() {
       targetType: TargetType.NEIGHBORHOOD,
       targetId: "n1",
       title: "Lebendig und gut angebunden",
-      text: "Viele Cafes, gute OePNV-Anbindung und insgesamt ein sehr angenehmes Wohnumfeld.",
+      text: "Viele Cafés, gute ÖPNV-Anbindung und insgesamt ein sehr angenehmes Wohnumfeld.",
       overallRating: new Prisma.Decimal(4.2),
-      categoryRatings: { Sicherheit: 4.0, Ruhe: 3.5, Einkaufsmoeglichkeiten: 4.5, OePNV: 5.0, Familienfreundlichkeit: 4.0, Gruenflaechen: 4.0 },
+      categoryRatings: { Sicherheit: 4.0, Ruhe: 3.5, Einkaufsmöglichkeiten: 4.5, ÖPNV: 5.0, Familienfreundlichkeit: 4.0, Grünflächen: 4.0 },
       status: ReviewStatus.PUBLISHED,
       helpfulCount: 5,
     },
@@ -149,6 +149,191 @@ async function main() {
       status: "PENDING",
     },
   });
+
+  const publicProfiles = [
+    {
+      targetType: TargetType.PROPERTY,
+      targetId: "p1",
+      totalScore: 83,
+      confidenceScore: 74,
+      signals: {
+        transit: { label: "ÖPNV", score: 94, weight: 0.22, details: "Dichte Tram-/U-Bahn-/Bushaltestellen im Umfeld" },
+        safety: { label: "Kriminalitätsrate", score: 68, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Kriminalitätsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 88, weight: 0.22, details: "Lebensmittel, Ärzte, Schulen, Kitas und Nahversorgung" },
+        internet: { label: "Internetverbindung", score: 78, weight: 0.16, details: "Breitband-/Gigabit-Verfügbarkeit auf Gebietsebene" },
+        leisure: { label: "Freizeitaktivitaeten", score: 86, weight: 0.22, details: "Parks, Gastronomie, Kultur und Sportangebote im Umfeld" },
+      },
+    },
+    {
+      targetType: TargetType.PROPERTY,
+      targetId: "p2",
+      totalScore: 88,
+      confidenceScore: 74,
+      signals: {
+        transit: { label: "ÖPNV", score: 91, weight: 0.22, details: "Sehr gute U-Bahn-/Busnähe" },
+        safety: { label: "Kriminalitätsrate", score: 82, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Sicherheitsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 92, weight: 0.22, details: "Sehr hohe Nahversorgungsdichte" },
+        internet: { label: "Internetverbindung", score: 85, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 88, weight: 0.22, details: "Parks, Gastronomie und Kultur in Laufnähe" },
+      },
+    },
+    {
+      targetType: TargetType.PROPERTY,
+      targetId: "p3",
+      totalScore: 79,
+      confidenceScore: 74,
+      signals: {
+        transit: { label: "ÖPNV", score: 88, weight: 0.22, details: "Viele Schnellbahn-/Busoptionen im Viertel" },
+        safety: { label: "Kriminalitätsrate", score: 58, weight: 0.18, details: "Gebietsindikator mit erhöhtem urbanem Nachtleben-Risiko" },
+        infrastructure: { label: "Infrastruktur", score: 84, weight: 0.22, details: "Gute Nahversorgung und medizinische Angebote" },
+        internet: { label: "Internetverbindung", score: 82, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 90, weight: 0.22, details: "Sehr hohe Dichte an Kultur, Gastronomie und Ausgehen" },
+      },
+    },
+    {
+      targetType: TargetType.PROPERTY,
+      targetId: "p4",
+      totalScore: 84,
+      confidenceScore: 74,
+      signals: {
+        transit: { label: "ÖPNV", score: 93, weight: 0.22, details: "Sehr gute U-/S-Bahn- und Tram-Anbindung" },
+        safety: { label: "Kriminalitätsrate", score: 63, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Kriminalitätsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 89, weight: 0.22, details: "Hohe Dichte an Versorgung und Dienstleistungen" },
+        internet: { label: "Internetverbindung", score: 84, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 92, weight: 0.22, details: "Sehr gute Freizeit-, Gastro- und Kulturangebote" },
+      },
+    },
+    {
+      targetType: TargetType.NEIGHBORHOOD,
+      targetId: "n1",
+      totalScore: 84,
+      confidenceScore: 76,
+      signals: {
+        transit: { label: "ÖPNV", score: 93, weight: 0.22, details: "Sehr gute Tram-/U-Bahn- und Busabdeckung" },
+        safety: { label: "Kriminalitätsrate", score: 70, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Kriminalitätsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 90, weight: 0.22, details: "Hohe Dichte an Schulen, Kitas, Ärzten und Einkauf" },
+        internet: { label: "Internetverbindung", score: 78, weight: 0.16, details: "Breitband-/Gigabit-Verfügbarkeit auf Gebietsebene" },
+        leisure: { label: "Freizeitaktivitaeten", score: 88, weight: 0.22, details: "Parks, Cafés, Kultur und Sportangebote" },
+      },
+    },
+    {
+      targetType: TargetType.NEIGHBORHOOD,
+      targetId: "n2",
+      totalScore: 88,
+      confidenceScore: 76,
+      signals: {
+        transit: { label: "ÖPNV", score: 90, weight: 0.22, details: "Sehr gute U-Bahn- und Busabdeckung" },
+        safety: { label: "Kriminalitätsrate", score: 84, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Sicherheitsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 92, weight: 0.22, details: "Sehr gute Nahversorgung, Schulen und medizinische Angebote" },
+        internet: { label: "Internetverbindung", score: 86, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 88, weight: 0.22, details: "Gute Park-, Kultur- und Gastroabdeckung" },
+      },
+    },
+    {
+      targetType: TargetType.NEIGHBORHOOD,
+      targetId: "n3",
+      totalScore: 79,
+      confidenceScore: 76,
+      signals: {
+        transit: { label: "ÖPNV", score: 88, weight: 0.22, details: "Sehr gute Schnellbahn-/Busnähe" },
+        safety: { label: "Kriminalitätsrate", score: 58, weight: 0.18, details: "Gebietsindikator mit erhöhtem Ausgehviertel-Risiko" },
+        infrastructure: { label: "Infrastruktur", score: 83, weight: 0.22, details: "Gute Nahversorgung und medizinische Angebote" },
+        internet: { label: "Internetverbindung", score: 82, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 91, weight: 0.22, details: "Sehr hohe Freizeit- und Kulturdichte" },
+      },
+    },
+    {
+      targetType: TargetType.NEIGHBORHOOD,
+      targetId: "n4",
+      totalScore: 84,
+      confidenceScore: 76,
+      signals: {
+        transit: { label: "ÖPNV", score: 94, weight: 0.22, details: "Sehr gute U-/S-Bahn-, Tram- und Busabdeckung" },
+        safety: { label: "Kriminalitätsrate", score: 63, weight: 0.18, details: "Gebietsindikator aus veröffentlichten Kriminalitätsdaten" },
+        infrastructure: { label: "Infrastruktur", score: 89, weight: 0.22, details: "Hohe Dichte an Versorgung, Schulen und Jobs" },
+        internet: { label: "Internetverbindung", score: 84, weight: 0.16, details: "Gute Breitband-/Gigabit-Verfügbarkeit" },
+        leisure: { label: "Freizeitaktivitaeten", score: 92, weight: 0.22, details: "Sehr hohe Gastro-, Kultur- und Freizeitdichte" },
+      },
+    },
+  ];
+
+  for (const profile of publicProfiles) {
+    await prisma.publicSourceSnapshot.deleteMany({
+      where: {
+        targetType: profile.targetType,
+        targetId: profile.targetId,
+        sourceKey: "public_baseline_2026",
+      },
+    });
+
+    await prisma.publicSourceSnapshot.create({
+      data: {
+        targetType: profile.targetType,
+        targetId: profile.targetId,
+        sourceKey: "public_baseline_2026",
+        payload: {
+          sourceName: "WohnCheck Public Baseline",
+          sourceUrl: "https://daten.berlin.de/",
+          capturedLabel: "Demo-Snapshot aus öffentlichen Quellentypen",
+          signals: profile.signals,
+          sourceNotes: [
+            "ÖPNV: GTFS/Haltestellen, z.B. VBB und weitere Verkehrsverbünde",
+            "POI-Infrastruktur/Freizeit: OpenStreetMap/Overpass",
+            "Sicherheit: veröffentlichte Kriminalitätsatlanten oder PKS auf Gebietsebene",
+            "Internet: Breitbandatlas/Gigabit-Grundbuch auf Gebietsebene",
+          ],
+        },
+      },
+    });
+
+    await prisma.scoreResult.upsert({
+      where: {
+        targetType_targetId_calculationVersion: {
+          targetType: profile.targetType,
+          targetId: profile.targetId,
+          calculationVersion: "public-baseline-v1",
+        },
+      },
+      update: {
+        totalScore: new Prisma.Decimal(profile.totalScore),
+        confidenceScore: new Prisma.Decimal(profile.confidenceScore),
+        components: {
+          deleteMany: {},
+          create: Object.entries(profile.signals).map(([key, signal]) => ({
+            key,
+            label: signal.label,
+            value: new Prisma.Decimal(signal.score),
+            weight: new Prisma.Decimal(signal.weight),
+            source: "public_baseline_2026",
+            metadata: {
+              details: signal.details,
+              sourceName: "WohnCheck Public Baseline",
+            },
+          })),
+        },
+      },
+      create: {
+        targetType: profile.targetType,
+        targetId: profile.targetId,
+        totalScore: new Prisma.Decimal(profile.totalScore),
+        confidenceScore: new Prisma.Decimal(profile.confidenceScore),
+        calculationVersion: "public-baseline-v1",
+        components: {
+          create: Object.entries(profile.signals).map(([key, signal]) => ({
+            key,
+            label: signal.label,
+            value: new Prisma.Decimal(signal.score),
+            weight: new Prisma.Decimal(signal.weight),
+            source: "public_baseline_2026",
+            metadata: {
+              details: signal.details,
+              sourceName: "WohnCheck Public Baseline",
+            },
+          })),
+        },
+      },
+    });
+  }
 }
 
 main()

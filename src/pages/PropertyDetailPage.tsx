@@ -7,11 +7,13 @@ import { ScoreBadge } from "@/components/ScoreBadge";
 import { StarRating } from "@/components/StarRating";
 import { RatingBar } from "@/components/RatingBar";
 import { ReviewCard } from "@/components/ReviewCard";
+import { PublicScoreCard } from "@/components/PublicScoreCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/auth-context";
 import { adaptApiReview } from "@/features/reviews/review-adapter";
 import { fetchReviewAggregate, fetchReviews, reportReview } from "@/features/reviews/review-api";
+import { fetchScore } from "@/features/scores/score-api";
 import { MapPin, Building2, PenSquare } from "lucide-react";
 import { toast } from "sonner";
 
@@ -33,6 +35,11 @@ export default function PropertyDetailPage() {
   const { data: apiAggregate } = useQuery({
     queryKey: ["review-aggregate", "property", property.id],
     queryFn: () => fetchReviewAggregate("property", property.id),
+  });
+
+  const { data: publicScore } = useQuery({
+    queryKey: ["score", "property", property.id],
+    queryFn: () => fetchScore("property", property.id),
   });
 
   const reviews = apiReviews?.map(adaptApiReview) ?? getReviewsForTarget("property", property.id);
@@ -94,6 +101,8 @@ export default function PropertyDetailPage() {
             ))}
           </div>
         </Card>
+
+        <PublicScoreCard score={publicScore} />
 
         {mappedProperty && (
           <PropertyMap
