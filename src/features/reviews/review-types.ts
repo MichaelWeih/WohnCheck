@@ -24,6 +24,7 @@ export interface ApiReview {
   categoryRatings: Record<string, number>;
   status: "PENDING" | "PUBLISHED" | "REPORTED" | "REJECTED";
   helpfulCount: number;
+  verificationLevel?: string | null;
   createdAt: string;
   updatedAt: string;
   user: ApiReviewUser;
@@ -39,6 +40,7 @@ export interface ReviewViewModel {
   rating_overall: number;
   created_at: string;
   helpful_count: number;
+  verification_level?: string | null;
   status: "published" | "pending" | "reported" | "rejected";
   target_type: "landlord" | "property" | "neighborhood";
   target_id: string;

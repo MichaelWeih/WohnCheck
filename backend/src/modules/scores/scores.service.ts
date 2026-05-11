@@ -54,7 +54,7 @@ export class ScoresService {
     const totalWeight = publicComponents.reduce((sum, component) => sum + component.weight, 0) + reviewWeight;
 
     if (totalWeight === 0) {
-      throw new NotFoundException("Noch keine Reviews oder öffentlichen Quellen fuer dieses Zielobjekt.");
+      throw new NotFoundException("Noch keine Reviews oder öffentlichen Quellen für dieses Zielobjekt.");
     }
 
     const totalScore = Number(

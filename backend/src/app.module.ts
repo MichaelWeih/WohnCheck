@@ -2,8 +2,11 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AdminModule } from "./modules/admin/admin.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { DataSourcesModule } from "./modules/data-sources/data-sources.module";
 import { DirectoryModule } from "./modules/directory/directory.module";
 import { HealthModule } from "./modules/health/health.module";
+import { ImportsModule } from "./modules/imports/imports.module";
+import { ListingsModule } from "./modules/listings/listings.module";
 import { PrismaModule } from "./modules/prisma/prisma.module";
 import { ReviewsModule } from "./modules/reviews/reviews.module";
 import { ScoresModule } from "./modules/scores/scores.module";
@@ -15,6 +18,9 @@ import { ScoresModule } from "./modules/scores/scores.module";
     AuthModule,
     HealthModule,
     DirectoryModule,
+    DataSourcesModule,
+    ListingsModule,
+    ImportsModule,
     ReviewsModule,
     ScoresModule,
     AdminModule,

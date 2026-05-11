@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { Link } from "react-router-dom";
-import { Baby, Building2, Briefcase, Bus, Dumbbell, ExternalLink, MapPin, Music, School, Shield, ShoppingCart, Stethoscope, Theater, Train, Trees, Utensils, Wifi, X } from "lucide-react";
+import { Baby, Building2, Briefcase, Bus, Dumbbell, ExternalLink, MapPin, Minus, Music, PanelRightClose, PanelRightOpen, Plus, RotateCcw, School, Shield, ShoppingCart, Stethoscope, Theater, Train, Trees, Utensils, Wifi, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useConsent } from "@/components/consent/ConsentProvider";
@@ -25,11 +25,29 @@ type PropertyMapProps = {
   onSelectProperty?: (propertyId: string) => void;
   className?: string;
   heightClassName?: string;
+  marketPrices?: {
+    rent?: number | null;
+    purchase?: number | null;
+    locationLabel?: string;
+  };
 };
 
 type Size = {
   width: number;
   height: number;
+};
+
+type PanOffset = {
+  x: number;
+  y: number;
+};
+
+type DragState = {
+  pointerId: number;
+  startX: number;
+  startY: number;
+  originX: number;
+  originY: number;
 };
 
 type SelectedPlace = {
@@ -112,6 +130,57 @@ function getScoreColor(score: number) {
 
 function getSignalScore(signals: MappedProperty["publicSignals"], activeLayer: PublicSignalKey) {
   return signals?.find((signal) => signal.key === activeLayer);
+}
+
+function formatMapPrice(value?: number | null, mode: "rent" | "purchase" = "rent") {
+  if (value === null || value === undefined) return "–";
+
+  if (mode === "purchase") {
+    return `${Math.round(value).toLocaleString("de-DE")} €/m²`;
+  }
+
+  return `${value.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €/m²`;
+}
+
+function getMapDetailLevel(zoom: number) {
+  if (zoom < 11) {
+    return {
+      label: "Überblick",
+      markerLimit: 0,
+      description: "Wohnungen und Quartiere",
+    };
+  }
+
+  if (zoom < 12) {
+    return {
+      label: "Basisdetails",
+      markerLimit: 2,
+      description: "wichtigste Punkte",
+    };
+  }
+
+  if (zoom < 13) {
+    return {
+      label: "Mehr Details",
+      markerLimit: 3,
+      description: "zusätzliche Punkte",
+    };
+  }
+
+  return {
+    label: "Feindetails",
+    markerLimit: Number.POSITIVE_INFINITY,
+    description: "alle verfügbaren Punkte",
+  };
+}
+
+function getMarkerPriority(id: string) {
+  const suffix = Number(id.split("-").at(-1));
+  return Number.isFinite(suffix) ? suffix : 1;
+}
+
+function isVisibleAtDetailLevel(id: string, markerLimit: number) {
+  return getMarkerPriority(id) <= markerLimit;
 }
 
 const amenityIcons = {
@@ -289,12 +358,17 @@ export function PropertyMap({
   onSelectProperty,
   className,
   heightClassName = "h-[360px]",
+  marketPrices,
 }: PropertyMapProps) {
   const surfaceRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState<Size>({ width: 800, height: 360 });
   const { canLoadExternalMedia, acceptAll } = useConsent();
   const [activeLayer, setActiveLayer] = useState<PublicSignalKey>("transit");
   const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(null);
+  const [zoomOffset, setZoomOffset] = useState(0);
+  const [panOffset, setPanOffset] = useState<PanOffset>({ x: 0, y: 0 });
+  const [dragState, setDragState] = useState<DragState | null>(null);
+  const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(true);
 
   useEffect(() => {
     if (!surfaceRef.current) return;
@@ -333,10 +407,12 @@ export function PropertyMap({
 
   const centerLat = allPoints.reduce((sum, point) => sum + point.latitude, 0) / allPoints.length;
   const centerLon = allPoints.reduce((sum, point) => sum + point.longitude, 0) / allPoints.length;
-  const zoom = getZoomLevel(allPoints, size.width, size.height);
+  const baseZoom = getZoomLevel(allPoints, size.width, size.height);
+  const zoom = clamp(baseZoom + zoomOffset, 4, 18);
+  const mapDetailLevel = getMapDetailLevel(zoom);
   const maxTileIndex = 2 ** zoom;
-  const topLeftX = lonToWorldX(centerLon, zoom) - size.width / 2;
-  const topLeftY = latToWorldY(centerLat, zoom) - size.height / 2;
+  const topLeftX = lonToWorldX(centerLon, zoom) - size.width / 2 - panOffset.x;
+  const topLeftY = latToWorldY(centerLat, zoom) - size.height / 2 - panOffset.y;
   const startTileX = Math.floor(topLeftX / TILE_SIZE);
   const endTileX = Math.floor((topLeftX + size.width) / TILE_SIZE);
   const startTileY = Math.floor(topLeftY / TILE_SIZE);
@@ -360,34 +436,58 @@ export function PropertyMap({
 
   const markers = properties.map((property) => ({
     ...property,
-    left: clamp(lonToWorldX(property.longitude, zoom) - topLeftX, 18, size.width - 18),
-    top: clamp(latToWorldY(property.latitude, zoom) - topLeftY, 18, size.height - 18),
+    left: lonToWorldX(property.longitude, zoom) - topLeftX,
+    top: latToWorldY(property.latitude, zoom) - topLeftY,
   }));
   const amenityTargetIds = [...properties.map((property) => property.id), ...neighborhoods.map((neighborhood) => neighborhood.id)];
   const amenities = getInfrastructureAmenities(amenityTargetIds);
   const stations = getTransitStations(amenityTargetIds);
   const leisurePlaces = getLeisurePlaces(amenityTargetIds);
   const safetyObservations = getSafetyObservations(amenityTargetIds);
-  const amenityMarkers = amenities.map((amenity) => ({
+  const visibleAmenities = amenities.filter((amenity) =>
+    isVisibleAtDetailLevel(amenity.id, mapDetailLevel.markerLimit),
+  );
+  const visibleStations = stations.filter((station) =>
+    isVisibleAtDetailLevel(station.id, mapDetailLevel.markerLimit),
+  );
+  const visibleLeisurePlaces = leisurePlaces.filter((place) =>
+    isVisibleAtDetailLevel(place.id, mapDetailLevel.markerLimit),
+  );
+  const visibleSafetyObservations = safetyObservations.filter((observation) =>
+    isVisibleAtDetailLevel(observation.id, mapDetailLevel.markerLimit),
+  );
+  const amenityMarkers = visibleAmenities.map((amenity) => ({
     ...amenity,
-    left: clamp(lonToWorldX(amenity.longitude, zoom) - topLeftX, 18, size.width - 18),
-    top: clamp(latToWorldY(amenity.latitude, zoom) - topLeftY, 18, size.height - 18),
+    left: lonToWorldX(amenity.longitude, zoom) - topLeftX,
+    top: latToWorldY(amenity.latitude, zoom) - topLeftY,
   }));
-  const stationMarkers = stations.map((station) => ({
+  const stationMarkers = visibleStations.map((station) => ({
     ...station,
-    left: clamp(lonToWorldX(station.longitude, zoom) - topLeftX, 18, size.width - 18),
-    top: clamp(latToWorldY(station.latitude, zoom) - topLeftY, 18, size.height - 18),
+    left: lonToWorldX(station.longitude, zoom) - topLeftX,
+    top: latToWorldY(station.latitude, zoom) - topLeftY,
   }));
-  const leisureMarkers = leisurePlaces.map((place) => ({
+  const leisureMarkers = visibleLeisurePlaces.map((place) => ({
     ...place,
-    left: clamp(lonToWorldX(place.longitude, zoom) - topLeftX, 18, size.width - 18),
-    top: clamp(latToWorldY(place.latitude, zoom) - topLeftY, 18, size.height - 18),
+    left: lonToWorldX(place.longitude, zoom) - topLeftX,
+    top: latToWorldY(place.latitude, zoom) - topLeftY,
   }));
-  const safetyMarkers = safetyObservations.map((observation) => ({
+  const safetyMarkers = visibleSafetyObservations.map((observation) => ({
     ...observation,
-    left: clamp(lonToWorldX(observation.longitude, zoom) - topLeftX, 22, size.width - 22),
-    top: clamp(latToWorldY(observation.latitude, zoom) - topLeftY, 22, size.height - 22),
+    left: lonToWorldX(observation.longitude, zoom) - topLeftX,
+    top: latToWorldY(observation.latitude, zoom) - topLeftY,
   }));
+  const visibleLayerMarkerCount =
+    activeLayer === "transit"
+      ? stationMarkers.length
+      : activeLayer === "infrastructure"
+        ? amenityMarkers.length
+        : activeLayer === "leisure"
+          ? leisureMarkers.length
+          : activeLayer === "safety"
+            ? safetyMarkers.length
+            : 0;
+  const mapDetailSummary =
+    activeLayer === "internet" ? mapDetailLevel.description : `${visibleLayerMarkerCount} Punkte sichtbar`;
   const selectedAmenities = selectedProperty
     ? amenities.filter((amenity) => amenity.targetIds.includes(selectedProperty.id)).slice(0, 5)
     : [];
@@ -401,6 +501,9 @@ export function PropertyMap({
     ? safetyObservations.filter((observation) => observation.targetIds.includes(selectedProperty.id)).slice(0, 4)
     : [];
   const selectedInternetOptions = selectedProperty ? getInternetAvailability(selectedProperty.id) : [];
+  const hasMarketPrices = Boolean(
+    marketPrices && (marketPrices.rent !== null && marketPrices.rent !== undefined || marketPrices.purchase !== null && marketPrices.purchase !== undefined),
+  );
   const fastestInternetOption = selectedInternetOptions.reduce(
     (fastest, option) => (!fastest || option.downloadMbit > fastest.downloadMbit ? option : fastest),
     selectedInternetOptions[0],
@@ -415,9 +518,55 @@ export function PropertyMap({
         return `${x},${y}`;
       })
       .join(" "),
-    labelLeft: clamp(lonToWorldX(neighborhood.center.longitude, zoom) - topLeftX, 64, size.width - 64),
-    labelTop: clamp(latToWorldY(neighborhood.center.latitude, zoom) - topLeftY, 24, size.height - 24),
+    labelLeft: lonToWorldX(neighborhood.center.longitude, zoom) - topLeftX,
+    labelTop: latToWorldY(neighborhood.center.latitude, zoom) - topLeftY,
   }));
+
+  const handleMapPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!canLoadExternalMedia || event.button !== 0) return;
+
+    const target = event.target as HTMLElement;
+    if (target.closest("button, a, [data-map-control='true']")) return;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setDragState({
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: panOffset.x,
+      originY: panOffset.y,
+    });
+  };
+
+  const handleMapPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!dragState || dragState.pointerId !== event.pointerId) return;
+
+    setPanOffset({
+      x: dragState.originX + event.clientX - dragState.startX,
+      y: dragState.originY + event.clientY - dragState.startY,
+    });
+  };
+
+  const handleMapPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!dragState || dragState.pointerId !== event.pointerId) return;
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    setDragState(null);
+  };
+
+  const openPanelWithPlace = (place: SelectedPlace) => {
+    setSelectedPlace(place);
+    setIsDetailPanelOpen(true);
+  };
+
+  const handlePropertySelect = (propertyId: string) => {
+    setSelectedPlace(null);
+    setIsDetailPanelOpen(true);
+    onSelectProperty?.(propertyId);
+  };
 
   return (
     <Card className={cn("overflow-hidden border-border/70 bg-card", className)}>
@@ -428,14 +577,41 @@ export function PropertyMap({
             <p className="text-sm text-muted-foreground">
               {properties.length} Gebäude und {neighborhoods.length} Nachbarschaften
             </p>
+            <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+              <span>{mapDetailLevel.label}</span>
+              <span className="h-1 w-1 rounded-full bg-primary/60" />
+              <span>{mapDetailSummary}</span>
+            </div>
           </div>
+          {hasMarketPrices && (
+            <div className="hidden shrink-0 grid-cols-2 gap-2 lg:grid">
+              <div className="rounded-lg border bg-background px-3 py-2 text-right">
+                <div className="text-[11px] text-muted-foreground">Miete</div>
+                <div className="text-sm font-bold text-foreground">{formatMapPrice(marketPrices?.rent, "rent")}</div>
+              </div>
+              <div className="rounded-lg border bg-background px-3 py-2 text-right">
+                <div className="text-[11px] text-muted-foreground">Kauf</div>
+                <div className="text-sm font-bold text-foreground">{formatMapPrice(marketPrices?.purchase, "purchase")}</div>
+              </div>
+            </div>
+          )}
           {selectedProperty && (
-            <Link
-              to={`/gebaeude/${selectedProperty.id}`}
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Details öffnen
-            </Link>
+            <div className="flex shrink-0 items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setIsDetailPanelOpen((isOpen) => !isOpen)}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              >
+                {isDetailPanelOpen ? <PanelRightClose size={15} /> : <PanelRightOpen size={15} />}
+                {isDetailPanelOpen ? "Panel einklappen" : "Panel öffnen"}
+              </button>
+              <Link
+                to={`/gebaeude/${selectedProperty.id}`}
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                Detailseite
+              </Link>
+            </div>
           )}
         </div>
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
@@ -468,12 +644,37 @@ export function PropertyMap({
 
       <div
         ref={surfaceRef}
+        onPointerDown={handleMapPointerDown}
+        onPointerMove={handleMapPointerMove}
+        onPointerUp={handleMapPointerUp}
+        onPointerCancel={handleMapPointerUp}
         className={cn(
-          "relative w-full overflow-hidden bg-slate-100",
+          "relative w-full touch-none overflow-hidden bg-slate-100",
           "bg-[radial-gradient(circle_at_top,rgba(20,184,166,0.18),transparent_40%),linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0))]",
+          canLoadExternalMedia && (dragState ? "cursor-grabbing" : "cursor-grab"),
           heightClassName,
         )}
       >
+        {hasMarketPrices && !isDetailPanelOpen && (
+          <div
+            data-map-control="true"
+            className="absolute right-3 top-3 z-30 rounded-xl border border-border/80 bg-white/95 p-3 shadow-lg backdrop-blur"
+          >
+            <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-primary">
+              {marketPrices?.locationLabel ?? "Marktpreise"}
+            </div>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <div>
+                <div className="text-[11px] text-muted-foreground">Miete</div>
+                <div className="text-base font-bold text-foreground">{formatMapPrice(marketPrices?.rent, "rent")}</div>
+              </div>
+              <div>
+                <div className="text-[11px] text-muted-foreground">Kauf</div>
+                <div className="text-base font-bold text-foreground">{formatMapPrice(marketPrices?.purchase, "purchase")}</div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0">
           {canLoadExternalMedia &&
             tiles.map((tile) => (
@@ -507,6 +708,43 @@ export function PropertyMap({
                 </Button>
               </div>
             </div>
+          </div>
+        )}
+
+        {canLoadExternalMedia && (
+          <div
+            data-map-control="true"
+            className="absolute left-3 top-3 z-40 flex flex-col overflow-hidden rounded-lg border border-border bg-white/95 shadow-lg backdrop-blur"
+            aria-label="Karten-Zoom"
+          >
+            <button
+              type="button"
+              onClick={() => setZoomOffset((offset) => Math.min(offset + 1, 4))}
+              className="flex h-9 w-9 items-center justify-center border-b border-border text-foreground hover:bg-secondary"
+              aria-label="In die Karte hineinzoomen"
+            >
+              <Plus size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setZoomOffset((offset) => Math.max(offset - 1, -4))}
+              className="flex h-9 w-9 items-center justify-center border-b border-border text-foreground hover:bg-secondary"
+              aria-label="Aus der Karte herauszoomen"
+            >
+              <Minus size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setZoomOffset(0);
+                setPanOffset({ x: 0, y: 0 });
+              }}
+              className="flex h-10 w-9 flex-col items-center justify-center gap-0.5 text-[10px] font-medium leading-none text-muted-foreground hover:bg-secondary"
+              aria-label="Zoom und Kartenposition zurücksetzen"
+            >
+              <RotateCcw size={13} />
+              {zoom}
+            </button>
           </div>
         )}
 
@@ -550,7 +788,7 @@ export function PropertyMap({
             <button
               key={property.id}
               type="button"
-              onClick={() => onSelectProperty?.(property.id)}
+              onClick={() => handlePropertySelect(property.id)}
               className="group absolute -translate-x-1/2 -translate-y-full"
               style={{ left: property.left, top: property.top }}
               aria-label={`${getPropertyAddress(property)} auswählen`}
@@ -585,7 +823,7 @@ export function PropertyMap({
                 key={amenity.id}
                 type="button"
                 onClick={() =>
-                  setSelectedPlace({
+                  openPanelWithPlace({
                     id: amenity.id,
                     title: amenity.name,
                     subtitle: amenityLabels[amenity.kind],
@@ -623,7 +861,7 @@ export function PropertyMap({
                 key={station.id}
                 type="button"
                 onClick={() =>
-                  setSelectedPlace({
+                  openPanelWithPlace({
                     id: station.id,
                     title: station.name,
                     subtitle: `${stationLabels[station.kind]} · ${station.lines.join(", ")}`,
@@ -661,7 +899,7 @@ export function PropertyMap({
                 key={place.id}
                 type="button"
                 onClick={() =>
-                  setSelectedPlace({
+                  openPanelWithPlace({
                     id: place.id,
                     title: place.name,
                     subtitle: leisureLabels[place.kind],
@@ -696,7 +934,7 @@ export function PropertyMap({
               key={observation.id}
               type="button"
               onClick={() =>
-                setSelectedPlace({
+                openPanelWithPlace({
                   id: observation.id,
                   title: observation.title,
                   subtitle: `${safetyLabels[observation.category]} · Risiko ${riskLabels[observation.riskLevel]}`,
@@ -729,8 +967,47 @@ export function PropertyMap({
           ))}
 
         {selectedProperty && (
-          <div className="absolute bottom-3 left-3 right-3 top-3 md:left-auto md:w-80">
-            <div className="h-full overflow-y-auto rounded-lg border border-white/70 bg-white/95 p-3 shadow-xl backdrop-blur">
+          <div
+            data-map-control="true"
+            className={cn(
+              "absolute bottom-3 left-3 right-3 top-3 z-30 transition-transform duration-300 ease-out md:left-auto md:w-80",
+              isDetailPanelOpen ? "translate-x-0" : "translate-x-[calc(100%-3.25rem)]",
+            )}
+          >
+            <div className="relative h-full overflow-hidden rounded-lg border border-white/70 bg-white/95 shadow-xl backdrop-blur">
+              <button
+                type="button"
+                onClick={() => setIsDetailPanelOpen(true)}
+                className={cn(
+                  "absolute left-0 top-0 z-10 flex h-full w-12 flex-col items-center justify-center gap-2 border-r border-border/70 bg-white/95 text-primary transition-opacity hover:bg-secondary",
+                  isDetailPanelOpen ? "pointer-events-none opacity-0" : "opacity-100",
+                )}
+                aria-label="Panel öffnen"
+                aria-expanded={isDetailPanelOpen}
+              >
+                <PanelRightOpen size={18} />
+                <span className="[writing-mode:vertical-rl] rotate-180 text-xs font-semibold uppercase tracking-[0.18em]">
+                  Details
+                </span>
+              </button>
+
+              <div
+                aria-hidden={!isDetailPanelOpen}
+                className={cn(
+                  "h-full overflow-y-auto p-3 transition-opacity duration-200",
+                  isDetailPanelOpen ? "opacity-100 delay-100" : "pointer-events-none opacity-0",
+                )}
+              >
+                <div className="mb-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsDetailPanelOpen(false)}
+                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                >
+                  <PanelRightClose size={13} />
+                  Panel einklappen
+                </button>
+              </div>
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
                 Ausgewählte Wohnung
               </p>
@@ -820,7 +1097,7 @@ export function PropertyMap({
                       key={observation.id}
                       type="button"
                       onClick={() =>
-                        setSelectedPlace({
+                        openPanelWithPlace({
                           id: observation.id,
                           title: observation.title,
                           subtitle: `${safetyLabels[observation.category]} · Risiko ${riskLabels[observation.riskLevel]}`,
@@ -936,13 +1213,16 @@ export function PropertyMap({
                   })}
                 </div>
               )}
+              </div>
             </div>
           </div>
         )}
       </div>
 
       <div className="flex items-center justify-between border-t border-border/70 px-4 py-2 text-xs text-muted-foreground">
-        <span>Layer: {signalLayers.find((layer) => layer.key === activeLayer)?.label}</span>
+        <span>
+          Layer: {signalLayers.find((layer) => layer.key === activeLayer)?.label} · {mapDetailLevel.label}
+        </span>
         <a
           href="https://www.openstreetmap.org/copyright"
           target="_blank"

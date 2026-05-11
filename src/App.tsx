@@ -12,6 +12,7 @@ import { AuthProvider } from "@/features/auth/auth-context";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
 import LandlordDetailPage from "./pages/LandlordDetailPage";
+import ListingDetailPage from "./pages/ListingDetailPage";
 import PropertyDetailPage from "./pages/PropertyDetailPage";
 import NeighborhoodDetailPage from "./pages/NeighborhoodDetailPage";
 import WriteReviewPage from "./pages/WriteReviewPageV2";
@@ -39,6 +40,7 @@ const App = () => (
                   <Route path="/" element={<HomePage />} />
                   <Route path="/suche" element={<SearchPage />} />
                   <Route path="/vermieter/:id" element={<LandlordDetailPage />} />
+                  <Route path="/angebote/:id" element={<ListingDetailPage />} />
                   <Route path="/gebaeude/:id" element={<PropertyDetailPage />} />
                   <Route path="/nachbarschaft/:id" element={<NeighborhoodDetailPage />} />
                   <Route

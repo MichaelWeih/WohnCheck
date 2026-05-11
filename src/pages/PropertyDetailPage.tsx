@@ -7,40 +7,132 @@ import { ScoreBadge } from "@/components/ScoreBadge";
 import { StarRating } from "@/components/StarRating";
 import { RatingBar } from "@/components/RatingBar";
 import { ReviewCard } from "@/components/ReviewCard";
+import { MarketPricePreview } from "@/components/MarketPricePreview";
 import { PublicScoreCard } from "@/components/PublicScoreCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/features/auth/auth-context";
+import { adaptProperty } from "@/features/directory/directory-adapter";
+import { fetchExternalListingLinks, fetchMarketPrices, fetchProperty } from "@/features/directory/directory-api";
+import type { ExternalListingLink } from "@/features/directory/directory-types";
 import { adaptApiReview } from "@/features/reviews/review-adapter";
 import { fetchReviewAggregate, fetchReviews, reportReview } from "@/features/reviews/review-api";
 import { fetchScore } from "@/features/scores/score-api";
-import { MapPin, Building2, PenSquare } from "lucide-react";
+import { Building2, ExternalLink, Link2, MapPin, PenSquare } from "lucide-react";
 import { toast } from "sonner";
+
+const listingStatusLabels: Record<ExternalListingLink["status"], string> = {
+  "api-ready": "API bereit",
+  "credentials-required": "API-Zugang nötig",
+  "permission-required": "Freigabe nötig",
+  "search-link-only": "Suchlink",
+};
+
+function ExternalListingsPanel({ links }: { links?: ExternalListingLink[] }) {
+  const verifiedLinks = links?.filter((link) => link.isVerified && link.listingUrl) ?? [];
+
+  if (verifiedLinks.length === 0) {
+    return null;
+  }
+
+  return (
+    <Card className="mb-8 p-6">
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-sm font-medium text-primary">
+            <Link2 size={16} />
+            Externe Inserate
+          </div>
+          <h2 className="mt-1 text-lg font-semibold text-foreground">Originalanzeigen finden</h2>
+          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            WohnCheck verlinkt zu möglichen Originalinseraten, wenn ein Portal die Adresse auffindbar macht.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {verifiedLinks.map((link) => (
+          <a
+            key={link.providerKey}
+            href={link.listingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group rounded-lg border border-border p-4 transition-all hover:border-primary/50 hover:bg-primary/[0.03] hover:shadow-sm"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="font-semibold text-foreground">{link.providerName}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">{listingStatusLabels[link.status]}</p>
+              </div>
+              <ExternalLink size={17} className="shrink-0 text-muted-foreground group-hover:text-primary" />
+            </div>
+            <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">{link.note}</p>
+          </a>
+        ))}
+      </div>
+    </Card>
+  );
+}
 
 export default function PropertyDetailPage() {
   const { id } = useParams();
   const { accessToken } = useAuth();
-  const property = properties.find((entry) => entry.id === id);
+  const fallbackProperty = properties.find((entry) => entry.id === id);
+  const { data: apiProperty, isLoading: isPropertyLoading } = useQuery({
+    queryKey: ["property", id],
+    queryFn: () => fetchProperty(id ?? ""),
+    enabled: Boolean(id),
+    retry: false,
+  });
+  const property = apiProperty ? adaptProperty(apiProperty) : fallbackProperty;
   const mappedProperty = id ? getMappedPropertyById(id) : undefined;
+
+  const { data: apiReviews } = useQuery({
+    queryKey: ["reviews", "property", property?.id],
+    queryFn: () => fetchReviews("property", property?.id ?? ""),
+    enabled: Boolean(property?.id),
+  });
+
+  const { data: apiAggregate } = useQuery({
+    queryKey: ["review-aggregate", "property", property?.id],
+    queryFn: () => fetchReviewAggregate("property", property?.id ?? ""),
+    enabled: Boolean(property?.id),
+  });
+
+  const { data: publicScore } = useQuery({
+    queryKey: ["score", "property", property?.id],
+    queryFn: () => fetchScore("property", property?.id ?? ""),
+    enabled: Boolean(property?.id),
+  });
+  const { data: listingLinks } = useQuery({
+    queryKey: ["external-listing-links", property?.id],
+    queryFn: () =>
+      fetchExternalListingLinks({
+        street: property?.street ?? "",
+        houseNumber: property?.house_number ?? "",
+        postalCode: property?.postal_code ?? "",
+        city: property?.city ?? "",
+      }),
+    enabled: Boolean(property?.id),
+    staleTime: 1000 * 60 * 30,
+  });
+  const { data: marketPrices } = useQuery({
+    queryKey: ["market-prices", property?.city, property?.postal_code],
+    queryFn: () => fetchMarketPrices({
+      city: property?.city ?? "",
+      postalCode: property?.postal_code ?? "",
+    }),
+    enabled: Boolean(property?.city),
+    staleTime: 1000 * 60 * 60,
+  });
+
+  if (isPropertyLoading && !property) {
+    return <div className="container py-20 text-center text-muted-foreground">Gebäude wird geladen...</div>;
+  }
 
   if (!property) {
     return <div className="container py-20 text-center text-muted-foreground">Gebäude nicht gefunden.</div>;
   }
-
-  const { data: apiReviews } = useQuery({
-    queryKey: ["reviews", "property", property.id],
-    queryFn: () => fetchReviews("property", property.id),
-  });
-
-  const { data: apiAggregate } = useQuery({
-    queryKey: ["review-aggregate", "property", property.id],
-    queryFn: () => fetchReviewAggregate("property", property.id),
-  });
-
-  const { data: publicScore } = useQuery({
-    queryKey: ["score", "property", property.id],
-    queryFn: () => fetchScore("property", property.id),
-  });
 
   const reviews = apiReviews?.map(adaptApiReview) ?? getReviewsForTarget("property", property.id);
   const overallRating = apiAggregate?.overallRating ?? property.rating_overall;
@@ -103,6 +195,10 @@ export default function PropertyDetailPage() {
         </Card>
 
         <PublicScoreCard score={publicScore} />
+
+        <MarketPricePreview data={marketPrices} className="mb-8" />
+
+        <ExternalListingsPanel links={listingLinks?.links} />
 
         {mappedProperty && (
           <PropertyMap

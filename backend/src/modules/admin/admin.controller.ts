@@ -28,4 +28,17 @@ export class AdminController {
   runImport(@Body("sourceKey") sourceKey: string) {
     return this.adminService.createImportJob(sourceKey);
   }
+
+  @Post("listings/:id/approve")
+  approveListing(@Param("id") id: string) {
+    return this.adminService.approveListing(id);
+  }
+
+  @Post("listings/:id/merge")
+  mergeListing(
+    @Param("id") id: string,
+    @Body("duplicateId") duplicateId: string,
+  ) {
+    return this.adminService.mergeListing(id, duplicateId);
+  }
 }

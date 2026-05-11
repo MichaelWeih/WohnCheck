@@ -23,6 +23,7 @@ export function adaptApiReview(review: ApiReview): ReviewViewModel {
     rating_overall: Number(review.overallRating),
     created_at: new Date(review.createdAt).toLocaleDateString("de-DE"),
     helpful_count: review.helpfulCount,
+    verification_level: review.verificationLevel,
     status: apiToViewStatusMap[review.status],
     target_type: apiToViewTargetTypeMap[review.targetType],
     target_id: review.targetId,

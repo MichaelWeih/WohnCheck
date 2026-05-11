@@ -39,6 +39,67 @@ enum ImportJobStatus {
   FAILED
 }
 
+enum ExternalSourceType {
+  GEODATA
+  COMPANY_DIRECTORY
+  REVIEW_SIGNAL
+  STATISTICS
+  REGISTRY
+}
+
+enum ProviderKind {
+  MUNICIPAL
+  COOPERATIVE
+  NON_PROFIT
+  PRIVATE_COMPANY
+  PROPERTY_MANAGER
+  AGENCY
+  INSTITUTIONAL
+  PRIVATE_INDIVIDUAL
+  PARTNER_FEED
+  MANUAL
+  UNKNOWN
+}
+
+enum ListingStatus {
+  AVAILABLE
+  RESERVED
+  OFFLINE
+  UNKNOWN
+  NEEDS_REVIEW
+}
+
+enum ListingSourceMethod {
+  CSV_IMPORT
+  JSON_IMPORT
+  MANUAL_ENTRY
+  PARTNER_API
+  PARTNER_FEED
+  PUBLIC_STRUCTURED_DATA
+}
+
+enum GeoAccuracy {
+  EXACT
+  STREET
+  POSTAL_CODE
+  DISTRICT
+  HIDDEN
+}
+
+enum LegalUseStatus {
+  ALLOWED
+  PARTNER
+  MANUAL
+  NEEDS_REVIEW
+  BLOCKED
+}
+
+enum DuplicateStatus {
+  OPEN
+  MERGED
+  DISMISSED
+}
+
 model User {
   id             String       @id @default(cuid())
   email          String       @unique
@@ -58,13 +119,17 @@ model User {
 model Landlord {
   id             String        @id @default(cuid())
   name           String
+  normalizedName String?
   companyType    String
+  landlordType   ProviderKind  @default(UNKNOWN)
   city           String
   website        String?
   slug           String        @unique
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   properties     Property[]
+  listings       Listing[]
+  profile        LandlordProfile?
   userAccounts   User[]
 }
 
@@ -92,6 +157,180 @@ model Neighborhood {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   properties     Property[]
+}
+
+model District {
+  id             String              @id @default(cuid())
+  name           String
+  city           String
+  postalCode     String?
+  slug           String              @unique
+  centroidLat    Decimal?            @db.Decimal(10, 7)
+  centroidLon    Decimal?            @db.Decimal(10, 7)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  listings       Listing[]
+  rentPrices     DistrictRentPrice[]
+
+  @@index([city, name])
+  @@index([postalCode])
+}
+
+model DistrictRentPrice {
+  id             String      @id @default(cuid())
+  districtId     String
+  metric         String      @default("rent_cold")
+  valuePerSqm    Decimal     @db.Decimal(8, 2)
+  p25            Decimal?    @db.Decimal(8, 2)
+  p75            Decimal?    @db.Decimal(8, 2)
+  sampleSize     Int?
+  sourceKey      String
+  sourceUrl      String?
+  periodLabel    String
+  quality        String      @default("derived")
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  district       District    @relation(fields: [districtId], references: [id], onDelete: Cascade)
+
+  @@index([districtId, metric])
+  @@index([sourceKey])
+}
+
+model LandlordProfile {
+  id                    String      @id @default(cuid())
+  landlordId            String      @unique
+  knownListingsCount    Int         @default(0)
+  activeListingsCount   Int         @default(0)
+  averagePricePerSqm    Decimal?    @db.Decimal(8, 2)
+  activeDistricts       Json?
+  dataQualityScore      Int         @default(0)
+  confidenceScore       Int         @default(0)
+  summary               String?
+  lastSyncedAt          DateTime?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  landlord              Landlord    @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+}
+
+model SourceProvider {
+  id                     String               @id @default(cuid())
+  key                    String               @unique
+  name                   String
+  providerKind           ProviderKind         @default(UNKNOWN)
+  method                 ListingSourceMethod
+  baseUrl                String?
+  termsUrl               String?
+  robotsStatus           String               @default("not_checked")
+  termsStatus            String               @default("not_checked")
+  legalUseStatus         LegalUseStatus       @default(NEEDS_REVIEW)
+  refreshIntervalMinutes Int                  @default(1440)
+  isActive               Boolean              @default(true)
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  listings               Listing[]
+  listingSources         ListingSource[]
+  qualityScore           SourceQualityScore?
+
+  @@index([providerKind])
+  @@index([legalUseStatus])
+}
+
+model SourceQualityScore {
+  id                  String          @id @default(cuid())
+  sourceProviderId    String          @unique
+  freshnessScore      Int             @default(0)
+  completenessScore   Int             @default(0)
+  legalScore          Int             @default(0)
+  structureScore      Int             @default(0)
+  reliabilityScore    Int             @default(0)
+  overallScore        Int             @default(0)
+  explanation         String?
+  computedAt          DateTime        @default(now())
+  sourceProvider      SourceProvider  @relation(fields: [sourceProviderId], references: [id], onDelete: Cascade)
+}
+
+model Listing {
+  id                    String            @id @default(cuid())
+  canonicalKey          String            @unique
+  title                 String
+  street                String?
+  houseNumber           String?
+  postalCode            String?
+  city                  String
+  districtName          String?
+  latitude              Decimal?          @db.Decimal(10, 7)
+  longitude             Decimal?          @db.Decimal(10, 7)
+  geoAccuracy           GeoAccuracy       @default(DISTRICT)
+  livingAreaSqm         Decimal?          @db.Decimal(8, 2)
+  rooms                 Decimal?          @db.Decimal(4, 1)
+  coldRent              Decimal?          @db.Decimal(10, 2)
+  warmRent              Decimal?          @db.Decimal(10, 2)
+  pricePerSqm           Decimal?          @db.Decimal(8, 2)
+  availableFrom         DateTime?
+  status                ListingStatus     @default(NEEDS_REVIEW)
+  landlordId            String?
+  districtId            String?
+  sourceProviderId      String?
+  sourceUrl             String?
+  externalId            String?
+  legalUseStatus        LegalUseStatus    @default(NEEDS_REVIEW)
+  dataQualityScore      Int               @default(0)
+  duplicateRiskScore    Int               @default(0)
+  priceDeviationPercent Decimal?          @db.Decimal(6, 2)
+  scorePreview          Int?
+  firstSeenAt           DateTime          @default(now())
+  lastSeenAt            DateTime          @default(now())
+  publishedAt           DateTime?
+  approvedAt            DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  landlord              Landlord?         @relation(fields: [landlordId], references: [id], onDelete: SetNull)
+  district              District?         @relation(fields: [districtId], references: [id], onDelete: SetNull)
+  sourceProvider        SourceProvider?   @relation(fields: [sourceProviderId], references: [id], onDelete: SetNull)
+  sources               ListingSource[]
+  duplicateCandidates   DuplicateCandidate[] @relation("ListingDuplicateSource")
+  duplicateMatches      DuplicateCandidate[] @relation("ListingDuplicateMatch")
+
+  @@index([status, city])
+  @@index([latitude, longitude])
+  @@index([landlordId])
+  @@index([districtId])
+  @@index([sourceProviderId])
+}
+
+model ListingSource {
+  id                String               @id @default(cuid())
+  listingId         String
+  sourceProviderId  String?
+  method            ListingSourceMethod
+  sourceUrl         String?
+  externalId        String?
+  payload           Json?
+  fetchedAt         DateTime             @default(now())
+  publishedAt       DateTime?
+  legalUseStatus    LegalUseStatus       @default(NEEDS_REVIEW)
+  listing           Listing              @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  sourceProvider    SourceProvider?      @relation(fields: [sourceProviderId], references: [id], onDelete: SetNull)
+
+  @@index([listingId])
+  @@index([sourceProviderId])
+  @@index([externalId])
+}
+
+model DuplicateCandidate {
+  id                  String           @id @default(cuid())
+  listingId           String
+  possibleDuplicateId String
+  confidence          Int
+  reasons             Json?
+  status              DuplicateStatus  @default(OPEN)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  listing             Listing          @relation("ListingDuplicateSource", fields: [listingId], references: [id], onDelete: Cascade)
+  possibleDuplicate   Listing          @relation("ListingDuplicateMatch", fields: [possibleDuplicateId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, possibleDuplicateId])
+  @@index([status, confidence])
 }
 
 model Review {
@@ -153,6 +392,76 @@ model PublicSourceSnapshot {
   importJob      ImportJob?  @relation(fields: [importJobId], references: [id], onDelete: SetNull)
 
   @@index([targetType, targetId])
+}
+
+model ExternalSource {
+  id                     String               @id @default(cuid())
+  key                    String               @unique
+  displayName            String
+  type                   ExternalSourceType
+  baseUrl                String?
+  termsUrl               String?
+  license                String
+  attribution            String?
+  refreshIntervalSeconds Int
+  isActive               Boolean              @default(true)
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  identifiers            ExternalIdentifier[]
+  cacheEntries           SourceCache[]
+  evidence               SourceEvidence[]
+}
+
+model ExternalIdentifier {
+  id          String         @id @default(cuid())
+  targetType  TargetType
+  targetId    String
+  sourceKey   String
+  externalId  String
+  externalUrl String?
+  metadata    Json?
+  verifiedAt  DateTime?
+  lastSeenAt  DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  source      ExternalSource @relation(fields: [sourceKey], references: [key], onDelete: Cascade)
+
+  @@unique([targetType, targetId, sourceKey, externalId])
+  @@index([targetType, targetId])
+  @@index([sourceKey, externalId])
+}
+
+model SourceCache {
+  id              String         @id @default(cuid())
+  sourceKey       String
+  cacheKey        String         @unique
+  requestHash     String?
+  payload         Json
+  attribution     String?
+  licenseSnapshot String
+  metadata        Json?
+  fetchedAt       DateTime       @default(now())
+  expiresAt       DateTime
+  source          ExternalSource @relation(fields: [sourceKey], references: [key], onDelete: Cascade)
+
+  @@index([sourceKey, expiresAt])
+}
+
+model SourceEvidence {
+  id          String         @id @default(cuid())
+  targetType  TargetType
+  targetId    String
+  sourceKey   String
+  claimKey    String
+  claimValue  Json?
+  confidence  Decimal?       @db.Decimal(5, 2)
+  evidenceUrl String?
+  observedAt  DateTime       @default(now())
+  expiresAt   DateTime?
+  source      ExternalSource @relation(fields: [sourceKey], references: [key], onDelete: Cascade)
+
+  @@index([targetType, targetId])
+  @@index([sourceKey, claimKey])
 }
 
 model ScoreResult {

@@ -6,6 +6,12 @@ import {
   DirectorySearchResponse,
 } from "./directory-types";
 
+const landlordLogoUrls: Record<string, string> = {
+  l1: "/branding/landlords/vonovia.svg",
+  l5: "/branding/landlords/dogewo21.svg",
+  l7: "/branding/landlords/leg-immobilien.svg",
+};
+
 export function adaptLandlord(apiLandlord: ApiLandlord): Landlord {
   return {
     id: apiLandlord.id,
@@ -13,9 +19,10 @@ export function adaptLandlord(apiLandlord: ApiLandlord): Landlord {
     company_type: apiLandlord.companyType,
     city: apiLandlord.city,
     website: apiLandlord.website ?? undefined,
-    rating_overall: 0,
-    review_count: 0,
-    ratings: {},
+    logo_url: landlordLogoUrls[apiLandlord.id],
+    rating_overall: apiLandlord.ratingOverall ?? 0,
+    review_count: apiLandlord.reviewCount ?? 0,
+    ratings: apiLandlord.ratings ?? {},
   };
 }
 
@@ -28,9 +35,9 @@ export function adaptProperty(apiProperty: ApiProperty): Property {
     city: apiProperty.city,
     landlord_id: apiProperty.landlordId,
     landlord_name: apiProperty.landlord?.name ?? "",
-    rating_overall: 0,
-    review_count: 0,
-    ratings: {},
+    rating_overall: apiProperty.ratingOverall ?? 0,
+    review_count: apiProperty.reviewCount ?? 0,
+    ratings: apiProperty.ratings ?? {},
   };
 }
 
@@ -40,9 +47,9 @@ export function adaptNeighborhood(apiNeighborhood: ApiNeighborhood): Neighborhoo
     district_name: apiNeighborhood.districtName,
     city: apiNeighborhood.city,
     postal_code: apiNeighborhood.postalCode,
-    rating_overall: 0,
-    review_count: 0,
-    ratings: {},
+    rating_overall: apiNeighborhood.ratingOverall ?? 0,
+    review_count: apiNeighborhood.reviewCount ?? 0,
+    ratings: apiNeighborhood.ratings ?? {},
   };
 }
 
@@ -52,8 +59,8 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     id: landlord.id,
     title: landlord.name,
     subtitle: landlord.companyType,
-    rating: 0,
-    reviewCount: 0,
+    rating: landlord.ratingOverall ?? 0,
+    reviewCount: landlord.reviewCount ?? 0,
     city: landlord.city,
   }));
 
@@ -62,8 +69,8 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     id: property.id,
     title: `${property.street} ${property.houseNumber}`,
     subtitle: `${property.postalCode} ${property.city}`,
-    rating: 0,
-    reviewCount: 0,
+    rating: property.ratingOverall ?? 0,
+    reviewCount: property.reviewCount ?? 0,
     city: property.city,
   }));
 
@@ -72,10 +79,24 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     id: neighborhood.id,
     title: neighborhood.districtName,
     subtitle: neighborhood.city,
-    rating: 0,
-    reviewCount: 0,
+    rating: neighborhood.ratingOverall ?? 0,
+    reviewCount: neighborhood.reviewCount ?? 0,
     city: neighborhood.city,
   }));
 
-  return [...landlords, ...properties, ...neighborhoods];
+  const externalLandlords = (response.externalLandlords ?? []).map((landlord) => ({
+    type: "landlord" as const,
+    id: landlord.id,
+    title: landlord.name,
+    subtitle: `${landlord.companyType} · ${landlord.city}`,
+    rating: landlord.ratingOverall ?? 0,
+    reviewCount: landlord.reviewCount ?? 0,
+    city: landlord.city,
+    sourceCandidate: true,
+    sourceUrl: landlord.sourceUrl ?? undefined,
+    websiteUrl: landlord.website ?? undefined,
+    sourceLabel: landlord.sourceName ?? "Öffentliche Quelle",
+  }));
+
+  return [...landlords, ...externalLandlords, ...properties, ...neighborhoods];
 }

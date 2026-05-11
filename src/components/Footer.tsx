@@ -22,9 +22,9 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-3 text-sm">Entdecken</h4>
             <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <Link to="/suche?q=Berlin" className="hover:text-foreground transition-colors">Vermieter Berlin</Link>
-              <Link to="/suche?q=München" className="hover:text-foreground transition-colors">Vermieter München</Link>
-              <Link to="/suche?q=Hamburg" className="hover:text-foreground transition-colors">Vermieter Hamburg</Link>
+              <Link to="/suche?q=Berlin&type=landlord" className="hover:text-foreground transition-colors">Vermieter Berlin</Link>
+              <Link to="/suche?q=München&type=landlord" className="hover:text-foreground transition-colors">Vermieter München</Link>
+              <Link to="/suche?q=Hamburg&type=landlord" className="hover:text-foreground transition-colors">Vermieter Hamburg</Link>
             </div>
           </div>
           <div>

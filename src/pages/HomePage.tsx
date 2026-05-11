@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SearchBar } from "@/components/SearchBar";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { StarRating } from "@/components/StarRating";
+import { LandlordLogo } from "@/components/LandlordLogo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +14,321 @@ import {
   properties as fallbackProperties,
   reviews as fallbackReviews,
 } from "@/data/mock-data";
-import { adaptLandlord } from "@/features/directory/directory-adapter";
+import { adaptLandlord, adaptNeighborhood, adaptProperty } from "@/features/directory/directory-adapter";
 import { fetchLandlords, fetchNeighborhoods, fetchProperties } from "@/features/directory/directory-api";
 import { fetchReviews } from "@/features/reviews/review-api";
 import { adaptApiReview } from "@/features/reviews/review-adapter";
-import { Building2, Home, MapPin, Users, Shield, TrendingUp, PenSquare } from "lucide-react";
+import {
+  BadgeCheck,
+  Building2,
+  Home,
+  Layers3,
+  MapPinned,
+  MapPin,
+  MessageSquareText,
+  PenSquare,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+
+const heroMapPlaces = [
+  {
+    name: "Kastanienallee 12",
+    area: "Prenzlauer Berg",
+    score: 83,
+    reviews: 8,
+    rentTrend: "+6%",
+    x: "20%",
+    y: "34%",
+    tone: "bg-primary",
+    ring: "border-primary/40",
+    signals: [92, 88, 76],
+  },
+  {
+    name: "Karl-Marx-Allee 89",
+    area: "Friedrichshain",
+    score: 74,
+    reviews: 11,
+    rentTrend: "+3%",
+    x: "67%",
+    y: "29%",
+    tone: "bg-warning",
+    ring: "border-warning/45",
+    signals: [89, 83, 68],
+  },
+  {
+    name: "Sonnenstraße 4",
+    area: "Dortmund Eving",
+    score: 58,
+    reviews: 5,
+    rentTrend: "+1%",
+    x: "49%",
+    y: "66%",
+    tone: "bg-destructive",
+    ring: "border-destructive/35",
+    signals: [71, 58, 42],
+  },
+];
+
+const heroPreviewReviews = [
+  { name: "Vonovia SE", city: "Berlin", rating: 2.7, text: "Nebenkosten und Reaktionszeit im Blick behalten." },
+  { name: "DOGEWO21", city: "Dortmund", rating: 3.2, text: "Solide Struktur, gemischtes Bild im Bestand." },
+  { name: "VIVAWEST", city: "Gelsenkirchen", rating: 3.1, text: "Beratung positiv, Kommunikation teils wechselhaft." },
+];
+
+const heroScoreSignals = [
+  { label: "ÖPNV", value: 92 },
+  { label: "Infrastruktur", value: 88 },
+  { label: "Service", value: 64 },
+];
+
+function HeroProductPreview() {
+  const [selectedPlaceName, setSelectedPlaceName] = useState(heroMapPlaces[0].name);
+  const [activeFilter, setActiveFilter] = useState<"all" | "high" | "warning">("all");
+  const selectedPlace =
+    heroMapPlaces.find((place) => place.name === selectedPlaceName) ?? heroMapPlaces[0];
+  const visiblePlaces = heroMapPlaces.filter((place) => {
+    if (activeFilter === "high") return place.score >= 80;
+    if (activeFilter === "warning") return place.score < 65;
+    return true;
+  });
+
+  const handleFilterChange = (filter: "all" | "high" | "warning") => {
+    setActiveFilter(filter);
+
+    const nextPlace = heroMapPlaces.find((place) => {
+      if (filter === "high") return place.score >= 80;
+      if (filter === "warning") return place.score < 65;
+      return true;
+    });
+
+    if (nextPlace) {
+      setSelectedPlaceName(nextPlace.name);
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.7, delay: 0.15 }}
+      className="relative mx-auto w-full max-w-xl"
+      aria-label="WohnCheck Produktvorschau"
+    >
+      <div className="overflow-hidden rounded-lg border bg-card shadow-xl shadow-primary/10">
+        <div className="flex h-11 items-center justify-between border-b bg-muted/50 px-4">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-destructive" />
+            <span className="h-2.5 w-2.5 rounded-full bg-warning" />
+            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+          </div>
+          <div className="flex items-center gap-2 rounded-md border bg-background px-3 py-1 text-xs text-muted-foreground">
+            <MapPin size={13} />
+            Berlin, Dortmund, NRW
+          </div>
+        </div>
+
+        <div className="grid gap-0 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative min-h-[420px] overflow-hidden border-b bg-[hsl(var(--secondary))] md:border-b-0 md:border-r">
+            <div
+              className="absolute inset-0 opacity-70"
+              style={{
+                backgroundImage:
+                  "linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)",
+                backgroundSize: "32px 32px",
+              }}
+            />
+            <div className="absolute inset-0 opacity-80">
+              <div className="absolute left-[8%] top-[22%] h-28 w-[70%] rounded-full border-2 border-primary/25" />
+              <div className="absolute bottom-[22%] right-[4%] h-32 w-[78%] rounded-full border-2 border-warning/30" />
+              <div className="absolute left-[24%] top-[52%] h-1 w-[58%] rotate-[-18deg] rounded-full bg-primary/30" />
+              <div className="absolute left-[12%] top-[71%] h-1 w-[64%] rotate-[12deg] rounded-full bg-warning/25" />
+            </div>
+
+            <div className="absolute left-3 top-3 right-3 z-10 flex flex-wrap items-center gap-2">
+              {[
+                { id: "all" as const, label: "Alle" },
+                { id: "high" as const, label: "Hoher Score" },
+                { id: "warning" as const, label: "Warnsignale" },
+              ].map((filter) => (
+                <button
+                  key={filter.id}
+                  type="button"
+                  onClick={() => handleFilterChange(filter.id)}
+                  className={`rounded-md border px-2.5 py-1 text-[11px] font-medium shadow-sm transition ${
+                    activeFilter === filter.id
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "bg-background/95 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                  }`}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="absolute bottom-4 left-4 z-10 rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur">
+              <div className="mb-2 text-xs font-semibold text-foreground">Kartenlegende</div>
+              <div className="space-y-1.5 text-[11px] text-muted-foreground">
+                <div className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-primary" /> empfehlenswert</div>
+                <div className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-warning" /> genauer prüfen</div>
+                <div className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-destructive" /> Warnsignale</div>
+              </div>
+            </div>
+
+            {heroMapPlaces.map((place) => {
+              const isVisible = visiblePlaces.some((visiblePlace) => visiblePlace.name === place.name);
+              const isSelected = selectedPlace.name === place.name;
+
+              return (
+              <motion.button
+                key={place.name}
+                type="button"
+                className={`absolute z-20 text-left transition ${isVisible ? "opacity-100" : "pointer-events-none opacity-25"}`}
+                style={{ left: place.x, top: place.y }}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() => setSelectedPlaceName(place.name)}
+                aria-label={`${place.name} auswählen, Score ${place.score}`}
+              >
+                <div className={`absolute -inset-2 rounded-full border-2 ${place.ring} ${isSelected ? "animate-pulse" : ""}`} />
+                <div className={`relative flex h-12 w-12 items-center justify-center rounded-full ${place.tone} text-sm font-bold text-white shadow-lg`}>
+                  {place.score}
+                </div>
+                <div className={`mx-auto h-3 w-3 -translate-y-1 rotate-45 ${place.tone}`} />
+                <div className="absolute left-10 top-1 hidden min-w-32 rounded-md border bg-background/95 px-2 py-1 text-[11px] shadow-md sm:block">
+                  <div className="font-semibold text-foreground">{place.name}</div>
+                  <div className="text-muted-foreground">{place.reviews} Bewertungen</div>
+                </div>
+              </motion.button>
+              );
+            })}
+          </div>
+
+          <div className="space-y-3 p-4">
+            <motion.div
+              key={selectedPlace.name}
+              className="rounded-lg border bg-background p-3"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.22 }}
+            >
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <MapPinned size={16} className="shrink-0 text-primary" />
+                    <span className="truncate">{selectedPlace.name}</span>
+                  </div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">{selectedPlace.area}</div>
+                </div>
+                <span className="shrink-0 rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                  {selectedPlace.score} / 100
+                </span>
+              </div>
+
+              <div className="mb-3 grid grid-cols-2 gap-2 text-[11px]">
+                <div className="rounded-md bg-muted px-2 py-1.5">
+                  <div className="font-semibold text-foreground">{selectedPlace.reviews}</div>
+                  <div className="text-muted-foreground">Bewertungen</div>
+                </div>
+                <div className="rounded-md bg-muted px-2 py-1.5">
+                  <div className="font-semibold text-foreground">{selectedPlace.rentTrend}</div>
+                  <div className="text-muted-foreground">Miettrend</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                {heroScoreSignals.map((signal, index) => (
+                  <div key={signal.label} className="min-w-0">
+                    <div className="truncate text-[11px] text-muted-foreground">{signal.label}</div>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
+                      <motion.div
+                        className="h-full rounded-full bg-primary"
+                        initial={false}
+                        animate={{ width: `${selectedPlace.signals[index] ?? signal.value}%` }}
+                        transition={{ duration: 0.35 }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <div className="rounded-lg border bg-background p-3">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <MessageSquareText size={16} className="text-primary" />
+                    Aktuelle Bewertungen
+                  </div>
+                  <p className="text-xs text-muted-foreground">Vermieter, Gebäude, Nachbarschaft</p>
+                </div>
+                <Sparkles size={16} className="text-warning" />
+              </div>
+              <div className="space-y-2">
+                {heroPreviewReviews.map((review, index) => (
+                  <motion.div
+                    key={review.name}
+                    className="rounded-md border bg-card p-3"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.35 + index * 0.15 }}
+                  >
+                    <div className="mb-1 flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="truncate text-sm font-semibold">{review.name}</div>
+                        <div className="text-xs text-muted-foreground">{review.city}</div>
+                      </div>
+                      <div className="shrink-0 rounded-md bg-secondary px-2 py-1 text-sm font-bold">{review.rating.toFixed(1)}</div>
+                    </div>
+                    <p className="line-clamp-2 text-xs text-muted-foreground">{review.text}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border bg-background p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <Layers3 size={15} className="text-primary" />
+                  Score-Mix
+                </div>
+                <div className="space-y-2">
+                  {["Reviews", "Lage", "Quellen"].map((label, index) => (
+                    <div key={label}>
+                      <div className="mb-1 flex justify-between text-[11px] text-muted-foreground">
+                        <span>{label}</span>
+                        <span>{[72, 88, 76][index]}%</span>
+                      </div>
+                      <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                        <motion.div
+                          className="h-full rounded-full bg-warning"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${[72, 88, 76][index]}%` }}
+                          transition={{ duration: 1, delay: 0.55 + index * 0.12 }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-lg border bg-primary p-3 text-primary-foreground">
+                <div className="mb-3 flex items-center justify-between">
+                  <BadgeCheck size={18} />
+                  <span className="text-xs opacity-90">Live</span>
+                </div>
+                <div className="text-2xl font-extrabold">4.218</div>
+                <div className="text-xs opacity-90">Signale aus Reviews und Quellen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function HomePage() {
   const { data: apiLandlords } = useQuery({
@@ -38,31 +350,13 @@ export default function HomePage() {
   });
 
   const landlords = apiLandlords?.map(adaptLandlord) ?? fallbackLandlords;
-  const properties =
-    apiProperties?.map((property) => ({
-      id: property.id,
-      street: property.street,
-      house_number: property.houseNumber,
-      postal_code: property.postalCode,
-      city: property.city,
-      landlord_id: property.landlordId,
-      landlord_name: property.landlord?.name ?? "",
-      rating_overall: 0,
-      review_count: 0,
-      ratings: {},
-    })) ?? fallbackProperties;
-  const neighborhoods =
-    apiNeighborhoods?.map((neighborhood) => ({
-      id: neighborhood.id,
-      district_name: neighborhood.districtName,
-      city: neighborhood.city,
-      postal_code: neighborhood.postalCode,
-      rating_overall: 0,
-      review_count: 0,
-      ratings: {},
-    })) ?? fallbackNeighborhoods;
+  const properties = apiProperties?.map(adaptProperty) ?? fallbackProperties;
+  const neighborhoods = apiNeighborhoods?.map(adaptNeighborhood) ?? fallbackNeighborhoods;
   const recentReviews =
-    latestLandlordReviews?.map(adaptApiReview).slice(0, 3) ??
+    latestLandlordReviews
+      ?.map(adaptApiReview)
+      .filter((review) => review.verification_level !== "public-source-summary")
+      .slice(0, 3) ??
     fallbackReviews.filter((review) => review.status === "published").slice(0, 3);
 
   const stats = [
@@ -73,26 +367,26 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <section className="relative overflow-hidden bg-primary/[0.03] border-b">
-        <div className="container py-20 md:py-28">
+    <div className="min-h-screen overflow-x-hidden">
+      <section className="relative overflow-hidden border-b bg-primary/[0.03]">
+        <div className="container grid items-center gap-12 py-14 md:grid-cols-[0.9fr_1.1fr] md:py-20 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
               <Shield size={14} /> Echte Erfahrungsberichte von Mietern
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight mb-5 text-balance">
+            <h1 className="mb-5 text-balance text-4xl font-extrabold tracking-tight text-foreground md:text-5xl lg:text-6xl">
               Wissen, wie du <span className="text-primary">wirklich</span> wohnst
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto text-balance">
-              Bewerte Vermieter, Gebäude und Nachbarschaften - oder informiere dich vor dem Einzug über ehrliche
+            <p className="mb-8 max-w-xl text-balance text-lg text-muted-foreground">
+              Bewerte Vermieter, Gebäude und Nachbarschaften oder informiere dich vor dem Einzug über ehrliche
               Mietererfahrungen.
             </p>
-            <div className="flex justify-center mb-6">
+            <div className="mb-5">
               <SearchBar large />
             </div>
             <p className="text-sm text-muted-foreground">
@@ -101,6 +395,8 @@ export default function HomePage() {
               <Link to="/suche?q=80802" className="text-primary hover:underline">80802</Link>
             </p>
           </motion.div>
+
+          <HeroProductPreview />
         </div>
       </section>
 
@@ -160,7 +456,7 @@ export default function HomePage() {
               <Link to={`/vermieter/${landlord.id}`} key={landlord.id}>
                 <Card className="p-5 hover:shadow-md transition-shadow h-full">
                   <div className="flex items-start gap-3 mb-3">
-                    <ScoreBadge score={landlord.rating_overall} size="sm" />
+                    <LandlordLogo name={landlord.name} logoUrl={landlord.logo_url} size="sm" />
                     <div className="min-w-0">
                       <h3 className="font-semibold text-foreground truncate">{landlord.name}</h3>
                       <p className="text-xs text-muted-foreground">
@@ -168,8 +464,14 @@ export default function HomePage() {
                       </p>
                     </div>
                   </div>
-                  <StarRating rating={landlord.rating_overall} size={14} />
-                  <p className="text-xs text-muted-foreground mt-2">{landlord.review_count} Bewertungen</p>
+                  {landlord.review_count > 0 ? (
+                    <>
+                      <StarRating rating={landlord.rating_overall} size={14} />
+                      <p className="text-xs text-muted-foreground mt-2">{landlord.review_count} Bewertungen</p>
+                    </>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-2">Noch keine WohnCheck-Bewertungen</p>
+                  )}
                 </Card>
               </Link>
             ))}
