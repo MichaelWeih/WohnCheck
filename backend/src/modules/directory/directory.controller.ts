@@ -11,8 +11,13 @@ export class DirectoryController {
   }
 
   @Get("landlords/:id")
-  getLandlord(@Param("id") id: string) {
-    return this.directoryService.getLandlordById(id);
+  getLandlord(@Param("id") id: string, @Query("city") city?: string) {
+    return this.directoryService.getLandlordById(id, city);
+  }
+
+  @Get("landlords/:id/listings")
+  getLandlordListings(@Param("id") id: string) {
+    return this.directoryService.getLandlordListings(id);
   }
 
   @Get("properties")

@@ -12,6 +12,7 @@ export interface Landlord {
   company_type: string;
   city: string;
   website?: string;
+  logo_url?: string;
   rating_overall: number;
   review_count: number;
   ratings: Record<string, number>;
@@ -294,6 +295,11 @@ export type SearchResult = {
   rating: number;
   reviewCount: number;
   city: string;
+  externalUrl?: string;
+  sourceCandidate?: boolean;
+  sourceUrl?: string;
+  websiteUrl?: string;
+  sourceLabel?: string;
 };
 
 export function searchAll(query: string): SearchResult[] {

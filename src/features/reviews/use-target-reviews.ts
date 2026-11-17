@@ -24,7 +24,7 @@ export function useTargetReviews(targetType: ReviewTargetType, targetId: string 
     enabled: Boolean(targetId),
   });
 
-  const reviews = reviewsQuery.data?.map(adaptApiReview) ?? [];
+  const reviews = reviewsQuery.data?.filter(review => review.verificationLevel !== "public-source-summary").map(adaptApiReview) ?? [];
   const aggregate = aggregateQuery.data;
 
   const handleReport = async (reviewId: string) => {

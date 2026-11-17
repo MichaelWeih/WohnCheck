@@ -1,4 +1,4 @@
-# Backend-Architektur fuer Wohnweise Kompass
+# Backend-Architektur für Wohnweise Kompass
 
 ## Aktueller Stand
 
@@ -10,10 +10,10 @@ Es gibt aktuell:
 - keine Datenbank
 - keine Authentifizierung
 - keine serverseitige Moderation
-- keine Persistenz fuer Bewertungen
-- keine Logik fuer einen berechneten WohnCheck-Score
+- keine Persistenz für Bewertungen
+- keine Logik für einen berechneten WohnCheck-Score
 
-Die Frontend-Struktur ist aber bereits eine gute Vorlage fuer das Backend-Domainmodell:
+Die Frontend-Struktur ist aber bereits eine gute Vorlage für das Backend-Domainmodell:
 
 - `User`
 - `Landlord`
@@ -24,13 +24,13 @@ Die Frontend-Struktur ist aber bereits eine gute Vorlage fuer das Backend-Domain
 
 ## Empfohlener Stack
 
-Fuer dieses Produkt wuerde ich nicht mit Firebase anfangen, sondern mit einem relationalen Backend:
+Für dieses Produkt würde ich nicht mit Firebase anfangen, sondern mit einem relationalen Backend:
 
 - `PostgreSQL` als Datenbank
 - `Supabase` als schnellster Einstieg oder alternativ `NestJS + Prisma + PostgreSQL`
-- `Prisma` fuer saubere Typen, Migrationen und Aggregationen
-- `Supabase Auth` oder `Clerk` fuer Login / Registrierung
-- `Cron Jobs` / Background Jobs fuer Score-Berechnung und Datenaktualisierung
+- `Prisma` für saubere Typen, Migrationen und Aggregationen
+- `Supabase Auth` oder `Clerk` für Login / Registrierung
+- `Cron Jobs` / Background Jobs für Score-Berechnung und Datenaktualisierung
 
 ## Meine Empfehlung
 
@@ -40,20 +40,20 @@ Wenn ihr schnell produktiv werden wollt:
 - `PostgreSQL`
 - `Prisma` optional nur dann, wenn ihr einen separaten Node-Server davor setzt
 
-Wenn ihr mehr Kontrolle und spaeter komplexere Regeln braucht:
+Wenn ihr mehr Kontrolle und später komplexere Regeln braucht:
 
 - `NestJS`
 - `Prisma`
 - `PostgreSQL`
-- `Redis` spaeter fuer Caching / Queue
+- `Redis` später für Caching / Queue
 
-Fuer euer Vorhaben halte ich aktuell `NestJS + Prisma + PostgreSQL` fuer die sauberste langfristige Loesung.
+Für euer Vorhaben halte ich aktuell `NestJS + Prisma + PostgreSQL` für die sauberste langfristige Lösung.
 Grund:
 
-- CRUD fuer Vermieter, Gebaeude, Stadtteile und Reviews ist relational
+- CRUD für Vermieter, Gebäude, Stadtteile und Reviews ist relational
 - Bewertungen brauchen Moderation, Status, Reports und Aggregationen
 - der WohnCheck-Score braucht nachvollziehbare, gewichtete Berechnungen
-- oeffentliche Datenquellen sollten serverseitig importiert und versioniert werden
+- öffentliche Datenquellen sollten serverseitig importiert und versioniert werden
 
 ## Kernmodule im Backend
 
@@ -69,12 +69,12 @@ Grund:
 - Bewertung bearbeiten
 - Bewertung melden
 - Bewertung moderieren
-- nur veroeffentlichte Bewertungen im Frontend ausliefern
+- nur veröffentlichte Bewertungen im Frontend ausliefern
 
 ### 3. Directory-Service
 
 - Vermieter verwalten
-- Gebaeude verwalten
+- Gebäude verwalten
 - Stadtteile verwalten
 - Dubletten zusammenfuehren
 
@@ -87,7 +87,7 @@ Grund:
 
 ### 5. Ingestion-Service
 
-- Daten aus oeffentlichen Quellen abrufen
+- Daten aus öffentlichen Quellen abrufen
 - Rohdaten versioniert speichern
 - Normalisierung und Geocoding
 - Import-Jobs protokollieren
@@ -137,21 +137,21 @@ Der WohnCheck-Score sollte nicht direkt nur aus Nutzerbewertungen bestehen.
 Sinnvoll ist ein hybrider Score:
 
 - `40%` Nutzerbewertungen
-- `30%` Gebaeude-/Lagefaktoren aus oeffentlichen Daten
+- `30%` Gebäude-/Lagefaktoren aus öffentlichen Daten
 - `20%` Vermieter-/Verwaltungsindikatoren
 - `10%` Vertrauens- und Datenqualitaetsfaktoren
 
-### Moegliche oeffentliche Datenquellen
+### Mögliche öffentliche Datenquellen
 
 - Umweltlaermkarten
-- OSM / Overpass fuer Infrastruktur im Umfeld
+- OSM / Overpass für Infrastruktur im Umfeld
 - Destatis / kommunale Open-Data-Portale
 - Bodenrichtwert / Mietspiegel, falls rechtlich und technisch sauber nutzbar
 - Kriminalitaets- oder Sicherheitsdaten, sofern offen verfuegbar
 - OePNV-Erreichbarkeit
 - Gruenflaechen, Schulen, Kinderbetreuung, Nahversorgung
 
-### Beispiel fuer Score-Komponenten
+### Beispiel für Score-Komponenten
 
 - `noise_score`
 - `transit_score`
@@ -180,7 +180,7 @@ sondern zusaetzlich:
 
 ## API-Schnittstellen
 
-### Oeffentliche Endpunkte
+### Öffentliche Endpunkte
 
 - `GET /landlords`
 - `GET /landlords/:id`
@@ -225,31 +225,31 @@ Das passt deutlich besser zu PostgreSQL als zu einer rein dokumentenbasierten St
 
 - PostgreSQL aufsetzen
 - Auth einbauen
-- CRUD fuer Reviews
+- CRUD für Reviews
 - Moderation persistent machen
-- Mockdaten in DB uebernehmen
+- Mockdaten in DB übernehmen
 
 ### Phase 2
 
-- echte Entities fuer Vermieter / Objekte / Stadtteile
-- Suche ueber API
-- Aggregationen fuer Rating und Review-Anzahl serverseitig
+- echte Entities für Vermieter / Objekte / Stadtteile
+- Suche über API
+- Aggregationen für Rating und Review-Anzahl serverseitig
 - Admin-Bereich an Backend anbinden
 
 ### Phase 3
 
-- Import oeffentlicher Datenquellen
+- Import öffentlicher Datenquellen
 - Score-Service
 - regelmaessige Re-Berechnung
 - Missbrauchsschutz und Vertrauenslogik
 
-## Konkrete Empfehlung fuer dieses Repo
+## Konkrete Empfehlung für dieses Repo
 
-Wenn wir direkt losbauen, wuerde ich als naechsten Schritt anlegen:
+Wenn wir direkt losbauen, würde ich als nächsten Schritt anlegen:
 
 1. `backend/` mit `NestJS`
 2. `Prisma` Schema mit den oben genannten Kernmodellen
-3. REST API fuer `reviews`, `landlords`, `properties`, `neighborhoods`
+3. REST API für `reviews`, `landlords`, `properties`, `neighborhoods`
 4. Frontend von Mockdaten auf API umstellen
 5. ersten einfachen WohnCheck-Score aus gespeicherten Teilkomponenten berechnen
 
@@ -257,7 +257,7 @@ Wenn wir direkt losbauen, wuerde ich als naechsten Schritt anlegen:
 
 Kurz gesagt:
 
-- fuer CRUD und Bewertungen: `PostgreSQL` + serverseitige API
-- fuer schnellen Start: `Supabase`
-- fuer die beste langfristige Struktur: `NestJS + Prisma + PostgreSQL`
-- fuer den WohnCheck-Score: eigener `Score-Service` plus `Import-Service` fuer oeffentliche Daten
+- für CRUD und Bewertungen: `PostgreSQL` + serverseitige API
+- für schnellen Start: `Supabase`
+- für die beste langfristige Struktur: `NestJS + Prisma + PostgreSQL`
+- für den WohnCheck-Score: eigener `Score-Service` plus `Import-Service` für öffentliche Daten

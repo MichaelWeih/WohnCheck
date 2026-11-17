@@ -1,4 +1,5 @@
-﻿import { Link, useParams } from "react-router-dom";
+import { LandlordProfileFacts, LandlordListingsPreview, LandlordPublicSourcesPanel, LandlordScoreCard } from "@/components/LandlordProfilePanels";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { DetailPageState } from "@/components/DetailPageState";
@@ -8,12 +9,15 @@ import { retryUnlessNotFound } from "@/lib/api";
 
 export default function LandlordDetailPage() {
   const { id } = useParams();
-  const query = useQuery({ queryKey: ["landlord", id], queryFn: () => fetchLandlord(id!), enabled: Boolean(id), retry: retryUnlessNotFound });
+  const [params] = useSearchParams();
+  const city = params.get("city");
+  const query = useQuery({ queryKey: ["landlord", id, city], queryFn: () => fetchLandlord(id!, city), enabled: Boolean(id), retry: retryUnlessNotFound });
   const landlord = query.data;
   if (!landlord) return <DetailPageState isLoading={query.isLoading} error={query.error ?? (!id ? true : null)} notFoundText="Vermieter nicht gefunden." />;
   return <div className="container page-shell"><div className="profile-shell">
     <Link to="/suche" className="text-link"><ArrowLeft size={16} /> Zum Verzeichnis</Link>
     <header className="profile-heading"><h1>{landlord.name}</h1><p className="profile-meta">{landlord.companyType || "Unternehmensart nicht verfügbar"} · {landlord.city || "Standort nicht verfügbar"}</p></header>
+    {landlord.profile && <details className="mb-6"><summary>Bestand, Angebote und Quellen</summary><LandlordProfileFacts profile={landlord.profile} externalLinks={landlord.externalLinks} /><LandlordListingsPreview listings={landlord.listings} /><LandlordPublicSourcesPanel sources={landlord.publicSources} /><LandlordScoreCard score={landlord.score} /></details>}
     <div className="profile-layout"><div><ExperienceSection targetType="landlord" targetId={landlord.id} /></div>
       <aside className="profile-aside">
         <section><h2>Über das Unternehmen</h2><p>{landlord.companyType || "Unternehmensart nicht verfügbar"}<br />{landlord.city || "Standort nicht verfügbar"}</p>{landlord.website && <a href={landlord.website} target="_blank" rel="noopener noreferrer" className="text-link">Unternehmenswebsite <ArrowUpRight size={15} /><span className="sr-only"> (neuer Tab)</span></a>}</section>

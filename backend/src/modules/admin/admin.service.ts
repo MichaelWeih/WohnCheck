@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ImportJobStatus, ReportStatus, ReviewStatus } from "@prisma/client";
+import { DuplicateStatus, ImportJobStatus, ListingStatus, ReportStatus, ReviewStatus } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { ScoresService } from "../scores/scores.service";
 
@@ -45,5 +45,43 @@ export class AdminService {
         status: ImportJobStatus.QUEUED,
       },
     });
+  }
+
+  approveListing(id: string) {
+    return this.prisma.listing.update({
+      where: { id },
+      data: {
+        status: ListingStatus.AVAILABLE,
+        approvedAt: new Date(),
+      },
+    });
+  }
+
+  async mergeListing(id: string, duplicateId: string) {
+    const duplicate = await this.prisma.duplicateCandidate.upsert({
+      where: {
+        listingId_possibleDuplicateId: {
+          listingId: id,
+          possibleDuplicateId: duplicateId,
+        },
+      },
+      update: {
+        status: DuplicateStatus.MERGED,
+      },
+      create: {
+        listingId: id,
+        possibleDuplicateId: duplicateId,
+        confidence: 100,
+        reasons: ["Manuell im Admin zusammengeführt"],
+        status: DuplicateStatus.MERGED,
+      },
+    });
+
+    await this.prisma.listing.update({
+      where: { id: duplicateId },
+      data: { status: ListingStatus.OFFLINE },
+    });
+
+    return duplicate;
   }
 }

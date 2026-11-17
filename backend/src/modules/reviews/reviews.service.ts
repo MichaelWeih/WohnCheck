@@ -106,6 +106,10 @@ export class ReviewsService {
         targetType,
         targetId,
         status: ReviewStatus.PUBLISHED,
+        OR: [
+          { verificationLevel: null },
+          { verificationLevel: { not: "public-source-summary" } },
+        ],
       },
       select: {
         overallRating: true,
@@ -167,11 +171,11 @@ export class ReviewsService {
         exists = Boolean(await this.prisma.neighborhood.findUnique({ where: { id: targetId }, select: { id: true } }));
         break;
       default:
-        throw new BadRequestException("Ungueltiger Bewertungstyp.");
+        throw new BadRequestException("Ungültiger Bewertungstyp.");
     }
 
     if (!exists) {
-      throw new BadRequestException("Zielobjekt fuer die Bewertung wurde nicht gefunden.");
+      throw new BadRequestException("Zielobjekt für die Bewertung wurde nicht gefunden.");
     }
   }
 }

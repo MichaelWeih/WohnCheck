@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Building2, House, MapPin, MessageSquareText, PenLine } from "lucide-react";
@@ -24,7 +24,7 @@ export default function HomePage() {
   const latest = useQuery({ queryKey: ["reviews", "latest", 3], queryFn: () => fetchLatestReviews(3), staleTime: 60_000 });
   const allEntries = directory.data ? adaptSearchResults(directory.data) : [];
   const entries = allEntries.filter(item => item.type === category).slice(0, 3);
-  const reviews = latest.data?.map(adaptApiReview) ?? [];
+  const reviews = latest.data?.filter(review => review.verificationLevel !== "public-source-summary").map(adaptApiReview) ?? [];
 
   return <div className="portal-home">
     <section className="portal-intro" aria-labelledby="home-title">

@@ -5,11 +5,14 @@ import { OutboundHttpModule } from "./common/http/outbound-http.module";
 import { AdminModule } from "./modules/admin/admin.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { CompaniesModule } from "./modules/companies/companies.module";
+import { DataSourcesModule } from "./modules/data-sources/data-sources.module";
 import { DirectoryModule } from "./modules/directory/directory.module";
 import { DiscoveryModule } from "./modules/discovery/discovery.module";
 import { ExternalModule } from "./modules/external/external.module";
 import { HealthModule } from "./modules/health/health.module";
 import { JobsModule } from "./modules/jobs/jobs.module";
+import { ImportsModule } from "./modules/imports/imports.module";
+import { ListingsModule } from "./modules/listings/listings.module";
 import { PrismaModule } from "./modules/prisma/prisma.module";
 import { ReviewsModule } from "./modules/reviews/reviews.module";
 import { ScoresModule } from "./modules/scores/scores.module";
@@ -28,6 +31,9 @@ import { TopicsModule } from "./modules/topics/topics.module";
     JobsModule,
     CompaniesModule,
     DirectoryModule,
+    DataSourcesModule,
+    ListingsModule,
+    ImportsModule,
     ReviewsModule,
     ScoresModule,
     AdminModule,
