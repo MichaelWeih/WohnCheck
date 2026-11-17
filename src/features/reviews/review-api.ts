@@ -39,6 +39,17 @@ export function fetchReviews(targetType: ReviewTargetType, targetId: string) {
   });
 }
 
+export function fetchLatestReviews(limit: number) {
+  const query = new URLSearchParams({
+    status: "PUBLISHED",
+    limit: String(limit),
+  });
+
+  return apiRequest<ApiReview[]>(`/reviews?${query.toString()}`, {
+    method: "GET",
+  });
+}
+
 export function fetchReviewAggregate(targetType: ReviewTargetType, targetId: string) {
   return apiRequest<ReviewAggregate>(
     `/reviews/aggregate/${reviewTypeToApiMap[targetType]}/${targetId}`,

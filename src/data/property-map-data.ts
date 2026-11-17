@@ -1,4 +1,6 @@
-import { Neighborhood, Property, neighborhoods, properties } from "@/data/mock-data";
+import type { Neighborhood, Property } from "@/data/mock-data";
+import { adaptNeighborhood, adaptProperty } from "@/features/directory/directory-adapter";
+import type { ApiNeighborhood, ApiProperty } from "@/features/directory/directory-types";
 
 export type MappedProperty = Property & {
   latitude: number;
@@ -77,26 +79,31 @@ export function getPropertyAddressFromApi(property: { street: string; houseNumbe
   return `${property.street} ${property.houseNumber}`;
 }
 
-export function getMappedProperties(): MappedProperty[] {
-  return properties.flatMap((property) => {
-    const coordinates = propertyCoordinates[property.id];
+// Coordinates and district shapes are not stored in the backend yet,
+// so they are looked up locally by entity id.
+
+export function getPropertyCoordinates(id: string): MapPoint | undefined {
+  return propertyCoordinates[id];
+}
+
+/** Builds map markers for API properties that have known coordinates. */
+export function toMappedProperties(apiProperties: ApiProperty[]): MappedProperty[] {
+  return apiProperties.flatMap((apiProperty) => {
+    const coordinates = propertyCoordinates[apiProperty.id];
 
     if (!coordinates) return [];
 
-    return [{ ...property, ...coordinates }];
+    return [{ ...adaptProperty(apiProperty), ...coordinates }];
   });
 }
 
-export function getMappedPropertyById(id: string) {
-  return getMappedProperties().find((property) => property.id === id);
-}
-
-export function getMappedNeighborhoods(): MappedNeighborhood[] {
-  return neighborhoods.flatMap((neighborhood) => {
-    const shape = neighborhoodShapes[neighborhood.id];
+/** Builds map areas for API neighborhoods that have a known shape. */
+export function toMappedNeighborhoods(apiNeighborhoods: ApiNeighborhood[]): MappedNeighborhood[] {
+  return apiNeighborhoods.flatMap((apiNeighborhood) => {
+    const shape = neighborhoodShapes[apiNeighborhood.id];
 
     if (!shape) return [];
 
-    return [{ ...neighborhood, ...shape }];
+    return [{ ...adaptNeighborhood(apiNeighborhood), ...shape }];
   });
 }

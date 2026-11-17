@@ -1,130 +1,38 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getMappedNeighborhoods, getMappedProperties } from "@/data/property-map-data";
+import { toMappedNeighborhoods, toMappedProperties } from "@/data/property-map-data";
 import { PropertyMap } from "@/components/PropertyMap";
 import { SearchBar } from "@/components/SearchBar";
-import { ScoreBadge } from "@/components/ScoreBadge";
-import { StarRating } from "@/components/StarRating";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { resultRoutes } from "@/features/directory/routes";
+import { DirectoryRow } from "@/components/DirectoryRow";
+import { Button } from "@/components/ui/button";
 import { adaptSearchResults } from "@/features/directory/directory-adapter";
-import { searchDirectory } from "@/features/directory/directory-api";
-import { searchAll } from "@/data/mock-data";
-import { Building2, Home, MapPin } from "lucide-react";
-
-const typeLabels: Record<string, string> = {
-  landlord: "Vermieter",
-  property: "Gebäude",
-  neighborhood: "Nachbarschaft",
-};
-
-const typeIcons: Record<string, typeof Building2> = {
-  landlord: Building2,
-  property: Home,
-  neighborhood: MapPin,
-};
-
-const typeRoutes: Record<string, string> = {
-  landlord: "/vermieter/",
-  property: "/gebaeude/",
-  neighborhood: "/nachbarschaft/",
-};
+import { fetchLandlords, searchDirectory } from "@/features/directory/directory-api";
+import { similarLandlords } from "@/features/directory/search-matching";
 
 export default function SearchPage() {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
+  const selectedType = ["property", "neighborhood", "landlord"].includes(params.get("type") ?? "") ? params.get("type")! : "all";
   const query = params.get("q") || "";
-  const { data: apiResults } = useQuery({
-    queryKey: ["directory-search", query],
-    queryFn: () => searchDirectory(query),
-    enabled: Boolean(query.trim()),
-  });
-
-  const fallbackResults = useMemo(() => searchAll(query), [query]);
-  const results = apiResults ? adaptSearchResults(apiResults) : fallbackResults;
-
-  const propertyResults = getMappedProperties().filter((property) =>
-    results.some((result) => result.type === "property" && result.id === property.id),
-  );
-  const neighborhoodResults = getMappedNeighborhoods().filter((neighborhood) =>
-    results.some((result) => result.type === "neighborhood" && result.id === neighborhood.id),
-  );
-  const propertyResultIds = propertyResults.map((property) => property.id).join("|");
-  const firstPropertyId = propertyResults[0]?.id;
-  const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(firstPropertyId);
-
-  useEffect(() => {
-    setSelectedPropertyId((currentPropertyId) => {
-      if (currentPropertyId && propertyResults.some((property) => property.id === currentPropertyId)) {
-        return currentPropertyId;
-      }
-
-      return firstPropertyId;
-    });
-  }, [firstPropertyId, propertyResultIds, propertyResults]);
-
-  return (
-    <div className="container py-10">
-      <div className="max-w-3xl mx-auto mb-8">
-        <h1 className="text-2xl font-bold text-foreground mb-4">Suchergebnisse{query && ` für "${query}"`}</h1>
-        <SearchBar large defaultValue={query} />
+  const search = useQuery({ queryKey: ["directory-search", query], queryFn: () => searchDirectory(query), retry: 1 });
+  const allResults = useMemo(() => search.data ? adaptSearchResults(search.data) : [], [search.data]);
+  const results = allResults.filter(item => selectedType === "all" || item.type === selectedType);
+  const directory = useQuery({ queryKey: ["landlords"], queryFn: fetchLandlords, enabled: search.isSuccess && results.length === 0 && (selectedType === "all" || selectedType === "landlord") && query.length >= 3, staleTime: 60_000 });
+  const alternatives = results.length === 0 && (selectedType === "all" || selectedType === "landlord") && query.length >= 3 ? similarLandlords(query, directory.data ?? []) : [];
+  const propertyResults = useMemo(() => search.data ? toMappedProperties(search.data.properties) : [], [search.data]);
+  const neighborhoodResults = useMemo(() => search.data ? toMappedNeighborhoods(search.data.neighborhoods) : [], [search.data]);
+  const [mapOpen, setMapOpen] = useState(false);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string>();
+  return <div className="container page-shell">
+    <div className="search-page-heading"><h1>{query ? `Ergebnisse für „${query}“` : ({ property: "Immobilien entdecken", neighborhood: "Wohngegenden entdecken", landlord: "Vermieter entdecken", all: "Wohnen aus erster Hand." }[selectedType])}</h1><p className="text-muted-foreground mb-5">Immobilien, Wohngegenden und Vermieter. Erfahre, wie andere das Wohnen erleben.</p><SearchBar large defaultValue={query} scope={selectedType} /></div>
+    <div className="category-tabs" role="group" aria-label="Suchergebnisse filtern">{[{ key: "all", label: "Alle" }, { key: "property", label: "Immobilien" }, { key: "neighborhood", label: "Wohngegenden" }, { key: "landlord", label: "Vermieter" }].map(item => <button key={item.key} type="button" aria-pressed={selectedType === item.key} onClick={() => { const next = new URLSearchParams(params); if (item.key === "all") next.delete("type"); else next.set("type", item.key); setParams(next); }}>{item.label}{search.isSuccess && <span className="tab-count">{item.key === "all" ? allResults.length : allResults.filter(result => result.type === item.key).length}</span>}</button>)}</div>
+    {search.isLoading ? <p role="status" className="state-message">Verzeichnis wird durchsucht …</p> : search.isError ? <div role="alert" className="state-message"><h2>Die Suche ist gerade nicht verfügbar.</h2><p>Bitte überprüfe deine Verbindung und versuche es erneut.</p><Button variant="outline" className="mt-4" onClick={() => search.refetch()}>Erneut versuchen</Button></div> : results.length === 0 ? <div className="state-message"><h2>Keine Ergebnisse für „{query}“</h2><p>Versuche einen kürzeren Unternehmensnamen oder den Ort.</p>{alternatives.length > 0 && <section className="mt-6 text-left"><h2 className="mb-3">Meintest du …?</h2><div className="directory-list">{alternatives.map(item => <DirectoryRow key={item.id} to={`/vermieter/${item.id}`} title={item.name} subtitle={`${item.companyType} · ${item.city || "Standort nicht verfügbar"}`} rating={item.ratingOverall ?? null} reviewCount={item.reviewCount ?? 0} />)}</div></section>}</div> : <>
+      <p className="result-count" role="status">{results.length} {results.length === 1 ? "Ergebnis" : "Ergebnisse"}</p>
+      <div className={mapOpen && selectedType !== "landlord" ? "results-with-map" : "results-only"}>
+        <div className="directory-list">{results.map(result => <DirectoryRow key={`${result.type}-${result.id}`} to={resultRoutes[result.type] + result.id} title={result.title} subtitle={`${result.type === "landlord" ? "Vermieter" : result.type === "property" ? "Gebäude" : "Nachbarschaft"} · ${result.subtitle}`} rating={result.rating} reviewCount={result.reviewCount} onFocus={() => { if (result.type === "property") setSelectedPropertyId(result.id); }} />)}</div>
+        {selectedType !== "landlord" && (propertyResults.length > 0 || neighborhoodResults.length > 0) && <details className="map-disclosure" onToggle={event => setMapOpen(event.currentTarget.open)}><summary>Karte der Wohnorte anzeigen</summary><PropertyMap properties={selectedType === "neighborhood" ? [] : propertyResults} neighborhoods={selectedType === "property" ? [] : neighborhoodResults} selectedPropertyId={selectedPropertyId} onSelectProperty={setSelectedPropertyId} /></details>}
       </div>
-
-      {results.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-muted-foreground text-lg">Keine Ergebnisse gefunden.</p>
-          <p className="text-sm text-muted-foreground mt-2">Versuche einen anderen Suchbegriff.</p>
-        </div>
-      ) : (
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start">
-          <div className="max-w-3xl space-y-3 xl:max-w-none">
-            {results.map((result) => {
-              const Icon = typeIcons[result.type];
-              const isSelectedProperty = result.type === "property" && result.id === selectedPropertyId;
-
-              return (
-                <Link
-                  to={`${typeRoutes[result.type]}${result.id}`}
-                  key={`${result.type}-${result.id}`}
-                  onMouseEnter={() => result.type === "property" && setSelectedPropertyId(result.id)}
-                >
-                  <Card
-                    className={`flex items-center gap-4 p-5 transition-all hover:shadow-md ${
-                      isSelectedProperty ? "border-primary shadow-md ring-1 ring-primary/20" : ""
-                    }`}
-                  >
-                    <ScoreBadge score={result.rating} size="sm" />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <h3 className="font-semibold text-foreground truncate">{result.title}</h3>
-                        <Badge variant="secondary" className="shrink-0 text-xs gap-1">
-                          <Icon size={12} /> {typeLabels[result.type]}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{result.subtitle}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <StarRating rating={result.rating} size={13} />
-                        <span className="text-xs text-muted-foreground">{result.reviewCount} Bewertungen</span>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
-
-          {(propertyResults.length > 0 || neighborhoodResults.length > 0) && (
-            <div className="xl:sticky xl:top-24">
-              <PropertyMap
-                properties={propertyResults}
-                neighborhoods={neighborhoodResults}
-                selectedPropertyId={selectedPropertyId}
-                onSelectProperty={setSelectedPropertyId}
-              />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+    </>}
+  </div>;
 }

@@ -13,8 +13,8 @@ export function adaptLandlord(apiLandlord: ApiLandlord): Landlord {
     company_type: apiLandlord.companyType,
     city: apiLandlord.city,
     website: apiLandlord.website ?? undefined,
-    rating_overall: 0,
-    review_count: 0,
+    rating_overall: apiLandlord.ratingOverall ?? 0,
+    review_count: apiLandlord.reviewCount ?? 0,
     ratings: {},
   };
 }
@@ -28,8 +28,8 @@ export function adaptProperty(apiProperty: ApiProperty): Property {
     city: apiProperty.city,
     landlord_id: apiProperty.landlordId,
     landlord_name: apiProperty.landlord?.name ?? "",
-    rating_overall: 0,
-    review_count: 0,
+    rating_overall: apiProperty.ratingOverall ?? 0,
+    review_count: apiProperty.reviewCount ?? 0,
     ratings: {},
   };
 }
@@ -40,8 +40,8 @@ export function adaptNeighborhood(apiNeighborhood: ApiNeighborhood): Neighborhoo
     district_name: apiNeighborhood.districtName,
     city: apiNeighborhood.city,
     postal_code: apiNeighborhood.postalCode,
-    rating_overall: 0,
-    review_count: 0,
+    rating_overall: apiNeighborhood.ratingOverall ?? 0,
+    review_count: apiNeighborhood.reviewCount ?? 0,
     ratings: {},
   };
 }
@@ -51,9 +51,9 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     type: "landlord" as const,
     id: landlord.id,
     title: landlord.name,
-    subtitle: landlord.companyType,
-    rating: 0,
-    reviewCount: 0,
+    subtitle: `${landlord.companyType} · ${landlord.city || "Standort nicht verfügbar"}`,
+    rating: landlord.ratingOverall ?? 0,
+    reviewCount: landlord.reviewCount ?? 0,
     city: landlord.city,
   }));
 
@@ -62,8 +62,8 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     id: property.id,
     title: `${property.street} ${property.houseNumber}`,
     subtitle: `${property.postalCode} ${property.city}`,
-    rating: 0,
-    reviewCount: 0,
+    rating: property.ratingOverall ?? 0,
+    reviewCount: property.reviewCount ?? 0,
     city: property.city,
   }));
 
@@ -72,8 +72,8 @@ export function adaptSearchResults(response: DirectorySearchResponse): SearchRes
     id: neighborhood.id,
     title: neighborhood.districtName,
     subtitle: neighborhood.city,
-    rating: 0,
-    reviewCount: 0,
+    rating: neighborhood.ratingOverall ?? 0,
+    reviewCount: neighborhood.reviewCount ?? 0,
     city: neighborhood.city,
   }));
 

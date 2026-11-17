@@ -14,7 +14,7 @@ export default function AdminPage() {
   const queryClient = useQueryClient();
   const { accessToken } = useAuth();
 
-  const { data: queue, isLoading } = useQuery({
+  const { data: queue, isLoading, isError, refetch } = useQuery({
     queryKey: ["admin", "moderation-queue"],
     queryFn: () => fetchModerationQueue(accessToken ?? ""),
     enabled: Boolean(accessToken),
@@ -52,7 +52,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="container py-10">
+    <div className="container page-shell">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -64,7 +64,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <Card className="p-4 text-center">
             <AlertTriangle size={20} className="mx-auto text-warning mb-1" />
             <div className="text-xl font-bold text-foreground">{pendingReports.length}</div>
@@ -87,7 +87,7 @@ export default function AdminPage() {
           <Card className="p-8 text-center">
             <p className="text-muted-foreground">Moderationsliste wird geladen...</p>
           </Card>
-        ) : reviews.length === 0 ? (
+        ) : isError ? (<div role="alert" className="state-message"><p>Die Moderationsliste konnte nicht geladen werden.</p><Button variant="outline" onClick={() => refetch()}>Erneut versuchen</Button></div>) : reviews.length === 0 ? (
           <Card className="p-8 text-center">
             <CheckCircle size={32} className="mx-auto text-primary mb-2" />
             <p className="text-muted-foreground">Keine offenen Meldungen - alles erledigt!</p>

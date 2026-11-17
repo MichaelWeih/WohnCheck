@@ -30,6 +30,7 @@ export class ReviewsService {
         reports: true,
       },
       orderBy: { createdAt: "desc" },
+      ...(query.limit ? { take: query.limit } : {}),
     });
   }
 

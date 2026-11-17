@@ -1,6 +1,6 @@
 export default function ImpressumPage() {
   return (
-    <div className="container py-10 max-w-2xl mx-auto">
+    <div className="container page-shell max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold text-foreground mb-6">Impressum</h1>
       <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
         <p><strong className="text-foreground">WohnCheck GmbH (Platzhalter)</strong></p>

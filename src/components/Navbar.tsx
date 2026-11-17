@@ -1,78 +1,19 @@
-import { Link } from "react-router-dom";
-import { SearchBar } from "./SearchBar";
+﻿import { NavLink, Link } from "react-router-dom";
+import { House, Check, PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/features/auth/auth-context";
-import { LogIn, LogOut, UserPlus, Shield, PenSquare } from "lucide-react";
-
 export function Navbar() {
-  const { isAuthenticated, user, logout, hasRole } = useAuth();
-
-  return (
-    <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
-      <div className="container flex items-center h-16 gap-4">
-        <Link to="/" className="flex items-center shrink-0">
-          <div className="flex items-center gap-2">
-            <img
-              src="/branding/wohncheck-icon.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-9 w-9 shrink-0"
-            />
-            <span className="hidden text-lg font-bold tracking-tight text-foreground sm:inline">
-              WohnCheck
-            </span>
-          </div>
-        </Link>
-
-        <div className="flex-1 flex justify-center">
-          <SearchBar />
-        </div>
-
-        <nav className="flex items-center gap-1 shrink-0">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/bewertung/neu" className="gap-1.5">
-              <PenSquare size={16} />
-              <span className="hidden md:inline">Bewerten</span>
-            </Link>
-          </Button>
-          {isAuthenticated && user ? (
-            <>
-              <div className="hidden lg:flex items-center gap-2 ml-2">
-                <span className="text-sm text-foreground">{user.displayName}</span>
-                <Badge variant="secondary">{user.role}</Badge>
-              </div>
-              {hasRole("ADMIN") && (
-                <Button variant="ghost" size="sm" asChild>
-                  <Link to="/admin" className="gap-1.5">
-                    <Shield size={16} />
-                    <span className="hidden md:inline">Admin</span>
-                  </Link>
-                </Button>
-              )}
-              <Button variant="ghost" size="sm" onClick={logout} className="gap-1.5">
-                <LogOut size={16} />
-                <span className="hidden md:inline">Logout</span>
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/login" className="gap-1.5">
-                  <LogIn size={16} />
-                  <span className="hidden md:inline">Login</span>
-                </Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/registrieren" className="gap-1.5">
-                  <UserPlus size={16} />
-                  <span className="hidden md:inline">Registrieren</span>
-                </Link>
-              </Button>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
-  );
+  const { isAuthenticated, logout, hasRole } = useAuth();
+  return <header className="site-header">
+    <a href="#main-content" className="skip-link">Zum Inhalt</a>
+    <div className="container header-inner">
+      <Link to="/" className="brand" aria-label="WohnCheck Startseite"><span className="brand-symbol"><House size={23} strokeWidth={1.7} /><Check size={13} strokeWidth={3} /></span><span>Wohn<span className="brand-accent">Check</span></span></Link>
+      <nav aria-label="Hauptnavigation" className="main-nav">
+        <NavLink to="/suche">Entdecken</NavLink>
+        {hasRole("ADMIN") && <NavLink to="/admin">Moderation</NavLink>}
+        {isAuthenticated ? <Button variant="ghost" onClick={logout}>Abmelden</Button> : <NavLink to="/login">Anmelden</NavLink>}
+        <NavLink className="nav-review" to="/bewertung/neu"><PenLine size={16} /><span>Bewertung schreiben</span></NavLink>
+      </nav>
+    </div>
+  </header>;
 }

@@ -1,4 +1,12 @@
-export interface ApiLandlord {
+import type { PropertyPartyView } from "@/features/api-types";
+
+/** Present on list and search responses; computed from published reviews. */
+export interface ApiRatingSummary {
+  ratingOverall?: number | null;
+  reviewCount?: number;
+}
+
+export interface ApiLandlord extends ApiRatingSummary {
   id: string;
   name: string;
   companyType: string;
@@ -8,7 +16,7 @@ export interface ApiLandlord {
   properties?: ApiProperty[];
 }
 
-export interface ApiProperty {
+export interface ApiProperty extends ApiRatingSummary {
   id: string;
   street: string;
   houseNumber: string;
@@ -17,11 +25,14 @@ export interface ApiProperty {
   slug: string;
   landlordId: string;
   neighborhoodId?: string | null;
-  landlord?: ApiLandlord;
+  /** null when the property's landlord is not public. */
+  landlord?: Pick<ApiLandlord, "id" | "name" | "slug"> | null;
   neighborhood?: ApiNeighborhood | null;
+  /** Owner / landlord / manager of the property (GET /properties/:id); only public companies. */
+  parties?: PropertyPartyView[];
 }
 
-export interface ApiNeighborhood {
+export interface ApiNeighborhood extends ApiRatingSummary {
   id: string;
   districtName: string;
   city: string;

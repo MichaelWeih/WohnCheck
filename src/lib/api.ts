@@ -46,3 +46,12 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   return response.json() as Promise<T>;
 }
+
+/** React Query retry policy: don't retry on 404s, retry other errors up to twice. */
+export function retryUnlessNotFound(failureCount: number, error: unknown) {
+  if (error instanceof ApiError && error.status === 404) {
+    return false;
+  }
+
+  return failureCount < 2;
+}

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { searchDirectory } from "@/features/directory/directory-api";
+import { adaptSearchResults } from "@/features/directory/directory-adapter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { StarRating } from "@/components/StarRating";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,14 +12,12 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/features/auth/auth-context";
 import { createReview } from "@/features/reviews/review-api";
 import {
-  getTargetByTypeAndId,
-  getTargetsForType,
   parseReviewTargetType,
   reviewCategories,
   reviewTypeLabels,
   type ReviewTargetType,
 } from "@/features/reviews/review-targets";
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
 export default function WriteReviewPageV2() {
@@ -37,9 +37,11 @@ export default function WriteReviewPageV2() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const targetsQuery = useQuery({ queryKey: ["directory-search", ""], queryFn: () => searchDirectory("") });
+  const targets = targetsQuery.data ? adaptSearchResults(targetsQuery.data).map(item => ({ id: item.id, type: item.type, label: item.title, subtitle: item.subtitle })) : [];
   const currentCategories = targetType ? reviewCategories[targetType] : [];
-  const availableTargets = targetType ? getTargetsForType(targetType) : [];
-  const selectedTarget = targetType && targetId ? getTargetByTypeAndId(targetType, targetId) : null;
+  const availableTargets = targets.filter(target => target.type === targetType);
+  const selectedTarget = availableTargets.find(target => target.id === targetId);
   const targetIsLocked = Boolean(initialTargetType && initialTargetId);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -92,35 +94,16 @@ export default function WriteReviewPageV2() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container page-shell">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold text-foreground mb-2">Bewertung abgeben</h1>
         <p className="text-muted-foreground mb-6">Teile deine Wohnerfahrung und hilf anderen Mietern.</p>
 
-        {user && (
-          <Card className="p-4 mb-6 bg-muted/40">
-            <p className="text-sm text-muted-foreground">
-              Eingeloggt als <span className="font-medium text-foreground">{user.displayName}</span> ({user.role})
-            </p>
-          </Card>
-        )}
-
-        <Card className="p-4 mb-6 border-warning/30 bg-warning/5">
-          <div className="flex gap-3">
-            <AlertTriangle size={20} className="text-warning shrink-0 mt-0.5" />
-            <div className="text-sm text-muted-foreground">
-              <p className="font-medium text-foreground mb-1">Hinweis zur Bewertung</p>
-              <p>
-                Bewertungen müssen auf eigener Erfahrung basieren. Beleidigende, diskriminierende oder unwahre Inhalte
-                werden entfernt. Mit dem Absenden bestätigst du, dass deine Angaben wahrheitsgemäß sind.
-              </p>
-            </div>
-          </div>
-        </Card>
-
         <form onSubmit={handleSubmit} className="space-y-6">
+          {targetsQuery.isError && <p role="alert" className="text-destructive">Die verfügbaren Vermieter und Wohnorte konnten nicht geladen werden. Bitte lade die Seite erneut.</p>}
+          {targetsQuery.isLoading && <p role="status">Vermieter und Wohnorte werden geladen …</p>}
           <div>
-            <Label>Was möchtest du bewerten? *</Label>
+            <Label htmlFor="target-type">Was möchtest du bewerten? *</Label>
             <Select
               value={targetType}
               onValueChange={(value: ReviewTargetType) => {
@@ -130,7 +113,7 @@ export default function WriteReviewPageV2() {
               }}
               disabled={targetIsLocked}
             >
-              <SelectTrigger className="mt-1.5">
+              <SelectTrigger id="target-type" className="mt-1.5">
                 <SelectValue placeholder="Bewertungstyp wählen" />
               </SelectTrigger>
               <SelectContent>
@@ -144,10 +127,10 @@ export default function WriteReviewPageV2() {
           </div>
 
           <div>
-            <Label>Zielobjekt *</Label>
+            <Label htmlFor="target">Vermieter oder Wohnort *</Label>
             <Select value={targetId} onValueChange={setTargetId} disabled={!targetType || targetIsLocked}>
-              <SelectTrigger className="mt-1.5">
-                <SelectValue placeholder={targetType ? "Zielobjekt wählen" : "Zuerst Bewertungstyp wählen"} />
+              <SelectTrigger id="target" className="mt-1.5">
+                <SelectValue placeholder={targetType ? "Vermieter oder Wohnort wählen" : "Zuerst Bewertungstyp wählen"} />
               </SelectTrigger>
               <SelectContent>
                 {availableTargets.map((target) => (
@@ -165,8 +148,8 @@ export default function WriteReviewPageV2() {
           </div>
 
           <div>
-            <Label>Titel deiner Bewertung *</Label>
-            <Input
+            <Label htmlFor="review-title">Titel deiner Bewertung *</Label>
+            <Input id="review-title" required
               className="mt-1.5"
               placeholder="z.B. Guter Vermieter, schnelle Reparaturen"
               value={title}
@@ -183,13 +166,14 @@ export default function WriteReviewPageV2() {
           </div>
 
           {currentCategories.length > 0 && (
-            <div>
-              <Label>Einzelbewertungen</Label>
-              <div className="grid gap-3 mt-2">
+            <details className="border-y">
+              <summary>Einzelbewertungen (optional)</summary>
+              <div className="grid gap-3 mt-2 pb-5">
                 {currentCategories.map((category) => (
-                  <div key={category} className="flex items-center justify-between gap-4">
+                  <div key={category} className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-sm text-muted-foreground">{category}</span>
                     <StarRating
+                      label={category}
                       rating={categoryRatings[category] || 0}
                       size={20}
                       interactive
@@ -198,12 +182,12 @@ export default function WriteReviewPageV2() {
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
           )}
 
           <div>
-            <Label>Dein Erfahrungsbericht *</Label>
-            <Textarea
+            <Label htmlFor="review-text">Dein Erfahrungsbericht *</Label>
+            <Textarea id="review-text" required
               className="mt-1.5"
               rows={5}
               placeholder="Beschreibe deine Erfahrung möglichst detailliert..."
@@ -214,7 +198,8 @@ export default function WriteReviewPageV2() {
             <p className="text-xs text-muted-foreground mt-1">{text.length}/2000 Zeichen</p>
           </div>
 
-          <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+          <details className="text-sm text-muted-foreground border-t"><summary>Hinweise zur Veröffentlichung</summary><p>Beschreibe deine eigene Erfahrung. Beleidigende, diskriminierende oder unwahre Inhalte werden entfernt. Mit dem Absenden bestätigst du, dass deine Angaben wahrheitsgemäß sind. Deine Bewertung wird vor der Veröffentlichung geprüft.</p></details>
+          <Button type="submit" className="w-full" size="lg" disabled={isSubmitting || targetsQuery.isLoading || targetsQuery.isError}>
             {isSubmitting ? "Bewertung wird gespeichert..." : "Bewertung absenden"}
           </Button>
         </form>

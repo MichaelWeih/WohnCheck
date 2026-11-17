@@ -13,10 +13,12 @@ export default function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
 
     try {
       setIsSubmitting(true);
@@ -36,25 +38,26 @@ export default function LoginPage() {
       navigate(redirectTarget, { replace: true });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login fehlgeschlagen.";
-      toast.error(message);
+      setFormError(message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="container py-20 flex justify-center">
-      <Card className="w-full max-w-md p-8">
+    <div className="container auth-shell flex justify-center">
+      <Card className="auth-panel w-full max-w-md">
         <h1 className="text-2xl font-bold text-foreground mb-2 text-center">Anmelden</h1>
         <p className="text-sm text-muted-foreground text-center mb-6">Melde dich an, um Bewertungen abzugeben.</p>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {formError && <p role="alert" className="text-sm text-destructive">{formError}</p>}
           <div>
-            <Label>E-Mail</Label>
-            <Input className="mt-1.5" type="email" placeholder="deine@email.de" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Label htmlFor="email">E-Mail</Label>
+            <Input className="mt-1.5" id="email" autoComplete="email" type="email" placeholder="deine@email.de" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div>
-            <Label>Passwort</Label>
-            <Input className="mt-1.5" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <Label htmlFor="password">Passwort</Label>
+            <Input className="mt-1.5" id="password" autoComplete="current-password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Anmeldung läuft..." : "Anmelden"}

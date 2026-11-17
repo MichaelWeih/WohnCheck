@@ -1,120 +1,27 @@
-import { Link, useParams } from "react-router-dom";
+﻿import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { properties, getReviewsForTarget } from "@/data/mock-data";
-import { getMappedPropertyById, getPropertyAddress } from "@/data/property-map-data";
+import { ArrowLeft } from "lucide-react";
+import { getPropertyAddressFromApi, getPropertyCoordinates } from "@/data/property-map-data";
+import { DetailPageState } from "@/components/DetailPageState";
+import { ExperienceSection } from "@/components/ExperienceSection";
 import { PropertyMap } from "@/components/PropertyMap";
-import { ScoreBadge } from "@/components/ScoreBadge";
-import { StarRating } from "@/components/StarRating";
-import { RatingBar } from "@/components/RatingBar";
-import { ReviewCard } from "@/components/ReviewCard";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { useAuth } from "@/features/auth/auth-context";
-import { adaptApiReview } from "@/features/reviews/review-adapter";
-import { fetchReviewAggregate, fetchReviews, reportReview } from "@/features/reviews/review-api";
-import { MapPin, Building2, PenSquare } from "lucide-react";
-import { toast } from "sonner";
-
+import { adaptProperty } from "@/features/directory/directory-adapter";
+import { fetchProperty } from "@/features/directory/directory-api";
+import { retryUnlessNotFound } from "@/lib/api";
 export default function PropertyDetailPage() {
   const { id } = useParams();
-  const { accessToken } = useAuth();
-  const property = properties.find((entry) => entry.id === id);
-  const mappedProperty = id ? getMappedPropertyById(id) : undefined;
-
-  if (!property) {
-    return <div className="container py-20 text-center text-muted-foreground">Gebäude nicht gefunden.</div>;
-  }
-
-  const { data: apiReviews } = useQuery({
-    queryKey: ["reviews", "property", property.id],
-    queryFn: () => fetchReviews("property", property.id),
-  });
-
-  const { data: apiAggregate } = useQuery({
-    queryKey: ["review-aggregate", "property", property.id],
-    queryFn: () => fetchReviewAggregate("property", property.id),
-  });
-
-  const reviews = apiReviews?.map(adaptApiReview) ?? getReviewsForTarget("property", property.id);
-  const overallRating = apiAggregate?.overallRating ?? property.rating_overall;
-  const reviewCount = apiAggregate?.reviewCount ?? property.review_count;
-  const ratingEntries =
-    apiAggregate && Object.keys(apiAggregate.categoryRatings).length > 0
-      ? Object.entries(apiAggregate.categoryRatings)
-      : Object.entries(property.ratings);
-  const address = getPropertyAddress(property);
-
-  const handleReport = async (reviewId: string) => {
-    if (!accessToken) {
-      toast.error("Bitte melde dich an, um Bewertungen zu melden.");
-      return;
-    }
-
-    try {
-      await reportReview(reviewId, "Unpassender oder unwahrer Inhalt", accessToken);
-      toast.success("Bewertung wurde gemeldet.");
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Meldung konnte nicht gespeichert werden.";
-      toast.error(message);
-    }
-  };
-
-  return (
-    <div className="container py-10">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-6 mb-8">
-          <ScoreBadge score={overallRating} size="lg" />
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-foreground">{address}</h1>
-            <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <MapPin size={14} /> {property.postal_code} {property.city}
-              </span>
-              <Link to={`/vermieter/${property.landlord_id}`} className="flex items-center gap-1 text-primary hover:underline">
-                <Building2 size={14} /> {property.landlord_name}
-              </Link>
-            </div>
-            <div className="flex items-center gap-2 mt-3">
-              <StarRating rating={overallRating} size={18} showValue />
-              <span className="text-sm text-muted-foreground">({reviewCount} Bewertungen)</span>
-            </div>
-          </div>
-          <Button asChild>
-            <Link to={`/bewertung/neu?targetType=property&targetId=${property.id}`} className="gap-2 self-start">
-              <PenSquare size={16} /> Bewerten
-            </Link>
-          </Button>
-        </div>
-
-        <Card className="p-6 mb-8">
-          <h2 className="font-semibold text-foreground mb-4">Bewertungen im Detail</h2>
-          <div className="space-y-3">
-            {ratingEntries.map(([key, value]) => (
-              <RatingBar key={key} label={key} value={value} />
-            ))}
-          </div>
-        </Card>
-
-        {mappedProperty && (
-          <PropertyMap
-            properties={[mappedProperty]}
-            selectedPropertyId={mappedProperty.id}
-            className="mb-8"
-            heightClassName="h-[320px]"
-          />
-        )}
-
-        <h2 className="font-semibold text-foreground text-lg mb-4">Erfahrungsberichte ({reviews.length})</h2>
-        {reviews.length === 0 ? (
-          <p className="text-muted-foreground">Noch keine Bewertungen vorhanden.</p>
-        ) : (
-          <div className="space-y-3">
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} onReport={handleReport} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  const query = useQuery({ queryKey: ["property", id], queryFn: () => fetchProperty(id!), enabled: Boolean(id), retry: retryUnlessNotFound });
+  const property = query.data;
+  if (!property) return <DetailPageState isLoading={query.isLoading} error={query.error ?? (!id ? true : null)} notFoundText="Gebäude nicht gefunden." />;
+  const coordinates = getPropertyCoordinates(property.id);
+  const mappedProperty = coordinates ? { ...adaptProperty(property), ...coordinates } : undefined;
+  return <div className="container page-shell"><div className="profile-shell">
+    <Link to="/suche" className="text-link"><ArrowLeft size={16} /> Zum Verzeichnis</Link>
+    <header className="profile-heading"><h1>{getPropertyAddressFromApi(property)}</h1><p className="profile-meta">Gebäude · {property.postalCode} {property.city}</p></header>
+    <div className="profile-layout"><div><ExperienceSection targetType="property" targetId={property.id} />{mappedProperty && <details className="map-disclosure"><summary>Lage auf der Karte</summary><PropertyMap properties={[mappedProperty]} selectedPropertyId={mappedProperty.id} heightClassName="h-[320px]" /></details>}</div><aside className="profile-aside">
+      <section><h2>Vermieter und Umgebung</h2>{property.landlord ? <Link to={`/vermieter/${property.landlord.id}`} className="text-link">{property.landlord.name}</Link> : <p>Vermieter nicht verfügbar.</p>}{property.neighborhood && <Link to={`/nachbarschaft/${property.neighborhood.id}`} className="text-link block">{property.neighborhood.districtName}</Link>}</section>
+      {!!property.parties?.length && <section><h2>Zuständige Unternehmen</h2>{property.parties.map(party => <div key={`${party.role}-${party.landlord.id}`}><p>{party.roleLabel}</p><Link to={`/vermieter/${party.landlord.id}`} className="text-link">{party.landlord.name}</Link></div>)}</section>}
+      <p>Alle Bewertungen beziehen sich auf dieses Gebäude und stammen von WohnCheck-Nutzern.</p>
+    </aside></div>
+  </div></div>;
 }

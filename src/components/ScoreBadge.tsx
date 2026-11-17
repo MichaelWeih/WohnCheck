@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 
 interface ScoreBadgeProps {
-  score: number;
+  /** Average rating; `null` means "no reviews yet" and is never rendered as 0. */
+  score: number | null;
   size?: "sm" | "md" | "lg";
 }
 
@@ -18,8 +19,26 @@ export function ScoreBadge({ score, size = "md" }: ScoreBadgeProps) {
     lg: "w-16 h-16 text-2xl",
   };
 
+  if (score === null) {
+    return (
+      <div
+        className={cn(
+          "rounded-lg font-bold flex items-center justify-center shrink-0 bg-muted text-muted-foreground",
+          sizeClasses[size],
+        )}
+        title="Noch keine Bewertungen"
+        aria-label="Noch keine Bewertungen"
+      >
+        –
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("rounded-lg font-bold flex items-center justify-center", getScoreColor(score), sizeClasses[size])}>
+    <div
+      className={cn("rounded-lg font-bold flex items-center justify-center shrink-0", getScoreColor(score), sizeClasses[size])}
+      aria-label={`Bewertung ${score.toFixed(1)} von 5`}
+    >
       {score.toFixed(1)}
     </div>
   );

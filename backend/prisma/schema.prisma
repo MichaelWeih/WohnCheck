@@ -40,117 +40,187 @@ enum ImportJobStatus {
 }
 
 model User {
-  id             String       @id @default(cuid())
-  email          String       @unique
+  id             String          @id @default(cuid())
+  email          String          @unique
   displayName    String
   passwordHash   String?
   landlordId     String?
-  isVerified     Boolean      @default(false)
-  role           UserRole     @default(USER)
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  landlord       Landlord?    @relation(fields: [landlordId], references: [id], onDelete: SetNull)
+  isVerified     Boolean         @default(false)
+  role           UserRole        @default(USER)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  landlord       Landlord?       @relation(fields: [landlordId], references: [id], onDelete: SetNull)
   reviews        Review[]
   reports        ReviewReport[]
   reviewVotes    ReviewVote[]
+  mappingReports MappingReport[]
 }
 
+/// A landlord in the broad sense: housing company, cooperative, property manager, ...
+/// One row per real-world legal entity (or, for private landlords, per manually created entry).
+/// Different spellings live in LandlordAlias, official ids in LandlordIdentifier.
 model Landlord {
-  id             String        @id @default(cuid())
-  name           String
-  companyType    String
-  city           String
-  website        String?
-  slug           String        @unique
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  properties     Property[]
-  userAccounts   User[]
+  id          String   @id @default(cuid())
+  /// Display name (usually the best-known name, e.g. "Vonovia SE").
+  name        String
+  /// German display label of the company type. Always COMPANY_KIND_LABELS[kind] for discovered records.
+  companyType String
+  /// Headquarters city; NULL when unknown (never guessed).
+  city        String?
+  /// http/https only (validated through safeHttpUrl).
+  website     String?
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  /// Full registered name incl. legal form, if known and different from `name`.
+  legalName            String?
+  /// Canonical legal form code (LegalFormCode in companies/normalization.ts), e.g. "GMBH", "SE", "EG".
+  legalForm            String?
+  /// Matching/search key: `name` normalized (lowercase, umlauts folded, legal form removed).
+  normalizedName       String             @default("")
+  /// Version of the normalization rules that produced `normalizedName`; stale rows are re-normalized at boot.
+  normalizationVersion Int                @default(0)
+  /// Registrable domain of `website` (e.g. "vonovia.de"); NULL for shared/portal domains.
+  websiteDomain        String?
+  kind                 CompanyKind        @default(UNKNOWN)
+  /// Lifecycle: only ACTIVE rows appear in the public directory and search.
+  status               RecordStatus       @default(ACTIVE)
+  /// Best evidence over all sources that this is a landlord-type business.
+  relevance            LandlordRelevance  @default(UNKNOWN)
+  operationalStatus    OperationalStatus  @default(UNKNOWN)
+  verificationStatus   VerificationStatus @default(UNVERIFIED)
+  /// 0..1, internal only (never shown publicly as a number).
+  confidence           Float              @default(0)
+  postalCode           String?
+  /// ISO 3166-2 code of the headquarters' federal state, e.g. "DE-BE".
+  state                String?
+  /// ISO 3166-2 codes of all states with a known location (HQ + branches). Recomputed by the resolver.
+  operatingStates      String[]           @default([])
+  /// Origin of each source-filled scalar field: { "<field>": { "source": "<sourceKey>|manual", "at": "<ISO date>" } }.
+  /// A field absent from this map counts as source "legacy".
+  fieldSources         Json               @default("{}")
+  /// Set when status = MERGED: the surviving record. Old ids keep resolving via this pointer.
+  mergedIntoId         String?
+  /// Last time any source confirmed this record (also set when nothing changed).
+  lastRefreshedAt      DateTime?
+
+  mergedInto         Landlord?            @relation("LandlordMerge", fields: [mergedIntoId], references: [id], onDelete: Restrict)
+  mergedFrom         Landlord[]           @relation("LandlordMerge")
+  properties         Property[]
+  userAccounts       User[]
+  aliases            LandlordAlias[]
+  identifiers        LandlordIdentifier[]
+  locations          LandlordLocation[]
+  relationsFrom      CompanyRelation[]    @relation("RelationFrom")
+  relationsTo        CompanyRelation[]    @relation("RelationTo")
+  propertyRoles      PropertyParty[]
+  sourceRecords      SourceRecord[]
+  externalReferences ExternalReference[]
+  changeLogs         ChangeLog[]
+  mappingReports     MappingReport[]
+  mergeCandidatesA   MergeCandidate[]     @relation("MergeCandidateA")
+  mergeCandidatesB   MergeCandidate[]     @relation("MergeCandidateB")
+  mergesAsSurvivor   LandlordMerge[]      @relation("MergeSurvivor")
+  mergesAsLoser      LandlordMerge[]      @relation("MergeLoser")
+
+  @@index([normalizedName(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([status, kind])
+  @@index([state])
+  @@index([websiteDomain])
+  @@index([operatingStates], type: Gin)
 }
 
 model Property {
-  id             String         @id @default(cuid())
+  id             String          @id @default(cuid())
   street         String
   houseNumber    String
   postalCode     String
   city           String
-  slug           String         @unique
+  slug           String          @unique
   landlordId     String
   neighborhoodId String?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  landlord       Landlord       @relation(fields: [landlordId], references: [id], onDelete: Cascade)
-  neighborhood   Neighborhood?  @relation(fields: [neighborhoodId], references: [id], onDelete: SetNull)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  /// Restrict: a landlord is never hard-deleted while it has properties (see CompanyErasureService).
+  landlord       Landlord        @relation(fields: [landlordId], references: [id], onDelete: Restrict)
+  neighborhood   Neighborhood?   @relation(fields: [neighborhoodId], references: [id], onDelete: SetNull)
+  parties        PropertyParty[]
 }
 
 model Neighborhood {
-  id             String      @id @default(cuid())
-  districtName   String
-  city           String
-  postalCode     String
-  slug           String      @unique
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-  properties     Property[]
+  id           String     @id @default(cuid())
+  districtName String
+  city         String
+  postalCode   String
+  slug         String     @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  properties   Property[]
 }
 
 model Review {
-  id                 String         @id @default(cuid())
-  userId             String
-  targetType         TargetType
-  targetId           String
-  title              String
-  text               String
-  overallRating      Decimal        @db.Decimal(3, 2)
-  categoryRatings    Json
-  status             ReviewStatus   @default(PENDING)
-  helpfulCount       Int            @default(0)
-  verificationLevel  String?
-  moderationReason   String?
-  moderatedAt        DateTime?
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
-  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reports            ReviewReport[]
-  votes              ReviewVote[]
+  id                String           @id @default(cuid())
+  userId            String
+  targetType        TargetType
+  targetId          String
+  title             String
+  text              String
+  overallRating     Decimal          @db.Decimal(3, 2)
+  categoryRatings   Json
+  status            ReviewStatus     @default(PENDING)
+  helpfulCount      Int              @default(0)
+  verificationLevel String?
+  moderationReason  String?
+  moderatedAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Analyzer id that last processed this review (set even when no topic was found); NULL = not analysed yet.
+  topicsAnalyzer    String?
+  topicsAnalyzedAt  DateTime?
+  reports           ReviewReport[]
+  votes             ReviewVote[]
+  topicTags         ReviewTopicTag[]
+  mappingReports    MappingReport[]
 
   @@index([targetType, targetId, status])
   @@index([userId])
 }
 
 model ReviewReport {
-  id             String        @id @default(cuid())
-  reviewId       String
-  userId         String
-  reason         String
-  status         ReportStatus  @default(PENDING)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  review         Review        @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String       @id @default(cuid())
+  reviewId  String
+  userId    String
+  reason    String
+  status    ReportStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  review    Review       @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ReviewVote {
-  id             String      @id @default(cuid())
-  reviewId       String
-  userId         String
-  isHelpful      Boolean
-  createdAt      DateTime    @default(now())
-  review         Review      @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  reviewId  String
+  userId    String
+  isHelpful Boolean
+  createdAt DateTime @default(now())
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([reviewId, userId])
 }
 
 model PublicSourceSnapshot {
-  id             String      @id @default(cuid())
-  targetType     TargetType
-  targetId       String
-  sourceKey      String
-  payload        Json
-  capturedAt     DateTime    @default(now())
-  importJobId    String?
-  importJob      ImportJob?  @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+  id          String     @id @default(cuid())
+  targetType  TargetType
+  targetId    String
+  sourceKey   String
+  payload     Json
+  capturedAt  DateTime   @default(now())
+  importJobId String?
+  importJob   ImportJob? @relation(fields: [importJobId], references: [id], onDelete: SetNull)
 
   @@index([targetType, targetId])
 }
@@ -169,27 +239,647 @@ model ScoreResult {
 }
 
 model ScoreComponent {
-  id             String       @id @default(cuid())
-  scoreResultId  String
-  key            String
-  label          String
-  value          Decimal      @db.Decimal(5, 2)
-  weight         Decimal?     @db.Decimal(5, 2)
-  source         String?
-  metadata       Json?
-  scoreResult    ScoreResult  @relation(fields: [scoreResultId], references: [id], onDelete: Cascade)
+  id            String      @id @default(cuid())
+  scoreResultId String
+  key           String
+  label         String
+  value         Decimal     @db.Decimal(5, 2)
+  weight        Decimal?    @db.Decimal(5, 2)
+  source        String?
+  metadata      Json?
+  scoreResult   ScoreResult @relation(fields: [scoreResultId], references: [id], onDelete: Cascade)
 
   @@index([scoreResultId])
 }
 
 model ImportJob {
-  id             String                 @id @default(cuid())
-  sourceKey      String
-  status         ImportJobStatus        @default(QUEUED)
-  message        String?
-  startedAt      DateTime?
-  finishedAt     DateTime?
-  createdAt      DateTime               @default(now())
-  updatedAt      DateTime               @updatedAt
-  snapshots      PublicSourceSnapshot[]
+  id         String                 @id @default(cuid())
+  sourceKey  String
+  status     ImportJobStatus        @default(QUEUED)
+  message    String?
+  startedAt  DateTime?
+  finishedAt DateTime?
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  snapshots  PublicSourceSnapshot[]
+}
+
+// ---------------------------------------------------------------------------------------------
+// Landlord directory (see docs/vermieter-verzeichnis.md)
+// ---------------------------------------------------------------------------------------------
+
+/// Alternative names of a landlord: registered name, brand, former name, abbreviation, spelling variant.
+/// Invariant: an alias never repeats the landlord's own `normalizedName` with the same legal form;
+/// `legalName` (when it normalizes differently from `name`) is always stored as alias type LEGAL_NAME.
+/// Brands without legal personality are aliases (type BRAND), never separate Landlord rows.
+model LandlordAlias {
+  id             String        @id @default(cuid())
+  landlordId     String
+  name           String
+  normalizedName String
+  /// Legal form stated in this alias, if any (LegalFormCode).
+  legalForm      String?
+  type           AliasType     @default(SPELLING)
+  /// Where the alias came from: a source key ("wikidata", "gleif", ...), "manual" or "merge".
+  source         String
+  /// Source record that stated this alias; NULL for manual / merge. Lets the resolver remove what a source no longer states.
+  sourceRecordId String?
+  createdAt      DateTime      @default(now())
+  landlord       Landlord      @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  sourceRecord   SourceRecord? @relation(fields: [sourceRecordId], references: [id], onDelete: SetNull)
+
+  @@unique([landlordId, name])
+  @@index([landlordId, normalizedName])
+  @@index([normalizedName(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([sourceRecordId])
+}
+
+/// Stable identifiers. A (scheme, value) pair identifies exactly one landlord; a landlord has at most one LEI.
+/// Rows are never re-pointed to another landlord except by CompanyMergeService.
+model LandlordIdentifier {
+  id             String           @id @default(cuid())
+  landlordId     String
+  scheme         IdentifierScheme
+  /// Canonical form from canonicalIdentifier(): LEI upper-case, Wikidata "Q123", register "R2201_HRB16879".
+  value          String
+  source         String
+  sourceRecordId String?
+  createdAt      DateTime         @default(now())
+  landlord       Landlord         @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  sourceRecord   SourceRecord?    @relation(fields: [sourceRecordId], references: [id], onDelete: SetNull)
+
+  @@unique([scheme, value])
+  @@index([landlordId])
+  @@index([sourceRecordId])
+}
+
+/// Directed relation between two landlord records, both separate legal entities.
+/// Read as "<from> <type> <to>", e.g. (Vonovia SE) PARENT_OF (Deutsche Wohnen SE).
+model CompanyRelation {
+  id             String              @id @default(cuid())
+  fromLandlordId String
+  toLandlordId   String
+  type           CompanyRelationType
+  source         String
+  sourceRecordId String?
+  confidence     Float               @default(1)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  from           Landlord            @relation("RelationFrom", fields: [fromLandlordId], references: [id], onDelete: Cascade)
+  to             Landlord            @relation("RelationTo", fields: [toLandlordId], references: [id], onDelete: Cascade)
+  sourceRecord   SourceRecord?       @relation(fields: [sourceRecordId], references: [id], onDelete: SetNull)
+
+  @@unique([fromLandlordId, toLandlordId, type])
+  @@index([toLandlordId])
+  @@index([sourceRecordId])
+}
+
+/// A relation stated by a source whose other side could not be resolved yet (e.g. child imported before parent).
+/// Materialised into CompanyRelation as soon as a landlord with that identifier / source record exists.
+model PendingRelation {
+  id              String              @id @default(cuid())
+  sourceRecordId  String
+  type            CompanyRelationType
+  /// "outgoing": (landlord of sourceRecord) <type> (other); "incoming": (other) <type> (landlord of sourceRecord).
+  direction       String
+  otherScheme     IdentifierScheme?
+  otherValue      String?
+  otherSourceKey  String?
+  otherExternalId String?
+  createdAt       DateTime            @default(now())
+  sourceRecord    SourceRecord        @relation(fields: [sourceRecordId], references: [id], onDelete: Cascade)
+
+  @@index([otherScheme, otherValue])
+  @@index([otherSourceKey, otherExternalId])
+  @@index([sourceRecordId])
+}
+
+/// Headquarters and regional branches (dependent offices) of a landlord. At most one HEADQUARTERS per landlord.
+model LandlordLocation {
+  id                 String              @id @default(cuid())
+  landlordId         String
+  type               LocationType        @default(BRANCH)
+  name               String?
+  street             String?
+  houseNumber        String?
+  postalCode         String?
+  city               String?
+  state              String?
+  latitude           Float?
+  longitude          Float?
+  /// Normalized postalCode|street|houseNumber; used to avoid storing the same office twice.
+  addressKey         String?
+  source             String
+  /// Stable id of this location in the source ("node/123456", "<externalId>#hq"). NULL only for source "manual".
+  externalRef        String?
+  sourceRecordId     String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  landlord           Landlord            @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  sourceRecord       SourceRecord?       @relation(fields: [sourceRecordId], references: [id], onDelete: SetNull)
+  externalReferences ExternalReference[]
+
+  @@unique([source, externalRef])
+  @@index([landlordId, addressKey])
+  @@index([sourceRecordId])
+}
+
+/// Owner, landlord and manager of a property can be different companies.
+/// Property.landlordId stays the primary (displayed) landlord.
+model PropertyParty {
+  id         String       @id @default(cuid())
+  propertyId String
+  landlordId String
+  role       PropertyRole
+  source     String
+  confidence Float        @default(1)
+  createdAt  DateTime     @default(now())
+  property   Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  landlord   Landlord     @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, landlordId, role])
+  @@index([landlordId])
+}
+
+/// Provenance: one row per record of an external source that contributed to a landlord.
+/// Re-imports are idempotent via (sourceKey, externalId) + contentHash.
+model SourceRecord {
+  id                 String               @id @default(cuid())
+  landlordId         String
+  sourceKey          String
+  externalId         String
+  url                String?
+  /// SPDX-style licence id of the source data ("CC0-1.0", "ODbL-1.0", "CC-BY-4.0").
+  license            String
+  /// The DiscoveredCompany as delivered by the provider, without `fetchedAt` (data-minimised by the provider).
+  payload            Json
+  /// sha256 of the key-sorted JSON of `payload`.
+  contentHash        String
+  firstSeenAt        DateTime             @default(now())
+  lastSeenAt         DateTime             @default(now())
+  lastChangedAt      DateTime             @default(now())
+  /// Set when a completed full sync of the source no longer contained this record.
+  removedAt          DateTime?
+  landlord           Landlord             @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  aliases            LandlordAlias[]
+  identifiers        LandlordIdentifier[]
+  relations          CompanyRelation[]
+  pendingRelations   PendingRelation[]
+  locations          LandlordLocation[]
+  externalReferences ExternalReference[]
+
+  @@unique([sourceKey, externalId])
+  @@index([landlordId])
+}
+
+/// Audit trail of every change to a landlord record (who/what/when).
+model ChangeLog {
+  id          String   @id @default(cuid())
+  landlordId  String
+  /// CREATED, UPDATED, ALIAS_ADDED, ALIAS_REMOVED, IDENTIFIER_ADDED, RELATION_ADDED, LOCATION_CHANGED, MERGED,
+  /// UNMERGED, STATUS_CHANGED, VERIFICATION_CHANGED, SOURCE_ATTACHED, SOURCE_DETACHED, IDENTIFIER_CONFLICT, ERASED
+  action      String
+  summary     String?
+  /// Field-level diff: { field: { from, to } }
+  changes     Json?
+  sourceKey   String?
+  actorUserId String?
+  jobId       String?
+  createdAt   DateTime @default(now())
+  landlord    Landlord @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+
+  @@index([landlordId, createdAt])
+}
+
+/// Possible duplicate pair awaiting manual review. Invariant (DB CHECK): landlordAId < landlordBId.
+/// DISTINCT pairs are kept so the same pair is never proposed again.
+model MergeCandidate {
+  id              String               @id @default(cuid())
+  landlordAId     String
+  landlordBId     String
+  score           Float
+  /// Explanation of the score: matched signals and conflicts.
+  reasons         Json
+  status          MergeCandidateStatus @default(PENDING)
+  decidedByUserId String?
+  decidedAt       DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  landlordA       Landlord             @relation("MergeCandidateA", fields: [landlordAId], references: [id], onDelete: Cascade)
+  landlordB       Landlord             @relation("MergeCandidateB", fields: [landlordBId], references: [id], onDelete: Cascade)
+
+  @@unique([landlordAId, landlordBId])
+  @@index([status])
+}
+
+/// Journal of a merge, detailed enough to undo it (CompanyMergeService.unmerge).
+model LandlordMerge {
+  id             String    @id @default(cuid())
+  survivorId     String
+  loserId        String
+  actorUserId    String?
+  createdAt      DateTime  @default(now())
+  undoneAt       DateTime?
+  undoneByUserId String?
+  /// { loser: <scalar fields before merge>, moved: { <table>: [ids] }, deleted: { <table>: [full rows] },
+  ///   survivorBefore: <fields of the survivor changed by the merge> }
+  snapshot       Json
+  survivor       Landlord  @relation("MergeSurvivor", fields: [survivorId], references: [id], onDelete: Cascade)
+  loser          Landlord  @relation("MergeLoser", fields: [loserId], references: [id], onDelete: Cascade)
+
+  @@index([survivorId])
+  @@index([loserId])
+}
+
+/// Tombstones so that erased / rejected records are not re-imported. Holds no clear-text names.
+model DiscoverySuppression {
+  id              String   @id @default(cuid())
+  /// "source" (value "<sourceKey>:<externalId>"), "identifier" (value "<SCHEME>:<value>") or
+  /// "name" (value = HMAC-SHA256 of "<normalizedName>|<postalCode or empty>").
+  keyType         String
+  keyValue        String
+  /// erasure_request | objection | not_a_landlord | natural_person
+  reason          String
+  mappingReportId String?
+  createdByUserId String?
+  createdAt       DateTime @default(now())
+
+  @@unique([keyType, keyValue])
+}
+
+/// Link between a landlord and something on an external platform:
+/// a company profile (Trustpilot page, Google place) or a discussion (Reddit thread).
+/// Stores references only — never review texts, ratings, counts, titles or user names of the platform.
+model ExternalReference {
+  id               String                @id @default(cuid())
+  landlordId       String
+  /// Optional branch this reference belongs to (e.g. a Google place of one office).
+  locationId       String?
+  /// Provider key from the external platform registry, e.g. "trustpilot", "google_maps", "reddit".
+  platform         String
+  type             ExternalReferenceType @default(PROFILE)
+  /// Stable id on the platform if known (Trustpilot profile slug, Google Place ID, Reddit thread id, subreddit name).
+  externalId       String?
+  /// Canonical URL produced by the provider's parseReferenceUrl(); never a raw pasted URL.
+  url              String
+  /// Short admin-written label for PROFILE references. Never third-party text. Not used for DISCUSSION.
+  label            String?               @db.VarChar(80)
+  /// Admin-only note; never returned by public endpoints.
+  internalNote     String?
+  /// Topic keys (modules/topics TOPIC_KEYS) an admin assigned to a DISCUSSION reference.
+  topics           String[]              @default([])
+  matchStatus      MatchStatus           @default(UNVERIFIED)
+  /// 0..1, internal only.
+  confidence       Float                 @default(0)
+  /// How the link was established: a source key ("wikidata"), "domain_derived", "manual", "user_suggestion".
+  origin           String
+  evidence         Json?
+  sourceRecordId   String?
+  verifiedByUserId String?
+  verifiedAt       DateTime?
+  /// Set by external.review-due when verifiedAt is older than the configured interval.
+  recheckDueAt     DateTime?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  landlord         Landlord              @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  location         LandlordLocation?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  sourceRecord     SourceRecord?         @relation(fields: [sourceRecordId], references: [id], onDelete: SetNull)
+  mappingReports   MappingReport[]
+
+  @@unique([landlordId, platform, url])
+  @@index([platform, externalId])
+  @@index([landlordId, matchStatus])
+  @@index([sourceRecordId])
+}
+
+/// User-submitted report: wrong external link, wrong company data, duplicate, removal request, review complaint.
+/// Public, login-free intake; handled by admins. Personal data (contactEmail, message) is cleared when closed.
+model MappingReport {
+  id                    String              @id @default(cuid())
+  landlordId            String?
+  externalReferenceId   String?
+  /// For kind REVIEW_COMPLAINT.
+  reviewId              String?
+  kind                  MappingReportKind
+  reporterRole          ReporterRole        @default(OTHER)
+  message               String              @db.VarChar(2000)
+  /// Optional contact for follow-up; set to NULL when the report is closed.
+  contactEmail          String?
+  reporterUserId        String?
+  status                MappingReportStatus @default(OPEN)
+  resolutionNote        String?
+  resolvedByUserId      String?
+  resolvedAt            DateTime?
+  /// Set when contactEmail and message were cleared after closing.
+  personalDataClearedAt DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  landlord              Landlord?           @relation(fields: [landlordId], references: [id], onDelete: SetNull)
+  externalReference     ExternalReference?  @relation(fields: [externalReferenceId], references: [id], onDelete: SetNull)
+  review                Review?             @relation(fields: [reviewId], references: [id], onDelete: SetNull)
+  reporter              User?               @relation(fields: [reporterUserId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+}
+
+/// Postgres-backed job queue (see modules/jobs/job.types.ts for the full state machine).
+/// Invariant (DB CHECK): activeDedupeKey is non-NULL only while status is QUEUED or RUNNING.
+/// All time columns are timestamptz because the claim/reaper/scheduler queries use the database clock.
+model BackgroundJob {
+  id              String    @id @default(cuid())
+  type            String
+  payload         Json      @default("{}")
+  status          JobStatus @default(QUEUED)
+  priority        Int       @default(0)
+  dedupeKey       String?
+  /// = dedupeKey exactly while status IN (QUEUED, RUNNING); NULL otherwise.
+  activeDedupeKey String?   @unique
+  /// Set when an enqueue with `rerunIfRunning` hit this job while RUNNING: run once more after it finishes.
+  rerunRequested  Boolean   @default(false)
+  runAt           DateTime  @default(now()) @db.Timestamptz(3)
+  attempts        Int       @default(0)
+  maxAttempts     Int       @default(5)
+  rescheduleCount Int       @default(0)
+  /// Claim time of the current / last run.
+  lockedAt        DateTime? @db.Timestamptz(3)
+  /// Lease end; renewed by the worker while the handler runs. Expired leases are recovered by the reaper.
+  lockExpiresAt   DateTime? @db.Timestamptz(3)
+  /// Fencing token "<instanceId>:<uuid per claim>".
+  lockedBy        String?
+  /// Truncated to 2000 chars; must never contain search text, URLs with credentials or personal data.
+  lastError       String?
+  progress        Json?
+  result          Json?
+  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
+  finishedAt      DateTime? @db.Timestamptz(3)
+
+  @@index([status, runAt])
+  @@index([status, lockExpiresAt])
+  @@index([type, status])
+}
+
+/// Recurring jobs with admin-configurable interval.
+model JobSchedule {
+  key             String    @id
+  type            String
+  payload         Json      @default("{}")
+  /// Dedupe key used when the scheduler enqueues (same key as manual triggers of the same work).
+  dedupeKey       String
+  intervalMinutes Int
+  enabled         Boolean   @default(true)
+  /// True when the job contacts external services; such schedules are created disabled unless DISCOVERY_AUTO_SYNC=true.
+  network         Boolean   @default(false)
+  priority        Int       @default(0)
+  maxAttempts     Int       @default(5)
+  lastEnqueuedAt  DateTime? @db.Timestamptz(3)
+  nextRunAt       DateTime  @default(now()) @db.Timestamptz(3)
+  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
+}
+
+/// Sync state per source and scope (e.g. one federal state for OSM).
+model SourceSyncState {
+  id                String    @id @default(cuid())
+  sourceKey         String
+  scope             String    @default("default")
+  /// "FULL" while an initial or forced full crawl is pending / in progress, else "INCREMENTAL".
+  mode              String    @default("FULL")
+  /// True once an admin started the initial full sync; scheduled runs do nothing before that.
+  fullSyncRequested Boolean   @default(false)
+  /// Position inside the CURRENT run (page cursor); NULL when no run is in progress.
+  cursor            Json?
+  /// Starting point for the next incremental run; set only when a run completes (from the run's START time).
+  watermark         Json?
+  runStartedAt      DateTime? @db.Timestamptz(3)
+  lastFullSyncAt    DateTime? @db.Timestamptz(3)
+  lastRunAt         DateTime? @db.Timestamptz(3)
+  lastSuccessAt     DateTime? @db.Timestamptz(3)
+  lastError         String?
+  /// Records seen in the current / last run.
+  recordsSeen       Int       @default(0)
+  updatedAt         DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@unique([sourceKey, scope])
+}
+
+/// Persisted politeness state per external host (shared by all instances, survives restarts).
+model OutboundHostState {
+  host          String    @id
+  /// Earliest time the next request to this host may start.
+  nextAllowedAt DateTime  @default(now()) @db.Timestamptz(3)
+  /// Set after a 429 / 503 with Retry-After, or when the daily budget is used up.
+  blockedUntil  DateTime? @db.Timestamptz(3)
+  /// UTC day (YYYY-MM-DD) that `requestsToday` refers to.
+  day           String?
+  requestsToday Int       @default(0)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(3)
+}
+
+/// Search-on-miss request and its (positive or negative) cached outcome.
+/// The clear-text query is kept only while needed; the cache key is a keyed hash.
+model DiscoveryQuery {
+  /// Random UUID (unguessable); the only handle returned to clients.
+  id                String               @id @default(uuid())
+  /// HMAC-SHA256(normalized query, PRIVACY_HASH_SECRET).
+  queryHash         String               @unique
+  /// Only while PENDING / RUNNING and for NEEDS_REVIEW; NULL on FOUND / NOT_FOUND / FAILED.
+  normalizedQuery   String?              @db.VarChar(120)
+  status            DiscoveryQueryStatus @default(PENDING)
+  jobId             String?
+  resultLandlordIds String[]             @default([])
+  requestCount      Int                  @default(1)
+  failureCount      Int                  @default(0)
+  firstRequestedAt  DateTime             @default(now()) @db.Timestamptz(3)
+  lastRequestedAt   DateTime             @default(now()) @db.Timestamptz(3)
+  startedAt         DateTime?            @db.Timestamptz(3)
+  completedAt       DateTime?            @db.Timestamptz(3)
+  /// Until then the cached outcome is served and no new discovery job is started.
+  retryAfter        DateTime?            @db.Timestamptz(3)
+  /// Row is deleted by discovery.purge-queries after this time.
+  expiresAt         DateTime             @db.Timestamptz(3)
+
+  @@index([expiresAt])
+  @@index([status, startedAt])
+}
+
+/// Topic detected in one of OUR OWN reviews (never in third-party content).
+model ReviewTopicTag {
+  id            String             @id @default(cuid())
+  reviewId      String
+  /// Topic key, see modules/topics/topic.types.ts TOPIC_KEYS.
+  topic         String
+  statementType TopicStatementType
+  /// Literal sentence(s) of the review that triggered the tag (max 300 chars), for traceability.
+  evidence      String
+  /// Analyzer id + version, e.g. "rules-v1".
+  analyzer      String
+  createdAt     DateTime           @default(now())
+  review        Review             @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, topic, analyzer])
+  @@index([topic])
+}
+
+enum CompanyKind {
+  /// Wohnungsgesellschaft / Wohnungsunternehmen (privatwirtschaftlich)
+  HOUSING_COMPANY
+  /// Kommunale / oeffentliche Wohnungsgesellschaft
+  MUNICIPAL_HOUSING
+  /// Wohnungsgenossenschaft
+  COOPERATIVE
+  /// Hausverwaltung / Immobilienverwaltung
+  PROPERTY_MANAGER
+  /// Sonstiges Immobilienunternehmen
+  REAL_ESTATE_COMPANY
+  /// Privatvermieter — only ever created manually, never by automated discovery (personal data)
+  PRIVATE_LANDLORD
+  UNKNOWN
+}
+
+enum RecordStatus {
+  /// Public.
+  ACTIVE
+  /// Discovered but not public yet: possible duplicate or relevance unclear. Needs review.
+  CANDIDATE
+  /// Merged into another record (see mergedIntoId).
+  MERGED
+  /// Reviewed and rejected (not a landlord). Kept so it is not re-created.
+  REJECTED
+  /// Erased on request: row kept only as an anchor, all descriptive data blanked (see CompanyErasureService).
+  REMOVED
+}
+
+enum LandlordRelevance {
+  /// A source classifies it as a landlord-type business, or its registered name states it unambiguously.
+  CONFIRMED
+  /// Indirect evidence only (weak name keywords, broad industry class).
+  LIKELY
+  UNKNOWN
+}
+
+enum OperationalStatus {
+  OPERATING
+  /// Dissolved / inactive according to a source. Stays public (old reviews remain valid) with a label.
+  DISSOLVED
+  UNKNOWN
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  /// Backed by an official identifier (LEI or register number), or by two independent sources.
+  AUTO_VERIFIED
+  /// Confirmed by an admin.
+  MANUALLY_VERIFIED
+}
+
+enum AliasType {
+  LEGAL_NAME
+  BRAND
+  FORMER_NAME
+  SHORT_NAME
+  SPELLING
+}
+
+enum IdentifierScheme {
+  LEI
+  /// Community-maintained, not an official id: a strong signal only, never sufficient alone for an automatic match.
+  WIKIDATA
+  /// Handels-/Genossenschafts-/Vereins-/Partnerschaftsregister: XJustiz court code + register type + number
+  GERMAN_REGISTER
+}
+
+enum CompanyRelationType {
+  /// from is the DIRECT parent company of to (ultimate parents are not stored)
+  PARENT_OF
+  /// from manages properties on behalf of to
+  MANAGES_FOR
+  /// from is the legal successor of to
+  SUCCESSOR_OF
+}
+
+enum LocationType {
+  HEADQUARTERS
+  BRANCH
+}
+
+enum PropertyRole {
+  OWNER
+  LANDLORD
+  MANAGER
+}
+
+enum MatchStatus {
+  /// Unambiguously assigned (source statement that agrees with our data, or admin-confirmed).
+  CONFIRMED
+  /// Probably correct (stated by a source, not cross-checked); shown publicly only with a visible hint.
+  PROBABLE
+  /// Not sufficiently verified (e.g. derived without evidence); never shown publicly.
+  UNVERIFIED
+  /// Checked and found wrong; kept so it is not proposed again.
+  REJECTED
+}
+
+enum ExternalReferenceType {
+  PROFILE
+  DISCUSSION
+}
+
+enum MergeCandidateStatus {
+  PENDING
+  MERGED
+  DISTINCT
+}
+
+enum MappingReportKind {
+  WRONG_EXTERNAL_LINK
+  WRONG_COMPANY_DATA
+  DUPLICATE
+  WRONG_RELATION
+  REMOVAL_REQUEST
+  REVIEW_COMPLAINT
+  OTHER
+}
+
+enum MappingReportStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  DISMISSED
+}
+
+enum ReporterRole {
+  TENANT
+  COMPANY_REPRESENTATIVE
+  AFFECTED_PERSON
+  OTHER
+}
+
+enum JobStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  /// Dead letter: retries exhausted or non-retryable error. Can be re-queued manually.
+  DEAD
+  CANCELLED
+}
+
+enum DiscoveryQueryStatus {
+  PENDING
+  RUNNING
+  /// At least one landlord was added or matched and is public.
+  FOUND
+  /// Something was found but needs manual review before it becomes public.
+  NEEDS_REVIEW
+  NOT_FOUND
+  FAILED
+}
+
+enum TopicStatementType {
+  /// Subjective personal experience.
+  EXPERIENCE
+  /// Contains a concrete statement by the author (amounts, dates, durations) — not verified by WohnCheck.
+  FACT_CLAIM
+  /// Accusation by the author — not verified by WohnCheck.
+  ALLEGATION
 }

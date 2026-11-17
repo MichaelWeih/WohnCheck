@@ -1,6 +1,6 @@
 export default function DatenschutzPage() {
   return (
-    <div className="container py-10 max-w-2xl mx-auto">
+    <div className="container page-shell max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold text-foreground mb-6">Datenschutzerklärung</h1>
       <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
         <h2 className="text-lg font-semibold text-foreground">1. Verantwortlicher</h2>
