@@ -1,0 +1,528 @@
+.location-explorer {
+  padding-block: 2rem 3rem;
+}
+.location-heading {
+  margin-bottom: 1.5rem;
+}
+.location-heading > p:last-child {
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.75rem;
+}
+.location-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Address search */
+.location-address {
+  position: relative;
+  max-width: 800px;
+  z-index: 20;
+}
+.location-address > label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.location-address .search-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.location-address-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  background: white;
+  border: 1px solid hsl(var(--border));
+  width: 100%;
+  box-shadow: 0 8px 25px #182a4320;
+  border-radius: 8px;
+  max-height: 370px;
+  overflow: auto;
+}
+.location-address-results li {
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.location-address-results li[aria-selected="true"] {
+  background: #edf2f8;
+}
+.location-address-results small {
+  display: block;
+  color: #52637b;
+  margin-top: 0.3rem;
+}
+.location-address-results p {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  color: #52637b;
+}
+.location-address-results p:empty {
+  display: none;
+}
+.location-address-results > .text-link {
+  margin: 0 1rem 0.5rem;
+}
+.location-candidates {
+  max-width: 800px;
+  margin-top: 1.5rem;
+}
+.location-candidates h2 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+.location-candidates li + li {
+  margin-top: 0.5rem;
+}
+.location-candidates button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.875rem 1rem;
+  background: white;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.location-candidates button:hover {
+  background: #edf2f8;
+}
+.location-candidates small {
+  display: block;
+  color: #52637b;
+  margin-top: 0.3rem;
+}
+
+/* Address, radius, filters */
+.location-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-block: 1.75rem 1rem;
+}
+.location-toolbar h2 {
+  font-size: 1.125rem;
+  overflow-wrap: anywhere;
+}
+.location-accuracy {
+  font-size: 0.8125rem;
+  color: #52637b;
+  margin-top: 0.5rem;
+  max-width: 60ch;
+}
+.location-accuracy strong {
+  color: #8a4b00;
+}
+.location-radius {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+.location-explorer select {
+  background: white;
+  border: 1px solid hsl(var(--border));
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  max-width: 100%;
+}
+.location-category-buttons {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  scrollbar-width: thin;
+}
+.location-category-buttons button,
+.location-view-switch button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  min-height: 44px;
+  background: white;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+.location-category-buttons button[aria-pressed="false"] {
+  color: #52637b;
+}
+.location-category-buttons button[aria-pressed="false"] .location-dot {
+  opacity: 0.35;
+}
+.location-category-buttons button[aria-pressed="true"],
+.location-view-switch button[aria-pressed="true"] {
+  border-color: #2455a4;
+  background: #edf2f8;
+  color: #163e84;
+  font-weight: 600;
+}
+.location-subfilter-panel {
+  margin-block: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.location-subfilter-panel summary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+  padding-inline: 0.25rem;
+}
+.location-subfilter-panel summary::before {
+  content: "\25B8";
+  margin-right: 0.5rem;
+  transition: transform 0.15s;
+}
+.location-subfilter-panel[open] summary::before {
+  transform: rotate(90deg);
+}
+.location-subfilter-panel summary::-webkit-details-marker {
+  display: none;
+}
+.location-subfilter-panel > p {
+  color: #52637b;
+  margin-bottom: 0.75rem;
+}
+.location-subfilter-panel fieldset {
+  border-top: 1px solid hsl(var(--border));
+  padding-block: 0.5rem;
+}
+.location-subfilter-panel legend {
+  font-weight: 600;
+  padding-right: 0.5rem;
+}
+.location-subfilters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0 0.75rem;
+}
+.location-subfilters label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+}
+.location-subfilters input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.location-subfilters small {
+  color: #52637b;
+}
+
+/* Summary */
+.location-summary {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-block: 1px solid hsl(var(--border));
+  margin-bottom: 1.5rem;
+}
+.location-summary > div {
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.location-summary h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.location-summary strong {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.location-summary p,
+.location-summary dl {
+  font-size: 0.6875rem;
+  color: #52637b;
+}
+.location-summary dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.3rem;
+  margin-top: 0.2rem;
+}
+.location-summary dt::after {
+  content: ":";
+}
+.location-summary dd {
+  color: hsl(var(--foreground));
+}
+.location-summary [data-status="unavailable"] strong {
+  color: #52637b;
+}
+
+/* Status banners */
+.location-status {
+  padding: 1rem;
+  background: #edf2f8;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.location-status-error {
+  background: #fdf1f1;
+  border: 1px solid #e3b4b4;
+}
+.location-status ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.location-status button {
+  margin-top: 0.75rem;
+}
+.location-previous .location-summary {
+  opacity: 0.6;
+}
+.location-previous-label {
+  display: inline-block;
+  background: #182a43;
+  color: white;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Map and list */
+.location-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 1rem;
+  align-items: start;
+}
+.location-map-column {
+  min-width: 0;
+  position: relative;
+}
+.location-places-panel {
+  background: white;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 600px;
+  overflow: auto;
+}
+.location-list-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.location-list-heading p {
+  font-size: 0.75rem;
+  color: #52637b;
+}
+.location-list-group h3 {
+  position: sticky;
+  top: -1rem;
+  background: white;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.75rem 0.25rem 0.5rem;
+  border-bottom: 2px solid hsl(var(--border));
+}
+.location-list-group h3 span {
+  font-weight: 400;
+  color: #52637b;
+}
+.location-places-panel li {
+  border-bottom: 1px solid hsl(var(--border));
+}
+.location-places-panel li button {
+  display: flex;
+  width: 100%;
+  gap: 0.75rem;
+  text-align: left;
+  padding: 0.875rem 0.25rem;
+  border-radius: 4px;
+}
+.location-places-panel li button:hover {
+  background: #f5f8fc;
+}
+.location-places-panel li button[aria-pressed="true"] {
+  background: #edf2f8;
+  box-shadow: inset 3px 0 0 #2455a4;
+}
+.location-places-panel li .location-dot {
+  margin-top: 0.3rem;
+}
+.location-places-panel strong {
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+.location-places-panel small {
+  display: block;
+  font-size: 0.75rem;
+  color: #52637b;
+  margin-top: 0.3rem;
+}
+.location-places-panel .state-message {
+  padding-block: 1rem;
+}
+.location-places-panel .state-message button {
+  margin-top: 0.75rem;
+}
+.location-list-more {
+  padding-block: 1rem;
+  text-align: center;
+}
+.location-list-more p {
+  font-size: 0.75rem;
+  color: #52637b;
+  margin-bottom: 0.5rem;
+}
+.location-place-details {
+  padding: 1rem 1.25rem;
+  background: white;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-wrap: anywhere;
+  font-size: 0.875rem;
+}
+.location-place-details:focus-visible {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: -3px;
+}
+.location-place-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.location-place-heading h2 {
+  font-size: 1rem;
+}
+.location-place-heading button {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin: -0.5rem -0.75rem 0 0;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+}
+.location-place-heading button:hover {
+  background: #edf2f8;
+}
+.location-place-details > p,
+.location-place-details small,
+.location-place-details dt {
+  color: #52637b;
+}
+.location-place-details dl > div {
+  margin-top: 0.4rem;
+}
+.location-place-details dt {
+  font-size: 0.75rem;
+}
+.location-place-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+/* Below a placeholder (no consent, no WebGL) the details are a normal block. */
+.wc-map-wrap > .location-place-details {
+  margin-top: 0.75rem;
+}
+.location-attribution {
+  font-size: 0.75rem;
+  color: #52637b;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+.location-attribution a {
+  text-decoration: underline;
+}
+.location-view-switch {
+  display: none;
+}
+.location-explorer :is(button, select, summary, a, input):focus-visible {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+  .location-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .location-workspace {
+    grid-template-columns: minmax(0, 1fr) 290px;
+  }
+}
+@media (max-width: 767px) {
+  .location-explorer {
+    padding-top: 1.5rem;
+  }
+  .location-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  /* One swipeable row instead of seven stacked cards, so the map follows right after. */
+  .location-summary {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+  .location-summary > div {
+    flex: 0 0 46%;
+    scroll-snap-align: start;
+  }
+  .location-workspace {
+    display: block;
+  }
+  .location-view-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .location-view-switch button {
+    flex: 1;
+    justify-content: center;
+  }
+  .location-workspace.view-map .location-places-panel,
+  .location-workspace.view-list .location-map-column {
+    display: none;
+  }
+  /* Without a usable map both blocks stay visible: notice first, then the full list. */
+  .location-workspace.no-map .location-map-column {
+    margin-bottom: 1rem;
+  }
+  .location-places-panel {
+    max-height: none;
+  }
+  .location-list-group h3 {
+    position: static;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .location-explorer * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { ListingStatus, ReviewStatus, TargetType } from "@prisma/client";
+import { ListingStatus, ReviewStatus, TargetType, Prisma } from "@prisma/client";
 import { DataSourcesService } from "../data-sources/data-sources.service";
 import { PrismaService } from "../prisma/prisma.service";
+
+type DirectoryListing = Prisma.ListingGetPayload<{ include: { district: { include: { rentPrices: true } }; sourceProvider: { include: { qualityScore: true } } } }>;
 
 type RatingSummary = {
   ratingOverall: number | null;
@@ -338,7 +340,7 @@ export class DirectoryService {
     }
   }
 
-  private buildLandlordProfileFromListings(listings: any[]) {
+  private buildLandlordProfileFromListings(listings: DirectoryListing[]) {
     const activeListings = listings.filter((listing) => listing.status === ListingStatus.AVAILABLE);
     const prices = activeListings
       .map((listing) => listing.pricePerSqm ? Number(listing.pricePerSqm) : null)
@@ -364,7 +366,7 @@ export class DirectoryService {
     };
   }
 
-  private toLandlordListingCard(listing: any) {
+  private toLandlordListingCard(listing: DirectoryListing) {
     const districtMedian = listing.district?.rentPrices?.[0]?.valuePerSqm
       ? Number(listing.district.rentPrices[0].valuePerSqm)
       : null;

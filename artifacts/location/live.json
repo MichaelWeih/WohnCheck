@@ -1,0 +1,4229 @@
+{
+ "center": {
+  "latitude": 52.4384639,
+  "longitude": 13.3496772
+ },
+ "radius": 1000,
+ "places": [
+  {
+   "id": "osm:node:325951999",
+   "name": "Bruchwitzstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4381559,
+   "longitude": 13.3485491,
+   "distanceMeters": 84,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325951999"
+  },
+  {
+   "id": "osm:node:325952001",
+   "name": "Bruchwitzstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4376409,
+   "longitude": 13.3481667,
+   "distanceMeters": 137,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325952001"
+  },
+  {
+   "id": "osm:node:9653871480",
+   "name": "Tierarztpraxis Lankwitz",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "veterinary"
+   ],
+   "latitude": 52.4370703,
+   "longitude": 13.349587,
+   "distanceMeters": 155,
+   "address": "Bruchwitzstraße 30, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Tu,Th-Fr 10:00-13:00,15:00-18:00; We,Sa 09:00-12:00",
+   "website": "https://www.tierarztpraxis-lankwitz.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/9653871480"
+  },
+  {
+   "id": "osm:node:650358466",
+   "name": "Packstation 195",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.4395336,
+   "longitude": 13.3514609,
+   "distanceMeters": 170,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/650358466"
+  },
+  {
+   "id": "osm:node:325949564",
+   "name": "Edenkobener Weg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4398718,
+   "longitude": 13.3509412,
+   "distanceMeters": 178,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325949564"
+  },
+  {
+   "id": "osm:node:280543616",
+   "name": "ING",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "atm"
+   ],
+   "latitude": 52.4396293,
+   "longitude": 13.3515121,
+   "distanceMeters": 180,
+   "address": "Kaiser-Wilhelm-Straße 117, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/280543616"
+  },
+  {
+   "id": "osm:node:9264363463",
+   "name": "REWE To Go",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "convenience"
+   ],
+   "latitude": 52.4396254,
+   "longitude": 13.3516159,
+   "distanceMeters": 184,
+   "address": "Kaiser-Wilhelm-Straße 117, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-23:00; Sa,Su 06:00-23:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/9264363463"
+  },
+  {
+   "id": "osm:node:9264363464",
+   "name": "Aral",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "fuel"
+   ],
+   "latitude": 52.4396833,
+   "longitude": 13.3516616,
+   "distanceMeters": 191,
+   "address": "Kaiser-Wilhelm-Straße 117, 12247 Berlin, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/9264363464"
+  },
+  {
+   "id": "osm:node:14084310909",
+   "name": "Bäckerei",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4366823,
+   "longitude": 13.3502302,
+   "distanceMeters": 202,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-16:30; Sa,Su 07:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/14084310909"
+  },
+  {
+   "id": "osm:way:157655000",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4378088,
+   "longitude": 13.3525569,
+   "distanceMeters": 208,
+   "address": "Schulstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/157655000"
+  },
+  {
+   "id": "osm:way:1416127869",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4403454,
+   "longitude": 13.3497714,
+   "distanceMeters": 209,
+   "address": "Dürkheimer Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1416127869"
+  },
+  {
+   "id": "osm:node:9653902618",
+   "name": "Ma Maison",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4365933,
+   "longitude": 13.3504707,
+   "distanceMeters": 215,
+   "address": "Bruchwitzstraße 32, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-16:30; Sa-Su 07:00-13:00; PH 07:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/9653902618"
+  },
+  {
+   "id": "osm:way:87533889",
+   "name": "Alt-Lankwitzer Grundschule",
+   "categories": [
+    "education"
+   ],
+   "kinds": [
+    "school",
+    "primary"
+   ],
+   "latitude": 52.4372174,
+   "longitude": 13.3522308,
+   "distanceMeters": 222,
+   "address": "Schulstraße 17-21, 12247 Berlin, Deutschland",
+   "website": "http://www.alt-lankwitzer-grundschule.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/87533889"
+  },
+  {
+   "id": "osm:node:3980157314",
+   "name": "Melanchthonstraße/Bruchwitzstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4364381,
+   "longitude": 13.350218,
+   "distanceMeters": 228,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3980157314"
+  },
+  {
+   "id": "osm:way:696218794",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4394055,
+   "longitude": 13.3529487,
+   "distanceMeters": 245,
+   "address": "Alt-Lankwitz, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/696218794"
+  },
+  {
+   "id": "osm:node:325947798",
+   "name": "Langkofelweg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4388721,
+   "longitude": 13.3535998,
+   "distanceMeters": 270,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325947798"
+  },
+  {
+   "id": "osm:way:268584848",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4365768,
+   "longitude": 13.352193,
+   "distanceMeters": 270,
+   "address": "Mühlenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/268584848"
+  },
+  {
+   "id": "osm:way:37975301",
+   "name": "Stadtteilbibliothek Lankwitz",
+   "categories": [
+    "education"
+   ],
+   "kinds": [
+    "library"
+   ],
+   "latitude": 52.4360739,
+   "longitude": 13.350607,
+   "distanceMeters": 273,
+   "address": "Bruchwitzstraße 37, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,Th,Fr 12:00-18:00; We 11:00-16:00; Tu off",
+   "website": "https://www.berlin.de/stadtbibliothek-steglitz-zehlendorf/bibliotheken/stadtteilbibliothek-lankwitz",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/37975301"
+  },
+  {
+   "id": "osm:node:8883085433",
+   "name": "Ladepunkt",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.4405543,
+   "longitude": 13.3523961,
+   "distanceMeters": 297,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/8883085433"
+  },
+  {
+   "id": "osm:way:1458497912",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4401876,
+   "longitude": 13.3462422,
+   "distanceMeters": 302,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1458497912"
+  },
+  {
+   "id": "osm:node:5713919935",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4402383,
+   "longitude": 13.3462491,
+   "distanceMeters": 305,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/5713919935"
+  },
+  {
+   "id": "osm:node:325880591",
+   "name": "Lankwitz Kirche",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4365551,
+   "longitude": 13.346421,
+   "distanceMeters": 306,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325880591"
+  },
+  {
+   "id": "osm:way:682421840",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4400239,
+   "longitude": 13.3458714,
+   "distanceMeters": 311,
+   "address": "Bernkastler Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/682421840"
+  },
+  {
+   "id": "osm:node:913964735",
+   "name": "Vand Garden",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4367248,
+   "longitude": 13.3460367,
+   "distanceMeters": 314,
+   "address": "Kaiser-Wilhelm-Straße 82, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 11:30-22:00; Sa,Su 12:00-22:30",
+   "website": "https://vandgarden.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/913964735"
+  },
+  {
+   "id": "osm:node:280296894",
+   "name": "Thalia Apotheke",
+   "categories": [
+    "health",
+    "shopping"
+   ],
+   "kinds": [
+    "pharmacy"
+   ],
+   "latitude": 52.4364093,
+   "longitude": 13.3464079,
+   "distanceMeters": 318,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 08:30-18:30; Sa 08:30-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/280296894"
+  },
+  {
+   "id": "osm:node:739939511",
+   "name": "Alpen-Eis",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "cafe"
+   ],
+   "latitude": 52.436338,
+   "longitude": 13.3465325,
+   "distanceMeters": 318,
+   "address": "Schulstraße 1, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Su 09:00-21:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/739939511"
+  },
+  {
+   "id": "osm:way:30435780",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4387241,
+   "longitude": 13.3544406,
+   "distanceMeters": 324,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30435780"
+  },
+  {
+   "id": "osm:node:2354523816",
+   "name": "Andre Baumgartner",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4370295,
+   "longitude": 13.3454693,
+   "distanceMeters": 327,
+   "address": "Leonorenstraße 95, 12247 Berlin, Deutschland",
+   "openingHours": "\"Andere Termine nach  telefonischer Absprache\"",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2354523816"
+  },
+  {
+   "id": "osm:way:686908076",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4404217,
+   "longitude": 13.3460468,
+   "distanceMeters": 329,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/686908076"
+  },
+  {
+   "id": "osm:node:10032352477",
+   "name": "Nazita Rosefid - Vojoud",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor",
+    "general"
+   ],
+   "latitude": 52.4374587,
+   "longitude": 13.3450885,
+   "distanceMeters": 331,
+   "address": "Leonorenstraße 89, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Tu,Th 08:00-12:00,15:00-18:00; We,Fr 08:00-12:00",
+   "website": "http://praxis-rosefid.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352477"
+  },
+  {
+   "id": "osm:node:992805862",
+   "name": "Flora-Apotheke",
+   "categories": [
+    "health",
+    "shopping"
+   ],
+   "kinds": [
+    "pharmacy"
+   ],
+   "latitude": 52.4372593,
+   "longitude": 13.3451962,
+   "distanceMeters": 332,
+   "address": "Leonorenstraße 91, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,Tu,Th 08:30-18:30; We,Fr 08:30-18:00; Sa 08:30-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992805862"
+  },
+  {
+   "id": "osm:node:10032352484",
+   "name": "Dr. med. Yvonne Weischer",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4369048,
+   "longitude": 13.3455025,
+   "distanceMeters": 332,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Tu,We,Fr 09:00-12:00; Mo 09:00-12:00,13:00-17:00; Th 09:00-12:00,15:00-19:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352484"
+  },
+  {
+   "id": "osm:node:10032352485",
+   "name": "Kirsten Wallner",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4369297,
+   "longitude": 13.3454744,
+   "distanceMeters": 332,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "\"Termine nach Vereinbarung\"",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352485"
+  },
+  {
+   "id": "osm:node:10032352476",
+   "name": "Lidija Dejanović",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "dentist"
+   ],
+   "latitude": 52.4374635,
+   "longitude": 13.3450602,
+   "distanceMeters": 332,
+   "address": "Leonorenstraße 89, 12247 Berlin, Deutschland",
+   "openingHours": "\"Termine nur nach Vereinbarung\"",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352476"
+  },
+  {
+   "id": "osm:node:10032352482",
+   "name": "Dr. med. A. Bohlmann Dr. med. M. Nawabian",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor",
+    "general"
+   ],
+   "latitude": 52.4369817,
+   "longitude": 13.3453716,
+   "distanceMeters": 335,
+   "address": "Leonorenstraße 95, 12247 Berlin, Deutschland",
+   "openingHours": "\"Voranmeldung erbeten\"",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352482"
+  },
+  {
+   "id": "osm:way:1028647296",
+   "name": "Alnatura Super Natur Markt",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.4367134,
+   "longitude": 13.3456444,
+   "distanceMeters": 336,
+   "address": "Leonorenstraße 99, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 08:00-20:00",
+   "website": "https://www.alnatura.de/de-de/maerkte/marktseiten/berlin/berlin-alnatura-super-natur-markt-b211/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1028647296"
+  },
+  {
+   "id": "osm:node:10032352483",
+   "name": "Dr. med. Sabine Jung",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4369547,
+   "longitude": 13.3453781,
+   "distanceMeters": 336,
+   "address": "Leonorenstraße 95, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:00-12:00; Mo-Tu,Th 16:00-18:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10032352483"
+  },
+  {
+   "id": "osm:node:2098293791",
+   "name": "Thoben´s",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4360163,
+   "longitude": 13.346683,
+   "distanceMeters": 340,
+   "address": "Paul-Schneider-Straße 3, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-18:00; Sa 06:00-14:00; Su,PH off",
+   "website": "http://www.thobens-backwaren.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2098293791"
+  },
+  {
+   "id": "osm:node:990855440",
+   "name": "MC Curry",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4359841,
+   "longitude": 13.3467415,
+   "distanceMeters": 340,
+   "address": "Paul-Schneider-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Su 08:00-24:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/990855440"
+  },
+  {
+   "id": "osm:node:10075820107",
+   "name": "Bistro-Lieferservice",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4358981,
+   "longitude": 13.346919,
+   "distanceMeters": 341,
+   "address": "Paul-Schneider-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Tu-Su 11:00-21:00; Mo off",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10075820107"
+  },
+  {
+   "id": "osm:way:49115943",
+   "name": "Bernkastler Platz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.440204,
+   "longitude": 13.3455261,
+   "distanceMeters": 341,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/49115943"
+  },
+  {
+   "id": "osm:node:325716040",
+   "name": "Lankwitz Kirche",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.436752,
+   "longitude": 13.3454295,
+   "distanceMeters": 345,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325716040"
+  },
+  {
+   "id": "osm:node:6447159192",
+   "name": "TAS Gemüse Kebap",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4365848,
+   "longitude": 13.3456339,
+   "distanceMeters": 345,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/6447159192"
+  },
+  {
+   "id": "osm:node:325716024",
+   "name": "Lankwitz Kirche",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4360135,
+   "longitude": 13.3464331,
+   "distanceMeters": 350,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325716024"
+  },
+  {
+   "id": "osm:node:10315814663",
+   "name": "Packstation 576",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.4407392,
+   "longitude": 13.3532673,
+   "distanceMeters": 351,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10315814663"
+  },
+  {
+   "id": "osm:node:1964964493",
+   "name": "Kiosk bei Ela-Ma",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "convenience"
+   ],
+   "latitude": 52.4384165,
+   "longitude": 13.3444056,
+   "distanceMeters": 357,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1964964493"
+  },
+  {
+   "id": "osm:node:992805900",
+   "name": "Kings Döner",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.437068,
+   "longitude": 13.3448426,
+   "distanceMeters": 363,
+   "address": "Leonorenstraße 94, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Su 09:00-23:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992805900"
+  },
+  {
+   "id": "osm:node:5817249360",
+   "name": "Can Market",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.437286,
+   "longitude": 13.3446695,
+   "distanceMeters": 364,
+   "address": "Leonorenstraße 92, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 08:00-20:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/5817249360"
+  },
+  {
+   "id": "osm:node:325716047",
+   "name": "S Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4383731,
+   "longitude": 13.3442892,
+   "distanceMeters": 365,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325716047"
+  },
+  {
+   "id": "osm:node:3633914512",
+   "name": "EuroShop",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.4370167,
+   "longitude": 13.3448413,
+   "distanceMeters": 365,
+   "address": "Leonorenstraße 96, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:30-19:00; Sa 09:30-17:00; PH off",
+   "website": "https://euroshop-online.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3633914512"
+  },
+  {
+   "id": "osm:node:992806032",
+   "name": "Asia Imbiss",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4368693,
+   "longitude": 13.3449523,
+   "distanceMeters": 366,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 10:00-21:00; Su,PH 11:00-21:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992806032"
+  },
+  {
+   "id": "osm:node:9653871481",
+   "name": "Dr. med. Andreas Wagenitz",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4369036,
+   "longitude": 13.3449015,
+   "distanceMeters": 367,
+   "address": "Leonorenstraße 96 98, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,Th 09:00-12:00,15:00-18:00; Tu 09:00-12:00,15:00-17:00; Fr 09:00-11:00; We open \"nach Vereinbarung.\"",
+   "website": "https://www.xn--wagenitz-orthopdie-ztb.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/9653871481"
+  },
+  {
+   "id": "osm:node:3633912245",
+   "name": "Steinecke",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4386516,
+   "longitude": 13.3442516,
+   "distanceMeters": 368,
+   "address": "Leonorenstraße 73, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:30-18:00; Sa,Su 07:00-16:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3633912245"
+  },
+  {
+   "id": "osm:node:1308915472",
+   "name": "Rossmann",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "drugstore"
+   ],
+   "latitude": 52.4367733,
+   "longitude": 13.3449948,
+   "distanceMeters": 369,
+   "address": "Leonorenstraße 98, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 08:00-20:00; PH off; Su off",
+   "website": "https://www.rossmann.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1308915472"
+  },
+  {
+   "id": "osm:node:4450654155",
+   "name": "Dreams Bäckerei",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4366208,
+   "longitude": 13.3451245,
+   "distanceMeters": 370,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 05:00-20:00; Sa,Su 06:00-18:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4450654155"
+  },
+  {
+   "id": "osm:node:2414640697",
+   "name": "Berliner Volksbank",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "atm"
+   ],
+   "latitude": 52.4386008,
+   "longitude": 13.3442251,
+   "distanceMeters": 370,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2414640697"
+  },
+  {
+   "id": "osm:way:25593749",
+   "name": "Lidl",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.4410371,
+   "longitude": 13.3531909,
+   "distanceMeters": 372,
+   "address": "Kaiser-Wilhelm-Straße 127, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 07:00-21:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/25593749"
+  },
+  {
+   "id": "osm:node:992805974",
+   "name": "Malibu",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "cafe"
+   ],
+   "latitude": 52.4388235,
+   "longitude": 13.3441377,
+   "distanceMeters": 378,
+   "address": "Leonorenstraße 71a, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 08:00-19:00; Sa,Su 09:00-19:00",
+   "website": "https://www.malibu-eiscafe.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992805974"
+  },
+  {
+   "id": "osm:way:76379908",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4412054,
+   "longitude": 13.346335,
+   "distanceMeters": 380,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/76379908"
+  },
+  {
+   "id": "osm:node:1901739475",
+   "name": "dm",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "drugstore"
+   ],
+   "latitude": 52.4362721,
+   "longitude": 13.3453235,
+   "distanceMeters": 383,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 08:00-20:00; PH off",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1901739475"
+  },
+  {
+   "id": "osm:node:14084251306",
+   "name": "Zum Schusterjungen",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "bar"
+   ],
+   "latitude": 52.4350439,
+   "longitude": 13.3489137,
+   "distanceMeters": 384,
+   "address": "Melanchthonstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 15:00-24:00; Sa,Su,PH 12:00-24:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/14084251306"
+  },
+  {
+   "id": "osm:node:334137522",
+   "name": "La Montanara",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4390321,
+   "longitude": 13.3440299,
+   "distanceMeters": 388,
+   "address": "Leonorenstraße 67, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Su 12:00-24:00",
+   "website": "http://www.montanara.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/334137522"
+  },
+  {
+   "id": "osm:node:11551897397",
+   "name": "Post",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "post"
+   ],
+   "latitude": 52.4391828,
+   "longitude": 13.3440554,
+   "distanceMeters": 389,
+   "address": "Bernkastler Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo 08:00-12:00,13:00-16:00; Tu-Fr 08:00-12:00,13:00-18:00; Sa 08:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11551897397"
+  },
+  {
+   "id": "osm:way:45894699",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.435643,
+   "longitude": 13.3461062,
+   "distanceMeters": 396,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/45894699"
+  },
+  {
+   "id": "osm:way:233129441",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4378123,
+   "longitude": 13.3438819,
+   "distanceMeters": 399,
+   "address": "Charlottenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/233129441"
+  },
+  {
+   "id": "osm:node:10914516040",
+   "name": "Ladepunkt",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.4392664,
+   "longitude": 13.3439319,
+   "distanceMeters": 400,
+   "address": "Bernkastler Straße, 12247 Berlin, Deutschland",
+   "openingHours": "24/7",
+   "website": "https://chrg.me/vYPrmb",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10914516040"
+  },
+  {
+   "id": "osm:node:325716061",
+   "name": "S Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4387429,
+   "longitude": 13.3437293,
+   "distanceMeters": 404,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325716061"
+  },
+  {
+   "id": "osm:way:25151313",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4377063,
+   "longitude": 13.3435846,
+   "distanceMeters": 422,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/25151313"
+  },
+  {
+   "id": "osm:node:1575213617",
+   "name": "Wochenmarkt Rathaus Lankwitz, Leonorenstraße",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "market"
+   ],
+   "latitude": 52.4387174,
+   "longitude": 13.343433,
+   "distanceMeters": 424,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,Fr 08:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1575213617"
+  },
+  {
+   "id": "osm:node:3633921029",
+   "name": "Döner Box",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4360093,
+   "longitude": 13.3448806,
+   "distanceMeters": 425,
+   "address": "Kaiser-Wilhelm-Straße 76-78, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:00-02:00, Sa-Su 09:00-03:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3633921029"
+  },
+  {
+   "id": "osm:node:325880600",
+   "name": "Lankwitz Kirche",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4359294,
+   "longitude": 13.3449374,
+   "distanceMeters": 427,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325880600"
+  },
+  {
+   "id": "osm:node:3633921030",
+   "name": "Wiedemann",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4359217,
+   "longitude": 13.3447062,
+   "distanceMeters": 440,
+   "address": "Kaiser-Wilhelm-Straße 74, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:30-18:00; Sa 06:30-14:00; Su 08:00-12:00",
+   "website": "https://baecker-wiedemann.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3633921030"
+  },
+  {
+   "id": "osm:node:690544058",
+   "name": "Sirtaki Taverna",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4418343,
+   "longitude": 13.3531359,
+   "distanceMeters": 442,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 15:00-23:00; Su,PH 12:00-22:00",
+   "website": "http://www.taverna-sirtaki.com/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/690544058"
+  },
+  {
+   "id": "osm:node:325721085",
+   "name": "Paul-Schneider-Straße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4344653,
+   "longitude": 13.3496982,
+   "distanceMeters": 445,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325721085"
+  },
+  {
+   "id": "osm:node:593781955",
+   "name": "Sparkasse",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "atm"
+   ],
+   "latitude": 52.4358585,
+   "longitude": 13.3446196,
+   "distanceMeters": 449,
+   "address": "Kaiser-Wilhelm-Straße 74, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/593781955"
+  },
+  {
+   "id": "osm:node:621476957",
+   "name": "S Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4387693,
+   "longitude": 13.3429419,
+   "distanceMeters": 458,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/621476957"
+  },
+  {
+   "id": "osm:way:326747444",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4413015,
+   "longitude": 13.3447449,
+   "distanceMeters": 460,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747444"
+  },
+  {
+   "id": "osm:way:326747440",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4410556,
+   "longitude": 13.3443872,
+   "distanceMeters": 460,
+   "address": "Bernkastler Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747440"
+  },
+  {
+   "id": "osm:way:326747449",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4415472,
+   "longitude": 13.345102,
+   "distanceMeters": 462,
+   "address": "Bruchwitzstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747449"
+  },
+  {
+   "id": "osm:way:28690641",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4408122,
+   "longitude": 13.3440306,
+   "distanceMeters": 463,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/28690641"
+  },
+  {
+   "id": "osm:node:2098290149",
+   "name": "Cafe Sammeltasse",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "cafe"
+   ],
+   "latitude": 52.4354681,
+   "longitude": 13.3447856,
+   "distanceMeters": 470,
+   "address": "Kaiser-Wilhelm-Straße 75, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:00-13:00,15:00-18:00; Sa,Su 15:00-18:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2098290149"
+  },
+  {
+   "id": "osm:way:1308579056",
+   "name": "Kita Dreifaltigkeit Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4352877,
+   "longitude": 13.3450447,
+   "distanceMeters": 473,
+   "address": "Gallwitzallee, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1308579056"
+  },
+  {
+   "id": "osm:way:1310425438",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4419301,
+   "longitude": 13.3455419,
+   "distanceMeters": 477,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1310425438"
+  },
+  {
+   "id": "osm:way:1308578087",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4341511,
+   "longitude": 13.3487662,
+   "distanceMeters": 484,
+   "address": "Kameradenweg, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1308578087"
+  },
+  {
+   "id": "osm:way:143532045",
+   "name": "TK Blau-Gold Steglitz e.V.",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4414954,
+   "longitude": 13.3444901,
+   "distanceMeters": 487,
+   "address": "Leonorenstraße 37-39, 12247 Berlin, Deutschland",
+   "website": "https://www.blau-gold-steglitz.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/143532045"
+  },
+  {
+   "id": "osm:node:492145802",
+   "name": "Hong Kong Canteen",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4397858,
+   "longitude": 13.3427571,
+   "distanceMeters": 492,
+   "address": "Leonorenstraße 60, 12247 Berlin, Deutschland",
+   "openingHours": "We-Mo 12:00-22:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/492145802"
+  },
+  {
+   "id": "osm:node:325721089",
+   "name": "Paul-Schneider-Straße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4340106,
+   "longitude": 13.350487,
+   "distanceMeters": 498,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325721089"
+  },
+  {
+   "id": "osm:way:326747442",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4413274,
+   "longitude": 13.3440242,
+   "distanceMeters": 498,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747442"
+  },
+  {
+   "id": "osm:way:326747451",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4411706,
+   "longitude": 13.3438169,
+   "distanceMeters": 498,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747451"
+  },
+  {
+   "id": "osm:way:326747437",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4414865,
+   "longitude": 13.3442352,
+   "distanceMeters": 499,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747437"
+  },
+  {
+   "id": "osm:way:148086368",
+   "name": "Thalia Kino",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "cinema"
+   ],
+   "latitude": 52.4350178,
+   "longitude": 13.3449529,
+   "distanceMeters": 499,
+   "address": "Kaiser-Wilhelm-Straße 71a, 12247 Berlin, Deutschland",
+   "website": "https://www.thalia-berlin.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/148086368"
+  },
+  {
+   "id": "osm:node:12130983141",
+   "name": "Big Point",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4422499,
+   "longitude": 13.3455789,
+   "distanceMeters": 504,
+   "address": "Leonorenstraße 37, 12247 Berlin, Deutschland",
+   "website": "https://restaurant-bigpoint.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12130983141"
+  },
+  {
+   "id": "osm:way:326747438",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4419652,
+   "longitude": 13.3448983,
+   "distanceMeters": 506,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747438"
+  },
+  {
+   "id": "osm:node:1575198051",
+   "name": "Bereket Market",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.4354626,
+   "longitude": 13.3440301,
+   "distanceMeters": 508,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "website": "https://www.bereket.market/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1575198051"
+  },
+  {
+   "id": "osm:node:11551897401",
+   "name": "Köfteci Niyazi Efendi",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4400656,
+   "longitude": 13.3426659,
+   "distanceMeters": 508,
+   "address": "Leonorenstraße 60, 12247 Berlin, Deutschland",
+   "website": "https://www.koefteci-niyazi-efendi.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11551897401"
+  },
+  {
+   "id": "osm:way:326747447",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4411092,
+   "longitude": 13.3435677,
+   "distanceMeters": 508,
+   "address": "Leonorenstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747447"
+  },
+  {
+   "id": "osm:way:326747445",
+   "name": "Center Court",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4421296,
+   "longitude": 13.3451827,
+   "distanceMeters": 509,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747445"
+  },
+  {
+   "id": "osm:way:326747459",
+   "name": "BURGER EINS",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4392029,
+   "longitude": 13.3422489,
+   "distanceMeters": 510,
+   "address": "Kaulbachstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747459"
+  },
+  {
+   "id": "osm:way:326747443",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4418968,
+   "longitude": 13.3446224,
+   "distanceMeters": 513,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747443"
+  },
+  {
+   "id": "osm:node:325943724",
+   "name": "Wunsiedeler Weg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4375963,
+   "longitude": 13.3571588,
+   "distanceMeters": 516,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325943724"
+  },
+  {
+   "id": "osm:way:1121766457",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.438289,
+   "longitude": 13.3420769,
+   "distanceMeters": 516,
+   "address": "Zugang Bahngleis für Rollstuhl, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1121766457"
+  },
+  {
+   "id": "osm:node:992806038",
+   "name": "Döneria",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4354068,
+   "longitude": 13.343927,
+   "distanceMeters": 517,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992806038"
+  },
+  {
+   "id": "osm:node:334137883",
+   "name": "Zoki's",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4396315,
+   "longitude": 13.3422947,
+   "distanceMeters": 517,
+   "address": "Kaulbachstraße, 12247 Berlin, Deutschland",
+   "openingHours": "PH,Mo-Su 09:30-23:00+",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/334137883"
+  },
+  {
+   "id": "osm:way:326747446",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4418291,
+   "longitude": 13.3443464,
+   "distanceMeters": 520,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/326747446"
+  },
+  {
+   "id": "osm:way:379941597",
+   "name": "Peter-Frankenfeld-Schule",
+   "categories": [
+    "education"
+   ],
+   "kinds": [
+    "school"
+   ],
+   "latitude": 52.4349726,
+   "longitude": 13.3548417,
+   "distanceMeters": 523,
+   "address": "Wedellstraße 26, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/379941597"
+  },
+  {
+   "id": "osm:node:4947141263",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4427067,
+   "longitude": 13.3531123,
+   "distanceMeters": 526,
+   "address": "Frankentaler Ufer, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4947141263"
+  },
+  {
+   "id": "osm:way:1458552384",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4379247,
+   "longitude": 13.3419704,
+   "distanceMeters": 526,
+   "address": "Zugang Bahngleis für Rollstuhl, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1458552384"
+  },
+  {
+   "id": "osm:node:325710543",
+   "name": "Kameradenweg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4342319,
+   "longitude": 13.3460626,
+   "distanceMeters": 531,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325710543"
+  },
+  {
+   "id": "osm:node:4450654153",
+   "name": "Käffchen",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4391689,
+   "longitude": 13.3419123,
+   "distanceMeters": 532,
+   "address": "Kaulbachstraße 71, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,Tu off; We-Fr 07:30-15:00; Sa,Su 07:30-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4450654153"
+  },
+  {
+   "id": "osm:node:4947141264",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4427108,
+   "longitude": 13.353284,
+   "distanceMeters": 532,
+   "address": "Frankentaler Ufer, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4947141264"
+  },
+  {
+   "id": "osm:node:593781884",
+   "name": "Lankwitz-Apotheke",
+   "categories": [
+    "health",
+    "shopping"
+   ],
+   "kinds": [
+    "pharmacy"
+   ],
+   "latitude": 52.4352813,
+   "longitude": 13.3437222,
+   "distanceMeters": 537,
+   "address": "Kaiser-Wilhelm-Straße 68, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 08:30-18:30; Sa 08:30-13:30",
+   "website": "https://www.lankwitz-apotheke-berlin.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/593781884"
+  },
+  {
+   "id": "osm:way:27012752",
+   "name": "Eisbahn Lankwitz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4426399,
+   "longitude": 13.3454986,
+   "distanceMeters": 544,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/27012752"
+  },
+  {
+   "id": "osm:way:37982902",
+   "name": "Tennishalle",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4421861,
+   "longitude": 13.3444086,
+   "distanceMeters": 547,
+   "address": "Leonorenstraße 37-39, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/37982902"
+  },
+  {
+   "id": "osm:way:1216924916",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4335339,
+   "longitude": 13.3503485,
+   "distanceMeters": 550,
+   "address": "Paul-Schneider-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1216924916"
+  },
+  {
+   "id": "osm:way:722669571",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4337268,
+   "longitude": 13.3524013,
+   "distanceMeters": 558,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/722669571"
+  },
+  {
+   "id": "osm:node:325710542",
+   "name": "Kameradenweg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4338832,
+   "longitude": 13.3462011,
+   "distanceMeters": 561,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325710542"
+  },
+  {
+   "id": "osm:node:325943731",
+   "name": "Wunsiedeler Weg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4374973,
+   "longitude": 13.3578524,
+   "distanceMeters": 564,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325943731"
+  },
+  {
+   "id": "osm:node:2021499019",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4376732,
+   "longitude": 13.3578891,
+   "distanceMeters": 564,
+   "address": "Alt-Lankwitz, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2021499019"
+  },
+  {
+   "id": "osm:way:46431050",
+   "name": "Edeka",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.435173,
+   "longitude": 13.343267,
+   "distanceMeters": 568,
+   "address": "Kaiser-Wilhelm-Straße 64, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 07:00-21:00",
+   "website": "https://www.edeka.de/eh/minden-hannover/edeka-hadersbeck-kaiser-wilhelm-str.-64/index.jsp",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/46431050"
+  },
+  {
+   "id": "osm:way:1163431661",
+   "name": "Stadtbad Lankwitz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4419059,
+   "longitude": 13.3434704,
+   "distanceMeters": 569,
+   "address": "Leonorenstraße 39, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 08:00-22:00; Sa,Su 09:00-22:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1163431661"
+  },
+  {
+   "id": "osm:relation:11781129",
+   "name": "Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "suburban"
+   ],
+   "latitude": 52.4382632,
+   "longitude": 13.3412685,
+   "distanceMeters": 570,
+   "address": "12247 Berlin, Deutschland",
+   "stationRef": "de:11000:900067221",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/11781129"
+  },
+  {
+   "id": "osm:way:1216924896",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4333594,
+   "longitude": 13.3503882,
+   "distanceMeters": 570,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1216924896"
+  },
+  {
+   "id": "osm:node:12163449471",
+   "name": "Zahnarztpraxis Lankwitz Dr. Roman Blühdorn",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "dentist"
+   ],
+   "latitude": 52.4390162,
+   "longitude": 13.341284,
+   "distanceMeters": 572,
+   "address": "Kaulbachstraße 67A, 12247 Berlin, Deutschland",
+   "openingHours": "Sprechzeiten nach Vereinbarung",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12163449471"
+  },
+  {
+   "id": "osm:way:1216924913",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4333309,
+   "longitude": 13.3503537,
+   "distanceMeters": 573,
+   "address": "Paul-Schneider-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1216924913"
+  },
+  {
+   "id": "osm:way:1216924915",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4332294,
+   "longitude": 13.3499956,
+   "distanceMeters": 582,
+   "address": "Mühlenstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1216924915"
+  },
+  {
+   "id": "osm:way:189563643",
+   "name": "Lanke-Aue",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4385245,
+   "longitude": 13.3583237,
+   "distanceMeters": 586,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/189563643"
+  },
+  {
+   "id": "osm:way:618566759",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4367595,
+   "longitude": 13.3578727,
+   "distanceMeters": 587,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/618566759"
+  },
+  {
+   "id": "osm:way:37982900",
+   "name": "TuS Lichterfelde Hockey e.V.",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4432975,
+   "longitude": 13.346016,
+   "distanceMeters": 592,
+   "address": "Edenkobener Weg, 12247 Berlin, Deutschland",
+   "website": "https://tuslihockey.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/37982900"
+  },
+  {
+   "id": "osm:way:1217039410",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4358321,
+   "longitude": 13.3573079,
+   "distanceMeters": 594,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1217039410"
+  },
+  {
+   "id": "osm:way:27012846",
+   "name": "TuSLi Hockey",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4433239,
+   "longitude": 13.3459869,
+   "distanceMeters": 595,
+   "address": "Edenkobener Weg, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/27012846"
+  },
+  {
+   "id": "osm:way:30144310",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4436991,
+   "longitude": 13.3518395,
+   "distanceMeters": 600,
+   "address": "Steglitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30144310"
+  },
+  {
+   "id": "osm:node:3612041573",
+   "name": "Postbank",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "bank"
+   ],
+   "latitude": 52.4348658,
+   "longitude": 13.3428843,
+   "distanceMeters": 610,
+   "address": "Kaiser-Wilhelm-Straße 60-62, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:30-18:00",
+   "website": "https://www.postbank.de/privatkunden/services/filiale/ost/berlin-sued/berlin-lankwitz.html",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3612041573"
+  },
+  {
+   "id": "osm:node:325923263",
+   "name": "Malteserstraße/Kamenzer Damm",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4335702,
+   "longitude": 13.354193,
+   "distanceMeters": 624,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325923263"
+  },
+  {
+   "id": "osm:node:325923268",
+   "name": "Malteserstraße/Kamenzer Damm",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4333859,
+   "longitude": 13.3537802,
+   "distanceMeters": 629,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325923268"
+  },
+  {
+   "id": "osm:node:11787459476",
+   "name": "Poststation 705",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.43475,
+   "longitude": 13.3426645,
+   "distanceMeters": 630,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 09:30-18:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11787459476"
+  },
+  {
+   "id": "osm:node:11460068225",
+   "name": "ubitricity",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.434857,
+   "longitude": 13.3422543,
+   "distanceMeters": 643,
+   "address": "Dillgesstraße, 12247 Berlin, Deutschland",
+   "website": "https://charge.ubitricity.com/DE*UBI*E10043023",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11460068225"
+  },
+  {
+   "id": "osm:node:11460068226",
+   "name": "ubitricity",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.435021,
+   "longitude": 13.3420121,
+   "distanceMeters": 645,
+   "address": "Dillgesstraße, 12247 Berlin, Deutschland",
+   "website": "https://charge.ubitricity.com/DE*UBI*E10037515",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11460068226"
+  },
+  {
+   "id": "osm:node:5570450042",
+   "name": "Gemüse Kebap",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4347273,
+   "longitude": 13.3423634,
+   "distanceMeters": 647,
+   "address": "Dillgesstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/5570450042"
+  },
+  {
+   "id": "osm:node:325721092",
+   "name": "Malteserstraße/Kamenzer Damm",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4329848,
+   "longitude": 13.3529536,
+   "distanceMeters": 648,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325721092"
+  },
+  {
+   "id": "osm:node:11688222528",
+   "name": "Kaiser Wilhelm Str 60-62, 12247",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "post"
+   ],
+   "latitude": 52.4345942,
+   "longitude": 13.3424659,
+   "distanceMeters": 651,
+   "address": "Dillgesstraße, 12247 Berlin, Deutschland",
+   "openingHours": "Tu-Fr 09:00-13:00,14:00-18:00; Mo 09:00-18:00; Sa 09:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11688222528"
+  },
+  {
+   "id": "osm:node:360682702",
+   "name": "Stadtbad Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4419032,
+   "longitude": 13.341886,
+   "distanceMeters": 652,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/360682702"
+  },
+  {
+   "id": "osm:way:1163431666",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4423508,
+   "longitude": 13.3421038,
+   "distanceMeters": 671,
+   "address": "In den Leonorengärten, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1163431666"
+  },
+  {
+   "id": "osm:node:14084378411",
+   "name": "Ladepunkt",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.435167,
+   "longitude": 13.3413459,
+   "distanceMeters": 673,
+   "address": "Dillgesstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/14084378411"
+  },
+  {
+   "id": "osm:node:325954736",
+   "name": "Dillgesstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4343047,
+   "longitude": 13.3420948,
+   "distanceMeters": 691,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325954736"
+  },
+  {
+   "id": "osm:way:570394795",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4349909,
+   "longitude": 13.3411396,
+   "distanceMeters": 696,
+   "address": "Elisabethstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/570394795"
+  },
+  {
+   "id": "osm:node:360682706",
+   "name": "Stadtbad Lankwitz",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4422285,
+   "longitude": 13.3414121,
+   "distanceMeters": 699,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/360682706"
+  },
+  {
+   "id": "osm:way:27564527",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4346824,
+   "longitude": 13.3414098,
+   "distanceMeters": 701,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/27564527"
+  },
+  {
+   "id": "osm:way:570394794",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4348601,
+   "longitude": 13.3409831,
+   "distanceMeters": 713,
+   "address": "Elisabethstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/570394794"
+  },
+  {
+   "id": "osm:node:325708862",
+   "name": "Havensteinstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4322757,
+   "longitude": 13.3464179,
+   "distanceMeters": 723,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325708862"
+  },
+  {
+   "id": "osm:node:336516022",
+   "name": "Malteserstraße/Kamenzer Damm",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4324115,
+   "longitude": 13.3535771,
+   "distanceMeters": 723,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/336516022"
+  },
+  {
+   "id": "osm:way:31762802",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4379672,
+   "longitude": 13.3390073,
+   "distanceMeters": 725,
+   "address": "Nicolaistraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/31762802"
+  },
+  {
+   "id": "osm:relation:20335480",
+   "name": "Preussenstadion",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4326895,
+   "longitude": 13.3546663,
+   "distanceMeters": 726,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/20335480"
+  },
+  {
+   "id": "osm:way:1166224211",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4352314,
+   "longitude": 13.3590314,
+   "distanceMeters": 729,
+   "address": "Wedellstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1166224211"
+  },
+  {
+   "id": "osm:node:13739795318",
+   "name": "Dr. Peter Bergmann",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "dentist"
+   ],
+   "latitude": 52.4338726,
+   "longitude": 13.341977,
+   "distanceMeters": 730,
+   "address": "Kaiser-Wilhelm-Straße 55, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/13739795318"
+  },
+  {
+   "id": "osm:node:3916161820",
+   "name": "Preussen-Casino",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4324073,
+   "longitude": 13.3538507,
+   "distanceMeters": 730,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "openingHours": "Tu-Th 16:00-22:00; Fr 18:00-20:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/3916161820"
+  },
+  {
+   "id": "osm:node:6595252410",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4319926,
+   "longitude": 13.3477771,
+   "distanceMeters": 731,
+   "address": "Mühlenstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/6595252410"
+  },
+  {
+   "id": "osm:node:4450673440",
+   "name": "A Casa",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4341016,
+   "longitude": 13.3415945,
+   "distanceMeters": 732,
+   "address": "Kaiser-Wilhelm-Straße 54, 12247 Berlin, Deutschland",
+   "website": "https://pizzeriaacasa.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4450673440"
+  },
+  {
+   "id": "osm:way:31762801",
+   "name": "Spielplatz Kaulbachstraße/Nicolaistraße",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4381225,
+   "longitude": 13.33889,
+   "distanceMeters": 732,
+   "address": "Kaulbachstraße 55, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/31762801"
+  },
+  {
+   "id": "osm:node:12208748796",
+   "name": "Adria Grill",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4338412,
+   "longitude": 13.3419181,
+   "distanceMeters": 735,
+   "address": "Kaiser-Wilhelm-Straße 55, 12247 Berlin, Deutschland",
+   "openingHours": "Tu-Su 11:30-22:00",
+   "website": "http://www.adria-grill-berlin.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12208748796"
+  },
+  {
+   "id": "osm:node:5338949759",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4319555,
+   "longitude": 13.3477318,
+   "distanceMeters": 736,
+   "address": "Mühlenstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/5338949759"
+  },
+  {
+   "id": "osm:way:258866604",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4326311,
+   "longitude": 13.3548241,
+   "distanceMeters": 736,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/258866604"
+  },
+  {
+   "id": "osm:way:1289629021",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4382732,
+   "longitude": 13.3387953,
+   "distanceMeters": 738,
+   "address": "Nicolaistraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1289629021"
+  },
+  {
+   "id": "osm:node:326954335",
+   "name": "Mergentheimer Straße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4444503,
+   "longitude": 13.3544147,
+   "distanceMeters": 739,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/326954335"
+  },
+  {
+   "id": "osm:way:1217043305",
+   "name": "Yogi Indische Spezialitäten",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4342527,
+   "longitude": 13.3581372,
+   "distanceMeters": 740,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1217043305"
+  },
+  {
+   "id": "osm:node:11780368270",
+   "name": "ÜBAG Hautarztpraxis",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4337959,
+   "longitude": 13.3418459,
+   "distanceMeters": 742,
+   "address": "Kaiser-Wilhelm-Straße 55, 12247 Berlin, Deutschland",
+   "openingHours": "Mo,We 09:00-15:00; Tu 09:00-14:00; Th 09:00-14:00, 15:00-18:00; Fr 09:00-12:00",
+   "website": "http://www.kosmoderma-berlin.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11780368270"
+  },
+  {
+   "id": "osm:way:510947067",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4318544,
+   "longitude": 13.3479634,
+   "distanceMeters": 744,
+   "address": "Mühlenstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/510947067"
+  },
+  {
+   "id": "osm:node:4580669498",
+   "name": "Praxis Dr. med. Joachim Mercks",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor"
+   ],
+   "latitude": 52.4337585,
+   "longitude": 13.3417655,
+   "distanceMeters": 749,
+   "address": "Kaiser-Wilhelm-Straße 53, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4580669498"
+  },
+  {
+   "id": "osm:node:11522219213",
+   "name": "Knusper Ecke",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4337744,
+   "longitude": 13.3417027,
+   "distanceMeters": 751,
+   "address": "Kaiser-Wilhelm-Straße 53, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11522219213"
+  },
+  {
+   "id": "osm:way:30094568",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4332286,
+   "longitude": 13.3567351,
+   "distanceMeters": 754,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094568"
+  },
+  {
+   "id": "osm:node:325954738",
+   "name": "Dillgesstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4337643,
+   "longitude": 13.3415954,
+   "distanceMeters": 757,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325954738"
+  },
+  {
+   "id": "osm:way:192889139",
+   "name": "Marien-Apotheke",
+   "categories": [
+    "health",
+    "shopping"
+   ],
+   "kinds": [
+    "pharmacy"
+   ],
+   "latitude": 52.4340226,
+   "longitude": 13.3411771,
+   "distanceMeters": 759,
+   "address": "Ruthstraße 12, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 08:00-18:30; Sa 08:00-13:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/192889139"
+  },
+  {
+   "id": "osm:node:4577251890",
+   "name": "Ayo",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4336842,
+   "longitude": 13.3416187,
+   "distanceMeters": 762,
+   "address": "Kaiser-Wilhelm-Straße 53, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 11:30-22:00; Sa 16:00-22:00; Su 11:30-22:15",
+   "website": "https://ayo-restaurant.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4577251890"
+  },
+  {
+   "id": "osm:relation:20337536",
+   "name": "Gästekurve",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4321226,
+   "longitude": 13.3541476,
+   "distanceMeters": 767,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/20337536"
+  },
+  {
+   "id": "osm:way:30094566",
+   "name": "Preussenpark-Hunter",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4336751,
+   "longitude": 13.3578495,
+   "distanceMeters": 768,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094566"
+  },
+  {
+   "id": "osm:way:283923179",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4330807,
+   "longitude": 13.3567921,
+   "distanceMeters": 769,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923179"
+  },
+  {
+   "id": "osm:way:30094564",
+   "name": "Preussenpark",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.433331,
+   "longitude": 13.3573675,
+   "distanceMeters": 773,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "website": "https://www.preussenpark-berlin.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094564"
+  },
+  {
+   "id": "osm:relation:20335481",
+   "name": "Preußen-Sportanlage",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4324484,
+   "longitude": 13.3555915,
+   "distanceMeters": 780,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/20335481"
+  },
+  {
+   "id": "osm:node:325923274",
+   "name": "Kamenzer Damm/Wedellstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4342194,
+   "longitude": 13.3588671,
+   "distanceMeters": 782,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325923274"
+  },
+  {
+   "id": "osm:relation:16750712",
+   "name": "Beethoven-Gymnasium",
+   "categories": [
+    "education"
+   ],
+   "kinds": [
+    "school"
+   ],
+   "latitude": 52.4328411,
+   "longitude": 13.3427382,
+   "distanceMeters": 782,
+   "address": "Barbarastraße 9, 12249 Berlin, Deutschland",
+   "website": "https://www.beethoven-gymnasium.eu/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/16750712"
+  },
+  {
+   "id": "osm:way:30094570",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4326532,
+   "longitude": 13.3561688,
+   "distanceMeters": 782,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094570"
+  },
+  {
+   "id": "osm:way:557698021",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4314557,
+   "longitude": 13.3487389,
+   "distanceMeters": 782,
+   "address": "Zugang zu den Häusern Mühlenstraße 62 -64c, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/557698021"
+  },
+  {
+   "id": "osm:way:283923164",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4329355,
+   "longitude": 13.356848,
+   "distanceMeters": 784,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923164"
+  },
+  {
+   "id": "osm:node:11529449667",
+   "name": "Amazon Hub",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.4335515,
+   "longitude": 13.341367,
+   "distanceMeters": 785,
+   "address": "Kaiser-Wilhelm-Straße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11529449667"
+  },
+  {
+   "id": "osm:node:325708860",
+   "name": "Havensteinstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4316743,
+   "longitude": 13.3462896,
+   "distanceMeters": 789,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325708860"
+  },
+  {
+   "id": "osm:way:24967542",
+   "name": "Gemeindepark Lankwitz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4313423,
+   "longitude": 13.3500804,
+   "distanceMeters": 792,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/24967542"
+  },
+  {
+   "id": "osm:node:4450673441",
+   "name": "Sportstudio Dento",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4337346,
+   "longitude": 13.3409251,
+   "distanceMeters": 793,
+   "address": "Ruthstraße 15, 12247 Berlin, Deutschland",
+   "website": "https://sportstudio-dento.de/",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/4450673441"
+  },
+  {
+   "id": "osm:way:1168112643",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4321028,
+   "longitude": 13.3550548,
+   "distanceMeters": 796,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1168112643"
+  },
+  {
+   "id": "osm:node:326954342",
+   "name": "Mergentheimer Straße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.444713,
+   "longitude": 13.3556262,
+   "distanceMeters": 803,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/326954342"
+  },
+  {
+   "id": "osm:way:774544410",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4385144,
+   "longitude": 13.3616353,
+   "distanceMeters": 811,
+   "address": "Bernecker Weg, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/774544410"
+  },
+  {
+   "id": "osm:node:276134994",
+   "name": "Bardolino",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4339798,
+   "longitude": 13.3592072,
+   "distanceMeters": 816,
+   "address": "Wedellstraße 31, 12249 Berlin, Deutschland",
+   "openingHours": "Tu-Fr 16:00-22:00+, Sa,Su,PH 12:00-22:00+",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/276134994"
+  },
+  {
+   "id": "osm:way:258910728",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4321207,
+   "longitude": 13.3436383,
+   "distanceMeters": 816,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/258910728"
+  },
+  {
+   "id": "osm:relation:17749730",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4386189,
+   "longitude": 13.361756,
+   "distanceMeters": 819,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/relation/17749730"
+  },
+  {
+   "id": "osm:way:404693563",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4416142,
+   "longitude": 13.3387184,
+   "distanceMeters": 821,
+   "address": "Brucknerstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/404693563"
+  },
+  {
+   "id": "osm:node:12253234324",
+   "name": "Ladepunkt",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.4316594,
+   "longitude": 13.344928,
+   "distanceMeters": 822,
+   "address": "Havensteinstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12253234324"
+  },
+  {
+   "id": "osm:way:97062902",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4450559,
+   "longitude": 13.3440598,
+   "distanceMeters": 826,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/97062902"
+  },
+  {
+   "id": "osm:way:124476191",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4326524,
+   "longitude": 13.3420575,
+   "distanceMeters": 827,
+   "address": "Barbarastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/124476191"
+  },
+  {
+   "id": "osm:node:540812448",
+   "name": "Vuong Asia Bistro",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "fastfood"
+   ],
+   "latitude": 52.4340538,
+   "longitude": 13.3595132,
+   "distanceMeters": 828,
+   "address": "Kamenzer Damm 40, 12249 Berlin, Deutschland",
+   "website": "https://placejuice.com/vuong-asia-kuche-sushi-bar-agvv77o",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/540812448"
+  },
+  {
+   "id": "osm:way:43019958",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4310191,
+   "longitude": 13.3485921,
+   "distanceMeters": 831,
+   "address": "Am Gemeindepark, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/43019958"
+  },
+  {
+   "id": "osm:way:49963083",
+   "name": "Sporthalle",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4324935,
+   "longitude": 13.3422973,
+   "distanceMeters": 831,
+   "address": "Ursulastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/49963083"
+  },
+  {
+   "id": "osm:way:640471973",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4320403,
+   "longitude": 13.3433386,
+   "distanceMeters": 834,
+   "address": "Ursulastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/640471973"
+  },
+  {
+   "id": "osm:node:11967639523",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.441766,
+   "longitude": 13.3386077,
+   "distanceMeters": 835,
+   "address": "Calandrellistraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/11967639523"
+  },
+  {
+   "id": "osm:way:283923188",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4315333,
+   "longitude": 13.3544395,
+   "distanceMeters": 836,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923188"
+  },
+  {
+   "id": "osm:node:740049026",
+   "name": "Peter Krause",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "dentist"
+   ],
+   "latitude": 52.4340065,
+   "longitude": 13.3596273,
+   "distanceMeters": 837,
+   "address": "Kamenzer Damm 40, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/740049026"
+  },
+  {
+   "id": "osm:node:739999336",
+   "name": "Peter Kraemer & Khadijeh Jahangir-Bakhtiary",
+   "categories": [
+    "health"
+   ],
+   "kinds": [
+    "doctor",
+    "general"
+   ],
+   "latitude": 52.4339508,
+   "longitude": 13.3595725,
+   "distanceMeters": 838,
+   "address": "Kamenzer Damm 40, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/739999336"
+  },
+  {
+   "id": "osm:way:283923170",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4315717,
+   "longitude": 13.354694,
+   "distanceMeters": 838,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923170"
+  },
+  {
+   "id": "osm:node:573599542",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4349724,
+   "longitude": 13.3606419,
+   "distanceMeters": 839,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/573599542"
+  },
+  {
+   "id": "osm:node:325923278",
+   "name": "Kamenzer Damm/Wedellstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4342466,
+   "longitude": 13.3599635,
+   "distanceMeters": 840,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325923278"
+  },
+  {
+   "id": "osm:way:1166224266",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4332242,
+   "longitude": 13.358643,
+   "distanceMeters": 842,
+   "address": "Wedellstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1166224266"
+  },
+  {
+   "id": "osm:way:283923146",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4316164,
+   "longitude": 13.3550004,
+   "distanceMeters": 843,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923146"
+  },
+  {
+   "id": "osm:node:10220190432",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4322033,
+   "longitude": 13.3426129,
+   "distanceMeters": 845,
+   "address": "Ursulastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10220190432"
+  },
+  {
+   "id": "osm:way:283923185",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4316552,
+   "longitude": 13.3552565,
+   "distanceMeters": 846,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923185"
+  },
+  {
+   "id": "osm:way:557695820",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4309019,
+   "longitude": 13.3515427,
+   "distanceMeters": 850,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/557695820"
+  },
+  {
+   "id": "osm:node:10182450279",
+   "name": "Gallwitz Bäckerei",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.431099,
+   "longitude": 13.34628,
+   "distanceMeters": 851,
+   "address": "Gallwitzallee 54, 12249 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-18:00; Sa 08:00-16:00; Su 09:00-16:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10182450279"
+  },
+  {
+   "id": "osm:way:30094569",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4316955,
+   "longitude": 13.3555417,
+   "distanceMeters": 851,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094569"
+  },
+  {
+   "id": "osm:way:283923161",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4318793,
+   "longitude": 13.356085,
+   "distanceMeters": 851,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923161"
+  },
+  {
+   "id": "osm:way:283923154",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4317356,
+   "longitude": 13.3558052,
+   "distanceMeters": 856,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923154"
+  },
+  {
+   "id": "osm:way:283923193",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4319211,
+   "longitude": 13.3563508,
+   "distanceMeters": 857,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923193"
+  },
+  {
+   "id": "osm:node:992806004",
+   "name": "Henry's Bar",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "bar"
+   ],
+   "latitude": 52.4435741,
+   "longitude": 13.3401829,
+   "distanceMeters": 859,
+   "address": "Leonorenstraße 22, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Th 16:00-24:00; Fr-Sa 16:00-01:00; Su 16:00-24:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/992806004"
+  },
+  {
+   "id": "osm:node:12725939903",
+   "name": "Zainab's Multishop Späti",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "convenience"
+   ],
+   "latitude": 52.4336907,
+   "longitude": 13.3597406,
+   "distanceMeters": 864,
+   "address": "Kamenzer Damm 40, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12725939903"
+  },
+  {
+   "id": "osm:way:283923155",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.431983,
+   "longitude": 13.3567217,
+   "distanceMeters": 865,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/283923155"
+  },
+  {
+   "id": "osm:way:30811516",
+   "name": "Sportplatz Malteserstraße",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4309666,
+   "longitude": 13.3531599,
+   "distanceMeters": 866,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30811516"
+  },
+  {
+   "id": "osm:way:1166224291",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4326366,
+   "longitude": 13.3581708,
+   "distanceMeters": 867,
+   "address": "Wedellstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1166224291"
+  },
+  {
+   "id": "osm:way:1168111609",
+   "name": "Ristoclub da Fabian",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4320699,
+   "longitude": 13.3571647,
+   "distanceMeters": 874,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1168111609"
+  },
+  {
+   "id": "osm:node:325936308",
+   "name": "Döhlauer Pfad",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4366066,
+   "longitude": 13.3622745,
+   "distanceMeters": 879,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325936308"
+  },
+  {
+   "id": "osm:way:549569813",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4356872,
+   "longitude": 13.3619219,
+   "distanceMeters": 886,
+   "address": "Gabainstraße, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/549569813"
+  },
+  {
+   "id": "osm:way:1487919668",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4452699,
+   "longitude": 13.3427284,
+   "distanceMeters": 891,
+   "address": "Borstellstraße, 12167 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1487919668"
+  },
+  {
+   "id": "osm:node:8357647624",
+   "name": "Ladepunkt",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "charging"
+   ],
+   "latitude": 52.4348267,
+   "longitude": 13.3379513,
+   "distanceMeters": 892,
+   "address": "Charlottenstraße, 12247 Berlin, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/8357647624"
+  },
+  {
+   "id": "osm:node:1208363065",
+   "name": "Restaurant Meteora",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "restaurant"
+   ],
+   "latitude": 52.4437493,
+   "longitude": 13.3397112,
+   "distanceMeters": 895,
+   "address": "Leonorenstraße 18, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1208363065"
+  },
+  {
+   "id": "osm:way:265772231",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4309605,
+   "longitude": 13.3546866,
+   "distanceMeters": 901,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/265772231"
+  },
+  {
+   "id": "osm:node:325936292",
+   "name": "Halbauer Weg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4345612,
+   "longitude": 13.3613886,
+   "distanceMeters": 905,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325936292"
+  },
+  {
+   "id": "osm:way:1166224527",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4320781,
+   "longitude": 13.3580102,
+   "distanceMeters": 907,
+   "address": "Wedellstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1166224527"
+  },
+  {
+   "id": "osm:way:192889140",
+   "name": "Nahkauf",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "supermarket"
+   ],
+   "latitude": 52.4329874,
+   "longitude": 13.3394448,
+   "distanceMeters": 923,
+   "address": "Kaiser-Wilhelm-Straße 40, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 08:00-20:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/192889140"
+  },
+  {
+   "id": "osm:node:1070129177",
+   "name": "Leonorenstraße/Siemensstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4440152,
+   "longitude": 13.3395271,
+   "distanceMeters": 924,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1070129177"
+  },
+  {
+   "id": "osm:way:45122740",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4368424,
+   "longitude": 13.3630465,
+   "distanceMeters": 924,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/45122740"
+  },
+  {
+   "id": "osm:node:2098280282",
+   "name": "Simon´s",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "bar"
+   ],
+   "latitude": 52.4461419,
+   "longitude": 13.3443232,
+   "distanceMeters": 928,
+   "address": "Borstellstraße, 12167 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 12:00-24:00; Sa,Su 12:00-24:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/2098280282"
+  },
+  {
+   "id": "osm:node:325936299",
+   "name": "Döhlauer Pfad",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4365656,
+   "longitude": 13.3630857,
+   "distanceMeters": 933,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325936299"
+  },
+  {
+   "id": "osm:way:1092978187",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4342599,
+   "longitude": 13.3616048,
+   "distanceMeters": 934,
+   "address": "Kamenzer Damm, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1092978187"
+  },
+  {
+   "id": "osm:node:1575193678",
+   "name": "Lion",
+   "categories": [
+    "shopping"
+   ],
+   "kinds": [
+    "bakery"
+   ],
+   "latitude": 52.4328561,
+   "longitude": 13.3394052,
+   "distanceMeters": 935,
+   "address": "Kaiser-Wilhelm-Straße 38, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Fr 06:00-18:00; Sa 06:00-16:00; Su 07:00-16:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/1575193678"
+  },
+  {
+   "id": "osm:node:10197171470",
+   "name": "Amazon Locker",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.430988,
+   "longitude": 13.3432941,
+   "distanceMeters": 937,
+   "address": "Renatenweg, 12249 Berlin, Deutschland",
+   "openingHours": "24/7",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/10197171470"
+  },
+  {
+   "id": "osm:way:30094048",
+   "name": "Park / Grünfläche",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "park"
+   ],
+   "latitude": 52.4356792,
+   "longitude": 13.3627603,
+   "distanceMeters": 939,
+   "address": "Lankwitz, Berlin, Steglitz-Zehlendorf, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/30094048"
+  },
+  {
+   "id": "osm:way:723484056",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4327104,
+   "longitude": 13.3598304,
+   "distanceMeters": 940,
+   "address": "Brieger Straße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/723484056"
+  },
+  {
+   "id": "osm:node:13987459185",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4302968,
+   "longitude": 13.3534312,
+   "distanceMeters": 943,
+   "address": "Malteserstraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/13987459185"
+  },
+  {
+   "id": "osm:node:12771600690",
+   "name": "DHL Packstation",
+   "categories": [
+    "infrastructure"
+   ],
+   "kinds": [
+    "parcel"
+   ],
+   "latitude": 52.430748,
+   "longitude": 13.3554398,
+   "distanceMeters": 943,
+   "address": "Mudrastraße, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/12771600690"
+  },
+  {
+   "id": "osm:way:1116840790",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4313381,
+   "longitude": 13.341803,
+   "distanceMeters": 955,
+   "address": "Renatenweg, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1116840790"
+  },
+  {
+   "id": "osm:node:5613271621",
+   "name": "Die Kleine Kneipe",
+   "categories": [
+    "food"
+   ],
+   "kinds": [
+    "bar"
+   ],
+   "latitude": 52.4366071,
+   "longitude": 13.3634649,
+   "distanceMeters": 957,
+   "address": "Alt-Lankwitz 87, 12247 Berlin, Deutschland",
+   "openingHours": "Mo-Sa 09:00-23:00",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/5613271621"
+  },
+  {
+   "id": "osm:way:124475736",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4312645,
+   "longitude": 13.3417948,
+   "distanceMeters": 962,
+   "address": "Renatenweg, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/124475736"
+  },
+  {
+   "id": "osm:way:1106522271",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4297798,
+   "longitude": 13.3491329,
+   "distanceMeters": 966,
+   "address": "Am Gemeindepark, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1106522271"
+  },
+  {
+   "id": "osm:way:1166224029",
+   "name": "Spielplatz",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4356659,
+   "longitude": 13.3631748,
+   "distanceMeters": 966,
+   "address": "Dittersbacher Weg, 12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1166224029"
+  },
+  {
+   "id": "osm:way:396118085",
+   "name": "Spielplatz KiTa Julikinder",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "playground"
+   ],
+   "latitude": 52.4471179,
+   "longitude": 13.3472733,
+   "distanceMeters": 976,
+   "address": "Stephanstraße, 12167 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/396118085"
+  },
+  {
+   "id": "osm:node:595300671",
+   "name": "Leonorenstraße/Siemensstraße",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4440438,
+   "longitude": 13.3384969,
+   "distanceMeters": 979,
+   "address": "12247 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/595300671"
+  },
+  {
+   "id": "osm:way:1116840789",
+   "name": "Sportplatz / Verein",
+   "categories": [
+    "leisure"
+   ],
+   "kinds": [
+    "sport"
+   ],
+   "latitude": 52.4311295,
+   "longitude": 13.3416638,
+   "distanceMeters": 980,
+   "address": "Renatenweg, 12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/way/1116840789"
+  },
+  {
+   "id": "osm:node:325936288",
+   "name": "Halbauer Weg",
+   "categories": [
+    "transit"
+   ],
+   "kinds": [
+    "bus"
+   ],
+   "latitude": 52.4346621,
+   "longitude": 13.3629948,
+   "distanceMeters": 997,
+   "address": "12249 Berlin, Deutschland",
+   "source": "Geoapify / OpenStreetMap",
+   "sourceUrl": "https://www.openstreetmap.org/node/325936288"
+  }
+ ],
+ "metrics": {
+  "transit": {
+   "status": "complete",
+   "total": 39,
+   "nearestDistance": 84,
+   "count500m": 14,
+   "count500mStatus": "complete",
+   "count1000m": 39,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "shopping": {
+   "status": "complete",
+   "total": 27,
+   "nearestDistance": 184,
+   "count500m": 17,
+   "count500mStatus": "complete",
+   "count1000m": 27,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "health": {
+   "status": "complete",
+   "total": 19,
+   "nearestDistance": 155,
+   "count500m": 11,
+   "count500mStatus": "complete",
+   "count1000m": 19,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "education": {
+   "status": "complete",
+   "total": 4,
+   "nearestDistance": 222,
+   "count500m": 2,
+   "count500mStatus": "complete",
+   "count1000m": 4,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "leisure": {
+   "status": "complete",
+   "total": 115,
+   "nearestDistance": 208,
+   "count500m": 26,
+   "count500mStatus": "complete",
+   "count1000m": 115,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "food": {
+   "status": "complete",
+   "total": 32,
+   "nearestDistance": 314,
+   "count500m": 14,
+   "count500mStatus": "complete",
+   "count1000m": 32,
+   "count1000mStatus": "complete",
+   "complete": true
+  },
+  "infrastructure": {
+   "status": "complete",
+   "total": 20,
+   "nearestDistance": 170,
+   "count500m": 9,
+   "count500mStatus": "complete",
+   "count1000m": 20,
+   "count1000mStatus": "complete",
+   "complete": true
+  }
+ },
+ "fetchedAt": "2026-11-18T16:00:20.031Z",
+ "stale": false,
+ "incomplete": [],
+ "issues": [],
+ "attribution": "© OpenStreetMap contributors · Geoapify"
+}

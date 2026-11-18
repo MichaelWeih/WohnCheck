@@ -20,7 +20,7 @@ export function CookieBanner() {
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Wir speichern nur deine Datenschutzauswahl lokal. Karteninhalte laden wir erst
-              nach deiner Zustimmung, weil dabei Anfragen an OpenStreetMap und verbundene
+              nach deiner Zustimmung, weil dabei Anfragen an den Kartendienst OpenFreeMap und verbundene
               Server gesendet werden.
             </p>
             <p className="mt-2 text-xs text-muted-foreground">

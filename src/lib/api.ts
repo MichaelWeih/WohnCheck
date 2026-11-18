@@ -2,11 +2,16 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3001
 
 export class ApiError extends Error {
   status: number;
+  /** Machine-readable reason from the error body, when the endpoint provides one. */
+  code?: string;
+  retryAfterSeconds?: number;
 
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, code?: string, retryAfterSeconds?: number) {
     super(message);
     this.name = "ApiError";
     this.status = status;
+    this.code = code;
+    this.retryAfterSeconds = retryAfterSeconds;
   }
 }
 
@@ -28,9 +33,18 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   if (!response.ok) {
     let message = "Die Anfrage konnte nicht verarbeitet werden.";
+    let code: string | undefined;
+    let retryAfterSeconds: number | undefined;
 
     try {
-      const errorBody = (await response.json()) as { message?: string | string[] };
+      const errorBody = (await response.json()) as {
+        message?: string | string[];
+        code?: unknown;
+        retryAfterSeconds?: unknown;
+      };
+
+      if (typeof errorBody.code === "string") code = errorBody.code;
+      if (typeof errorBody.retryAfterSeconds === "number") retryAfterSeconds = errorBody.retryAfterSeconds;
 
       if (Array.isArray(errorBody.message)) {
         message = errorBody.message.join(", ");
@@ -41,7 +55,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
       // Ignore malformed error bodies and fall back to the default message.
     }
 
-    throw new ApiError(message, response.status);
+    throw new ApiError(message, response.status, code, retryAfterSeconds);
   }
 
   return response.json() as Promise<T>;

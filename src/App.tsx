@@ -1,3 +1,4 @@
+import LocationExplorer from "./features/location/LocationExplorer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -38,11 +39,21 @@ const App = () => (
               <main id="main-content" tabIndex={-1} className="flex-1">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/check" element={<LocationExplorer />} />
                   <Route path="/suche" element={<SearchPage />} />
-                  <Route path="/vermieter/:id" element={<LandlordDetailPage />} />
+                  <Route
+                    path="/vermieter/:id"
+                    element={<LandlordDetailPage />}
+                  />
                   <Route path="/angebote/:id" element={<ListingDetailPage />} />
-                  <Route path="/gebaeude/:id" element={<PropertyDetailPage />} />
-                  <Route path="/nachbarschaft/:id" element={<NeighborhoodDetailPage />} />
+                  <Route
+                    path="/gebaeude/:id"
+                    element={<PropertyDetailPage />}
+                  />
+                  <Route
+                    path="/nachbarschaft/:id"
+                    element={<NeighborhoodDetailPage />}
+                  />
                   <Route
                     path="/bewertung/neu"
                     element={

@@ -92,7 +92,7 @@ export class JobContinuation {
   ) {}
 }
 
-export interface JobHandler<TPayload = any, TResult = unknown> {
+export interface JobHandler<TPayload = unknown, TResult = unknown> {
   /** Unique job type, namespaced by module: "discovery.sync-source", "topics.analyze-pending", ... */
   type: string;
   /** Hard time limit for one run; the worker aborts `ctx.signal` and treats it as an error. Default 120 000 ms. */

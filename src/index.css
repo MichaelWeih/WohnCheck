@@ -121,6 +121,17 @@
   .results-only { max-width: 900px; }
   .results-with-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 2rem; align-items: start; }
   .map-disclosure { border-block: 1px solid hsl(var(--border)); font-size: .875rem; }
+  .object-map { --wc-map-height: 360px; --wc-map-height-mobile: 320px; padding-bottom: 1rem; }
+  .object-map-selection { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; padding-top: .75rem; overflow-wrap: anywhere; }
+  .object-map-selection span { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+  .object-map-note { color: hsl(var(--muted-foreground)); font-size: .75rem; padding-top: .5rem; }
+  .address-matches { max-width: 900px; margin-bottom: 2rem; padding: 1rem 1.25rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--card)); }
+  .address-matches h2 { font-size: 1rem; margin-bottom: .25rem; }
+  .address-matches p { color: hsl(var(--muted-foreground)); font-size: .875rem; }
+  .address-matches li { border-top: 1px solid hsl(var(--border)); margin-top: .5rem; }
+  .address-matches a { display: flex; flex-direction: column; padding: .75rem 0 .25rem; overflow-wrap: anywhere; }
+  .address-matches a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+  .address-matches small { color: hsl(var(--muted-foreground)); margin-top: .2rem; }
   .state-message { padding: 2rem 0; color: hsl(var(--muted-foreground)); line-height: 1.7; }
   .state-message h2 { color: hsl(var(--foreground)); font-size: 1.125rem; margin-bottom: .5rem; }
   .profile-shell { max-width: 1120px; margin-inline: auto; }

@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 const company = { id: 'ui-test-company', slug: 'ui-test-company', name: 'Test Wohnungsverwaltung mit einem sehr langen Unternehmensnamen GmbH & Co. KG', companyType: 'Hausverwaltung', city: 'Berlin', reviewCount: 0, ratingOverall: null, properties: [] };
 const result = { landlords: [company], properties: [], neighborhoods: [] };

@@ -1,10 +1,15 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
+import { LocationService } from "./location/location.service";
+import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { DataSourceQueryDto } from "./dto/data-source-query.dto";
 import { DataSourcesService } from "./data-sources.service";
 
 @Controller("data-sources")
 export class DataSourcesController {
-  constructor(private readonly dataSourcesService: DataSourcesService) {}
+  constructor(
+    private readonly dataSourcesService: DataSourcesService,
+    private readonly location: LocationService,
+  ) {}
 
   @Get("strategy")
   getStrategy() {
@@ -41,11 +46,10 @@ export class DataSourcesController {
   }
 
   @Get("address-suggestions")
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ default: { limit: 30, ttl: 60000 } })
   getAddressSuggestions(@Query() query: DataSourceQueryDto) {
-    return this.dataSourcesService.getAddressSuggestions(
-      query.q,
-      query.refresh === "true",
-    );
+    return this.location.geocode(query.q ?? "", true);
   }
 
   @Get("address-score-context")

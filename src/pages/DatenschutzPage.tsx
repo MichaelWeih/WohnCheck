@@ -16,7 +16,8 @@ export default function DatenschutzPage() {
         <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten. Kontaktieren Sie uns hierzu unter datenschutz@wohncheck.de.</p>
 
         <h2 className="text-lg font-semibold text-foreground">5. Externe Karteninhalte</h2>
-        <p>Für die Kartenansicht binden wir Inhalte von OpenStreetMap ein. Diese externen Inhalte werden erst geladen, wenn Sie dazu ausdrücklich einwilligen. Ohne Einwilligung bleibt die Kartenfunktion deaktiviert.</p>
+        <p>Für die Kartenansicht laden wir Kartenmaterial des Dienstes OpenFreeMap (Kartendaten © OpenStreetMap-Mitwirkende). Diese externen Inhalte werden erst geladen, wenn Sie dazu ausdrücklich einwilligen; dabei wird Ihre IP-Adresse an den Kartendienst übertragen. Ohne Einwilligung bleibt die Karte deaktiviert, die Ortsliste ist weiterhin nutzbar.</p>
+        <p>Für die Adresssuche und die Orte in der Umgebung fragt unser Server den Dienst Geoapify ab. Dabei werden der eingegebene Adresstext beziehungsweise die Koordinaten der geprüften Adresse übermittelt, nicht jedoch Ihre IP-Adresse. Gesuchte Adressen speichern wir nicht dauerhaft; Umgebungsdaten werden bis zu sieben Tage zwischengespeichert.</p>
 
         <p className="border-t pt-4 text-xs">
           Dies ist ein Platzhalter-Datenschutztext für Demo-Zwecke. In der Produktivversion muss hier eine vollständige DSGVO-konforme Datenschutzerklärung stehen.

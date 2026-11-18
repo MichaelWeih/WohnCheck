@@ -1,3 +1,10 @@
+import { LocationController } from "./location/location.controller";
+import { LocationService } from "./location/location.service";
+import { GeoapifyProvider } from "./location/geoapify.provider";
+import {
+  GeocodingProvider,
+  PlacesProvider,
+} from "./location/location-provider";
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "../prisma/prisma.module";
 import { DataSourcesController } from "./data-sources.controller";
@@ -10,8 +17,12 @@ import { PublicWebDirectoryProvider } from "./providers/public-web-directory.pro
 
 @Module({
   imports: [PrismaModule],
-  controllers: [DataSourcesController],
+  controllers: [DataSourcesController, LocationController],
   providers: [
+    LocationService,
+    GeoapifyProvider,
+    { provide: GeocodingProvider, useExisting: GeoapifyProvider },
+    { provide: PlacesProvider, useExisting: GeoapifyProvider },
     DataSourcesService,
     OsmProvider,
     WikidataProvider,

@@ -80,6 +80,8 @@ export class DataSourcesService implements OnModuleInit {
       endpoints: {
         sources: "/api/data-sources/sources",
         addressSuggestions: "/api/data-sources/address-suggestions?q=Kastanienallee%2012%20Berlin",
+        geocode: "/api/data-sources/geocode?q=Kastanienallee%2012%2C%2010435%20Berlin",
+        nearbyPlaces: "/api/data-sources/nearby-places?lat=52.5407&lon=13.4126&radius=1000",
         addressScoreContext: "/api/data-sources/address-score-context?lat=52.5407&lon=13.4126&label=Kastanienallee%2012",
         listingLinks: "/api/data-sources/listing-links?street=Kastanienallee&houseNumber=12&postalCode=10435&city=Berlin",
         marketPrices: "/api/data-sources/market-prices?city=Dortmund&district=H%C3%B6rde&postalCode=44263",

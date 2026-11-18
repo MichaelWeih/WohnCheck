@@ -3,6 +3,8 @@ import { LegalUseStatus, ListingStatus, Prisma } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { ListingQueryDto } from "./dto/listing-query.dto";
 
+type ListingCardData = Prisma.ListingGetPayload<{ include: { landlord: true; district: { include: { rentPrices: true } }; sourceProvider: { include: { qualityScore: true } } } }>;
+type ListingDetailData = ListingCardData & Prisma.ListingGetPayload<{ include: { sources: { include: { sourceProvider: true } } } }>;
 type Bbox = {
   minLon: number;
   minLat: number;
@@ -226,7 +228,7 @@ export class ListingsService {
     };
   }
 
-  private toListingCard(listing: any) {
+  private toListingCard(listing: ListingCardData) {
     const districtMedian = listing.district?.rentPrices?.[0]?.valuePerSqm ? Number(listing.district.rentPrices[0].valuePerSqm) : null;
 
     return {
@@ -260,7 +262,7 @@ export class ListingsService {
     };
   }
 
-  private toListingDetail(listing: any) {
+  private toListingDetail(listing: ListingDetailData) {
     return {
       ...this.toListingCard(listing),
       latitude: listing.latitude ? Number(listing.latitude) : null,
@@ -270,7 +272,7 @@ export class ListingsService {
       availableFrom: listing.availableFrom,
       firstSeenAt: listing.firstSeenAt,
       lastSeenAt: listing.lastSeenAt,
-      sources: listing.sources?.map((source: any) => ({
+      sources: listing.sources?.map((source) => ({
         id: source.id,
         method: source.method,
         sourceUrl: source.sourceUrl,
