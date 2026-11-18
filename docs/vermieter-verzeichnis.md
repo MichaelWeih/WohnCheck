@@ -3,6 +3,10 @@
 Verbindliche Spezifikation für die Backend-Module `companies`, `jobs`, `discovery`, `external`, `topics`,
 die Erweiterung von `directory`, `reviews`, `auth` sowie die zugehörigen Frontend-Teile.
 
+> **Umsetzungsstand (18.11.2026):** Was davon implementiert ist, was fehlt und wie es betrieben wird, steht in
+> [vermieter-audit.md](vermieter-audit.md). Abweichung: Gebäudebeziehungen (`PropertyParty`) haben zusätzlich Prüfstatus und
+> Gültigkeit; Adressmeldungen laufen über `MappingReport` (Art `PROPERTY_ASSIGNMENT`).
+
 Zugehörige Vertragsdateien (bei Widerspruch gelten die Vertragsdateien und das Prisma-Schema):
 
 - `backend/prisma/schema.prisma`

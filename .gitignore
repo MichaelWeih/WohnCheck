@@ -30,3 +30,6 @@ dist-ssr
 
 # Playwright run state
 artifacts/location/tests/
+
+# Playwright run state of the landlord tests
+artifacts/landlord/tests/

@@ -1,5 +1,6 @@
 import {
   GeoAccuracy,
+  LandlordRelevance,
   LegalUseStatus,
   ListingSourceMethod,
   ListingStatus,
@@ -11,6 +12,8 @@ import {
   UserRole,
 } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
+import { companyKindFromLegacyLabel } from "../src/modules/companies/company-kind";
+import { NORMALIZATION_VERSION, normalizeCompanyName, registrableDomain } from "../src/modules/companies/normalization";
 
 const prisma = new PrismaClient();
 
@@ -20,10 +23,7 @@ async function main() {
   const userPasswordHash = await bcrypt.hash("User12345!", 12);
 
   const landlords = [
-    { id: "l1", name: "Vonovia SE", normalizedName: "vonovia se", companyType: "Wohnungsgesellschaft", landlordType: ProviderKind.PRIVATE_COMPANY, city: "Berlin", website: "https://vonovia.de", slug: "vonovia-se-berlin" },
-    { id: "l2", name: "Müller Hausverwaltung", normalizedName: "muller hausverwaltung", companyType: "Hausverwaltung", landlordType: ProviderKind.PROPERTY_MANAGER, city: "München", website: null, slug: "mueller-hausverwaltung-muenchen" },
-    { id: "l3", name: "Schmidt und Partner Immobilien", normalizedName: "schmidt und partner immobilien", companyType: "Privatvermieter", landlordType: ProviderKind.PRIVATE_INDIVIDUAL, city: "Hamburg", website: null, slug: "schmidt-und-partner-immobilien-hamburg" },
-    { id: "l4", name: "Berliner Wohnungsbau GmbH", normalizedName: "berliner wohnungsbau gmbh", companyType: "Wohnungsgesellschaft", landlordType: ProviderKind.MUNICIPAL, city: "Berlin", website: null, slug: "berliner-wohnungsbau-gmbh-berlin" },
+    { id: "l1", name: "Vonovia SE", normalizedName: "vonovia se", companyType: "Wohnungsgesellschaft", landlordType: ProviderKind.PRIVATE_COMPANY, city: "Bochum", website: "https://vonovia.de", slug: "vonovia-se-berlin" },
     { id: "l5", name: "DOGEWO21", normalizedName: "dogewo21", companyType: "Kommunale Wohnungsgesellschaft", landlordType: ProviderKind.MUNICIPAL, city: "Dortmund", website: "https://www.dogewo21.de", slug: "dogewo21-dortmund" },
     { id: "l6", name: "ha.ge.we Hagener Gemeinnützige Wohnungsgesellschaft", normalizedName: "ha ge we hagener gemeinnutzige wohnungsgesellschaft", companyType: "Kommunale Wohnungsgesellschaft", landlordType: ProviderKind.NON_PROFIT, city: "Hagen", website: "https://www.hagewe.com", slug: "hagewe-hagen" },
     { id: "l7", name: "LEG Wohnen NRW GmbH", normalizedName: "leg wohnen nrw gmbh", companyType: "Wohnungsgesellschaft", landlordType: ProviderKind.INSTITUTIONAL, city: "Düsseldorf", website: "https://www.leg-wohnen.de", slug: "leg-wohnen-nrw-duesseldorf" },
@@ -38,13 +38,25 @@ async function main() {
   ];
 
   const properties = [
-    { id: "p1", street: "Kastanienallee", houseNumber: "12", postalCode: "10435", city: "Berlin", slug: "kastanienallee-12-10435-berlin", landlordId: "l1", neighborhoodId: "n1" },
-    { id: "p2", street: "Leopoldstraße", houseNumber: "45", postalCode: "80802", city: "München", slug: "leopoldstrasse-45-80802-muenchen", landlordId: "l2", neighborhoodId: "n2" },
-    { id: "p3", street: "Schanzenviertel Str.", houseNumber: "7", postalCode: "20357", city: "Hamburg", slug: "schanzenviertel-str-7-20357-hamburg", landlordId: "l3", neighborhoodId: "n3" },
-    { id: "p4", street: "Karl-Marx-Allee", houseNumber: "89", postalCode: "10243", city: "Berlin", slug: "karl-marx-allee-89-10243-berlin", landlordId: "l4", neighborhoodId: "n4" },
+    { id: "p1", street: "Kastanienallee", houseNumber: "12", postalCode: "10435", city: "Berlin", slug: "kastanienallee-12-10435-berlin", landlordId: null, neighborhoodId: "n1" },
+    { id: "p2", street: "Leopoldstraße", houseNumber: "45", postalCode: "80802", city: "München", slug: "leopoldstrasse-45-80802-muenchen", landlordId: null, neighborhoodId: "n2" },
+    { id: "p3", street: "Schanzenviertel Str.", houseNumber: "7", postalCode: "20357", city: "Hamburg", slug: "schanzenviertel-str-7-20357-hamburg", landlordId: null, neighborhoodId: "n3" },
+    { id: "p4", street: "Karl-Marx-Allee", houseNumber: "89", postalCode: "10243", city: "Berlin", slug: "karl-marx-allee-89-10243-berlin", landlordId: null, neighborhoodId: "n4" },
   ];
 
-  for (const landlord of landlords) {
+  for (const seedLandlord of landlords) {
+    // Identity fields are derived by the same functions the importer uses (companies/normalization.ts).
+    const normalized = normalizeCompanyName(seedLandlord.name);
+    const kind = companyKindFromLegacyLabel(seedLandlord.companyType);
+    const landlord = {
+      ...seedLandlord,
+      normalizedName: normalized.normalized,
+      legalForm: normalized.legalForm,
+      normalizationVersion: NORMALIZATION_VERSION,
+      websiteDomain: registrableDomain(seedLandlord.website),
+      kind,
+      relevance: LandlordRelevance.CONFIRMED,
+    };
     await prisma.landlord.upsert({
       where: { id: landlord.id },
       update: landlord,
@@ -430,18 +442,6 @@ async function main() {
       categoryRatings: { Sicherheit: 4.0, Ruhe: 3.5, Einkaufsmöglichkeiten: 4.5, ÖPNV: 5.0, Familienfreundlichkeit: 4.0, Grünflächen: 4.0 },
       status: ReviewStatus.PUBLISHED,
       helpfulCount: 5,
-    },
-    {
-      id: "r4",
-      userId: demoUser.id,
-      targetType: TargetType.LANDLORD,
-      targetId: "l4",
-      title: "Etwas zu positiv formuliert",
-      text: "Alles ist perfekt, beste Verwaltung überhaupt, keinerlei Probleme jemals.",
-      overallRating: new Prisma.Decimal(5.0),
-      categoryRatings: { Kommunikation: 5.0, Fairness: 5.0, Reaktionszeit: 5.0, "Nebenkosten-Transparenz": 5.0, "Kautionsrückgabe": 5.0, Instandhaltung: 5.0 },
-      status: ReviewStatus.REPORTED,
-      helpfulCount: 0,
     },
     {
       id: "rs-vonovia-nebenkosten-2026",

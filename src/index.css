@@ -280,3 +280,50 @@
 @layer components {
   .tab-count { font-size: .75rem; opacity: .8; padding-left: .25rem; }
 }
+/* Landlord directory: forms, relations, profile facts */
+@layer components {
+  .field-label { display: block; font-size: .875rem; font-weight: 600; margin-bottom: .375rem; color: hsl(var(--foreground)); }
+  .field-input { width: 100%; min-height: 44px; padding: .5rem .75rem; border: 1px solid hsl(var(--input)); border-radius: calc(var(--radius) - 2px); background: hsl(var(--card)); font-size: 1rem; }
+  textarea.field-input { min-height: 88px; }
+  .field-input:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .field-hint { font-size: .8125rem; color: hsl(var(--muted-foreground)); line-height: 1.55; margin-block: .5rem; }
+  .form-error { color: hsl(var(--destructive)); font-size: .875rem; margin-block: .5rem; }
+  .checkbox-row { display: flex; align-items: center; gap: .5rem; min-height: 44px; font-size: .875rem; }
+  .checkbox-row input, .role-choice input { width: 18px; height: 18px; flex-shrink: 0; }
+  .role-choice { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+  .role-choice label { display: flex; align-items: center; gap: .5rem; min-height: 44px; font-size: .875rem; }
+  .report-form { display: flex; flex-direction: column; gap: .75rem; padding-top: .75rem; }
+  .report-form fieldset { border: 0; padding: 0; margin: 0; }
+  .report-address { font-weight: 600; overflow-wrap: anywhere; }
+  .landlord-picker { position: relative; }
+  .picker-popover { position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; right: 0; background: hsl(var(--popover)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); box-shadow: 0 8px 24px #18262614; max-height: 320px; overflow: auto; }
+  .picker-popover li { display: flex; flex-direction: column; padding: .75rem 1rem; cursor: pointer; overflow-wrap: anywhere; }
+  .picker-popover li[aria-selected="true"] { background: hsl(var(--accent)); }
+  .picker-popover small, .picker-status { color: hsl(var(--muted-foreground)); font-size: .8125rem; }
+  .picker-status { padding: .5rem 1rem; }
+  .relation-list { display: flex; flex-direction: column; gap: .75rem; margin-block: .5rem; }
+  .relation-list dt { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: hsl(var(--muted-foreground)); }
+  .relation-list dd { display: flex; flex-direction: column; overflow-wrap: anywhere; }
+  .relation-list .text-link { min-height: 0; }
+  .relation-meta, .relation-unit { font-size: .8125rem; color: hsl(var(--muted-foreground)); }
+  .relation-former { margin-block: .5rem; font-size: .875rem; }
+  .landlord-at-address { max-width: 800px; margin-block: 1rem 1.5rem; padding: 1rem 1.25rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--card)); display: flex; flex-direction: column; gap: .5rem; align-items: flex-start; }
+  .landlord-at-address h2 { display: flex; align-items: center; gap: .5rem; font-size: 1rem; }
+  .landlord-at-address > * { max-width: 100%; }
+  .lookup-stages { font-size: .8125rem; color: hsl(var(--muted-foreground)); }
+  .lookup-stages summary { min-height: 44px; display: inline-flex; align-items: center; cursor: pointer; }
+  .lookup-stages ol { list-style: decimal; padding-left: 1.25rem; line-height: 1.7; }
+  .verification-line { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; font-size: .875rem; color: hsl(var(--muted-foreground)); margin-top: .5rem; }
+  .profile-section { margin-top: 2.5rem; }
+  .profile-section h2 { font-size: 1.125rem; margin-bottom: .75rem; }
+  .building-list li { display: flex; flex-direction: column; padding-block: .5rem; border-bottom: 1px solid hsl(var(--border)); }
+  .fact-list { display: grid; gap: .5rem; margin-bottom: .75rem; }
+  .fact-list dt { font-size: .75rem; font-weight: 700; color: hsl(var(--foreground)); }
+  .fact-list dd { overflow-wrap: anywhere; }
+  .fact-list .text-link { min-height: 0; font-size: .8125rem; }
+  .source-list li { padding-block: .5rem; overflow-wrap: anywhere; }
+  .source-list .relation-meta { display: block; }
+  .external-experiences ul { display: grid; gap: 1rem; margin-block: .75rem; }
+  .external-experiences li { display: flex; flex-direction: column; align-items: flex-start; }
+  .discovery-prompt { margin-top: 1.5rem; padding: 1.25rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); text-align: left; display: flex; flex-direction: column; gap: .75rem; align-items: flex-start; }
+}

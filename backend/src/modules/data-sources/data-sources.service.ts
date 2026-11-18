@@ -6,7 +6,6 @@ import { OsmProvider } from "./providers/osm.provider";
 import { WikidataProvider } from "./providers/wikidata.provider";
 import { ListingLinksProvider } from "./providers/listing-links.provider";
 import { MarketPricesProvider } from "./providers/market-prices.provider";
-import { PublicWebDirectoryProvider } from "./providers/public-web-directory.provider";
 
 type CachedResult<T> = {
   sourceKey: string;
@@ -39,7 +38,6 @@ export class DataSourcesService implements OnModuleInit {
     private readonly wikidataProvider: WikidataProvider,
     private readonly listingLinksProvider: ListingLinksProvider,
     private readonly marketPricesProvider: MarketPricesProvider,
-    private readonly publicWebDirectoryProvider: PublicWebDirectoryProvider,
   ) {}
 
   async onModuleInit() {
@@ -85,107 +83,8 @@ export class DataSourcesService implements OnModuleInit {
         addressScoreContext: "/api/data-sources/address-score-context?lat=52.5407&lon=13.4126&label=Kastanienallee%2012",
         listingLinks: "/api/data-sources/listing-links?street=Kastanienallee&houseNumber=12&postalCode=10435&city=Berlin",
         marketPrices: "/api/data-sources/market-prices?city=Dortmund&district=H%C3%B6rde&postalCode=44263",
-        landlordCandidates: "/api/data-sources/landlord-candidates?city=Berlin",
-        publicLandlordDirectory: "/api/data-sources/public-landlord-directory?city=Dortmund",
         areaSignals: "/api/data-sources/area-signals?city=Berlin",
       },
-    };
-  }
-
-  async getLandlordCandidates(city = "Berlin", refresh = false) {
-    await this.ensureSourceCatalog();
-    const normalizedCity = this.normalizeCity(city);
-    const [osm, wikidata, publicDirectory] = await Promise.allSettled([
-      this.withLatencyBudget(
-        this.getCached(
-          "osm-overpass",
-          `osm-overpass:landlord-candidates:${normalizedCity}`,
-          refresh,
-          () => this.osmProvider.fetchHousingCompanyCandidates(normalizedCity),
-        ),
-        "osm-overpass",
-        300,
-      ),
-      this.withLatencyBudget(
-        this.getCached(
-          "wikidata",
-          `wikidata:landlord-candidates:${normalizedCity}`,
-          refresh,
-          () => this.wikidataProvider.fetchHousingCompanyCandidates(normalizedCity),
-        ),
-        "wikidata",
-        1_500,
-      ),
-      this.withLatencyBudget(
-        this.getCached(
-          "public-web-directory",
-          `public-web-directory:landlord-candidates:${normalizedCity}`,
-          refresh,
-          () => this.publicWebDirectoryProvider.fetchHousingCompanyCandidates(normalizedCity),
-        ),
-        "public-web-directory",
-        10_000,
-      ),
-    ]);
-
-    const providerResults = [osm, wikidata, publicDirectory];
-    const successful = providerResults.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
-    const errors = providerResults.flatMap((result) =>
-      result.status === "rejected" ? [{ message: result.reason instanceof Error ? result.reason.message : "Quelle konnte nicht abgerufen werden" }] : [],
-    );
-
-    return {
-      city: normalizedCity,
-      generatedAt: new Date().toISOString(),
-      results: this.mergeCandidates(successful.flatMap((result) => result.data)),
-      sources: successful.map((result) => ({
-        sourceKey: result.sourceKey,
-        fromCache: result.fromCache,
-        isStale: result.isStale,
-        backgroundRefresh: result.backgroundRefresh,
-        fetchedAt: result.fetchedAt,
-        expiresAt: result.expiresAt,
-        license: result.license,
-        attribution: result.attribution,
-      })),
-      errors,
-      nextStep: "Kandidaten per Website/Register-ID deduplizieren und erst danach als kanonische Vermieter übernehmen.",
-    };
-  }
-
-  async getPublicLandlordDirectory(city = "Berlin", refresh = false) {
-    await this.ensureSourceCatalog();
-    const normalizedCity = this.normalizeCity(city);
-    const scraped = await this.withLatencyBudget(
-      this.getCached(
-        "public-web-directory",
-        `public-web-directory:landlord-candidates:${normalizedCity}`,
-        refresh,
-        () => this.publicWebDirectoryProvider.fetchHousingCompanyCandidates(normalizedCity),
-      ),
-      "public-web-directory",
-      6_000,
-    );
-
-    return {
-      city: normalizedCity,
-      generatedAt: new Date().toISOString(),
-      results: this.mergeCandidates(scraped.data),
-      source: {
-        sourceKey: scraped.sourceKey,
-        fromCache: scraped.fromCache,
-        isStale: scraped.isStale,
-        backgroundRefresh: scraped.backgroundRefresh,
-        fetchedAt: scraped.fetchedAt,
-        expiresAt: scraped.expiresAt,
-        license: scraped.license,
-        attribution: scraped.attribution,
-      },
-      guardrails: [
-        "Nur öffentlich abrufbare HTML-Seiten aus Stadt-, Verbands- und Unternehmenskontext.",
-        "Keine Immobilienportal-Scrapes und keine Bewertungsseiten-Scrapes.",
-        "Treffer bleiben Kandidaten und müssen vor Übernahme dedupliziert und plausibilisiert werden.",
-      ],
     };
   }
 
@@ -527,23 +426,6 @@ export class DataSourcesService implements OnModuleInit {
       license: source.license,
       data,
     };
-  }
-
-  private mergeCandidates<T extends { name: string; confidence: number }>(candidates: T[]) {
-    const byName = new Map<string, T & { sourceCount: number }>();
-
-    for (const candidate of candidates) {
-      const key = candidate.name.toLocaleLowerCase("de-DE").replace(/\s+/g, " ").trim();
-      const existing = byName.get(key);
-
-      if (!existing || candidate.confidence > existing.confidence) {
-        byName.set(key, { ...candidate, sourceCount: (existing?.sourceCount ?? 0) + 1 });
-      } else {
-        existing.sourceCount += 1;
-      }
-    }
-
-    return Array.from(byName.values()).sort((a, b) => b.confidence - a.confidence || a.name.localeCompare(b.name, "de"));
   }
 
   private normalizeCity(city: string) {

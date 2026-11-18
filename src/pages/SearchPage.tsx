@@ -8,8 +8,8 @@ import { resultRoutes } from "@/features/directory/routes";
 import { DirectoryRow } from "@/components/DirectoryRow";
 import { Button } from "@/components/ui/button";
 import { adaptSearchResults } from "@/features/directory/directory-adapter";
-import { fetchLandlords, searchDirectory } from "@/features/directory/directory-api";
-import { similarLandlords } from "@/features/directory/search-matching";
+import { searchDirectory } from "@/features/directory/directory-api";
+import { DiscoveryPrompt } from "@/components/DiscoveryPrompt";
 import { addressSearch, addressUrl } from "@/features/location/api";
 import { accuracyLabel, ADDRESS_MIN_LENGTH } from "@/features/location/utils";
 
@@ -20,8 +20,6 @@ export default function SearchPage() {
   const search = useQuery({ queryKey: ["directory-search", query], queryFn: () => searchDirectory(query), retry: 1 });
   const allResults = useMemo(() => search.data ? adaptSearchResults(search.data) : [], [search.data]);
   const results = allResults.filter(item => selectedType === "all" || item.type === selectedType);
-  const directory = useQuery({ queryKey: ["landlords"], queryFn: fetchLandlords, enabled: search.isSuccess && results.length === 0 && (selectedType === "all" || selectedType === "landlord") && query.length >= 3, staleTime: 60_000 });
-  const alternatives = results.length === 0 && (selectedType === "all" || selectedType === "landlord") && query.length >= 3 ? similarLandlords(query, directory.data ?? []) : [];
   const propertyResults = useMemo(() => search.data ? toMappedProperties(search.data.properties) : [], [search.data]);
   const neighborhoodResults = useMemo(() => search.data ? toMappedNeighborhoods(search.data.neighborhoods) : [], [search.data]);
   // A submitted search text is also resolved as an address. Matches are offered for the address check;
@@ -38,7 +36,7 @@ export default function SearchPage() {
       <p>{addressMatches.length === 1 ? "Prüfe, was rund um diese Adresse liegt." : "Wähle die passende Adresse, um ihre Umgebung zu prüfen."}</p>
       <ul>{addressMatches.map(address => <li key={address.id}><Link to={addressUrl(address)}><strong>{address.label}</strong><small>Umgebung prüfen · {accuracyLabel(address)}</small></Link></li>)}</ul>
     </section>}
-    {search.isLoading ? <p role="status" className="state-message">Verzeichnis wird durchsucht …</p> : search.isError ? <div role="alert" className="state-message"><h2>Die Suche ist gerade nicht verfügbar.</h2><p>Bitte überprüfe deine Verbindung und versuche es erneut.</p><Button variant="outline" className="mt-4" onClick={() => search.refetch()}>Erneut versuchen</Button></div> : results.length === 0 ? <div className="state-message"><h2>Keine Ergebnisse für „{query}“</h2><p>Versuche einen kürzeren Unternehmensnamen oder den Ort.</p>{alternatives.length > 0 && <section className="mt-6 text-left"><h2 className="mb-3">Meintest du …?</h2><div className="directory-list">{alternatives.map(item => <DirectoryRow key={item.id} to={`/vermieter/${item.id}`} title={item.name} subtitle={`${item.companyType} · ${item.city || "Standort nicht verfügbar"}`} rating={item.ratingOverall ?? null} reviewCount={item.reviewCount ?? 0} />)}</div></section>}</div> : <>
+    {search.isLoading ? <p role="status" className="state-message">Verzeichnis wird durchsucht …</p> : search.isError ? <div role="alert" className="state-message"><h2>Die Suche ist gerade nicht verfügbar.</h2><p>Bitte überprüfe deine Verbindung und versuche es erneut.</p><Button variant="outline" className="mt-4" onClick={() => search.refetch()}>Erneut versuchen</Button></div> : results.length === 0 ? <div className="state-message"><h2>Keine Ergebnisse für „{query}“</h2><p>Prüfe die Schreibweise oder suche nach einem Teil des Firmennamens.</p>{search.data?.discoveryEligible && selectedType !== "property" && selectedType !== "neighborhood" && <DiscoveryPrompt query={query} />}</div> : <>
       <p className="result-count" role="status">{results.length} {results.length === 1 ? "Ergebnis" : "Ergebnisse"}</p>
       <div className={mapOpen && selectedType !== "landlord" ? "results-with-map" : "results-only"}>
         <div className="directory-list">{results.map(result => <DirectoryRow key={`${result.type}-${result.id}`} to={resultRoutes[result.type] + result.id} title={result.title} subtitle={`${result.type === "landlord" ? "Vermieter" : result.type === "property" ? "Gebäude" : "Nachbarschaft"} · ${result.subtitle}`} rating={result.rating} reviewCount={result.reviewCount} onFocus={() => { if (result.type === "property") setSelectedPropertyId(result.id); }} />)}</div>

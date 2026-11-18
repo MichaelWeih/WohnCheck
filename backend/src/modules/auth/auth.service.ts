@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { UserRole } from "@prisma/client";
+import { CompanyKind, RecordStatus, UserRole } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 import { PrismaService } from "../prisma/prisma.service";
 import { LoginDto } from "./dto/login.dto";
@@ -32,13 +32,14 @@ export class AuthService {
     }
 
     if (dto.landlordId) {
-      const landlord = await this.prisma.landlord.findUnique({
-        where: { id: dto.landlordId },
+      // Only public companies can be represented; private landlords and unchecked candidates cannot.
+      const landlord = await this.prisma.landlord.findFirst({
+        where: { id: dto.landlordId, status: RecordStatus.ACTIVE, kind: { not: CompanyKind.PRIVATE_LANDLORD } },
         select: { id: true },
       });
 
       if (!landlord) {
-        throw new BadRequestException("Der angegebene Vermieter existiert nicht.");
+        throw new BadRequestException("Der angegebene Vermieter ist nicht im öffentlichen Verzeichnis.");
       }
     }
 

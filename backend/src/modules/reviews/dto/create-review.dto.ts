@@ -5,11 +5,11 @@ import {
   IsNotEmpty,
   IsNumber,
   IsObject,
-  IsOptional,
   IsString,
   Max,
   MaxLength,
   Min,
+  MinLength,
 } from "class-validator";
 
 export class CreateReviewDto {
@@ -21,10 +21,12 @@ export class CreateReviewDto {
   targetId!: string;
 
   @IsString()
+  @MinLength(3)
   @MaxLength(100)
   title!: string;
 
   @IsString()
+  @MinLength(20)
   @MaxLength(2000)
   text!: string;
 
@@ -36,8 +38,4 @@ export class CreateReviewDto {
 
   @IsObject()
   categoryRatings!: Record<string, number>;
-
-  @IsOptional()
-  @IsString()
-  verificationLevel?: string;
 }

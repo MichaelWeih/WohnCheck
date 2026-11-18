@@ -14,7 +14,10 @@
     "prisma:seed": "ts-node prisma/seed.ts",
     "test": "jest",
     "test:int": "jest --config jest.int.config.js",
-    "test:all": "jest && jest --config jest.int.config.js"
+    "test:all": "jest && jest --config jest.int.config.js",
+    "discovery:sync": "ts-node src/cli/discovery-sync.ts",
+    "db:cleanup-fictitious-seed": "ts-node prisma/cleanup-fictitious-seed.ts",
+    "companies:find-duplicates": "ts-node src/cli/find-duplicates.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

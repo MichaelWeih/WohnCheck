@@ -13,8 +13,9 @@ import { SearchBar } from "@/components/SearchBar";
 import { DirectoryRow } from "@/components/DirectoryRow";
 import { StarRating } from "@/components/StarRating";
 import { Button } from "@/components/ui/button";
-import { searchDirectory } from "@/features/directory/directory-api";
-import { adaptSearchResults } from "@/features/directory/directory-adapter";
+import { fetchLandlordList, fetchNeighborhoods, fetchProperties } from "@/features/directory/directory-api";
+import { adaptLandlordCard } from "@/features/directory/directory-adapter";
+import type { SearchResult } from "@/data/mock-data";
 import { fetchLatestReviews } from "@/features/reviews/review-api";
 import { adaptApiReview } from "@/features/reviews/review-adapter";
 import { resultRoutes } from "@/features/directory/routes";
@@ -43,9 +44,37 @@ const categories = [
 export default function HomePage() {
   const [category, setCategory] =
     useState<(typeof categories)[number]["key"]>("property");
+  // Most reviewed landlords plus the first buildings and neighbourhoods of the directory.
   const directory = useQuery({
-    queryKey: ["directory-search", ""],
-    queryFn: () => searchDirectory(""),
+    queryKey: ["home-directory"],
+    queryFn: async (): Promise<SearchResult[]> => {
+      const [landlords, properties, neighborhoods] = await Promise.all([
+        fetchLandlordList({ sort: "reviews", limit: 3 }),
+        fetchProperties(),
+        fetchNeighborhoods(),
+      ]);
+      return [
+        ...landlords.items.map(adaptLandlordCard),
+        ...properties.slice(0, 3).map((p) => ({
+          type: "property" as const,
+          id: p.id,
+          title: `${p.street} ${p.houseNumber}`,
+          subtitle: `${p.postalCode} ${p.city}`,
+          rating: p.ratingOverall ?? 0,
+          reviewCount: p.reviewCount ?? 0,
+          city: p.city,
+        })),
+        ...neighborhoods.slice(0, 3).map((n) => ({
+          type: "neighborhood" as const,
+          id: n.id,
+          title: n.districtName,
+          subtitle: n.city,
+          rating: n.ratingOverall ?? 0,
+          reviewCount: n.reviewCount ?? 0,
+          city: n.city,
+        })),
+      ];
+    },
     staleTime: 60_000,
   });
   const latest = useQuery({
@@ -53,7 +82,7 @@ export default function HomePage() {
     queryFn: () => fetchLatestReviews(3),
     staleTime: 60_000,
   });
-  const allEntries = directory.data ? adaptSearchResults(directory.data) : [];
+  const allEntries = directory.data ?? [];
   const entries = allEntries
     .filter((item) => item.type === category)
     .slice(0, 3);

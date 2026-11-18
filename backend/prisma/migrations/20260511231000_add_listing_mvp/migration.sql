@@ -17,8 +17,8 @@ CREATE TYPE "LegalUseStatus" AS ENUM ('ALLOWED', 'PARTNER', 'MANUAL', 'NEEDS_REV
 CREATE TYPE "DuplicateStatus" AS ENUM ('OPEN', 'MERGED', 'DISMISSED');
 
 -- AlterTable
-ALTER TABLE "Landlord" ADD COLUMN "landlordType" "ProviderKind" NOT NULL DEFAULT 'UNKNOWN',
-ADD COLUMN "normalizedName" TEXT;
+-- "normalizedName" is added (NOT NULL, default '') by 20261115155141_landlord_directory.
+ALTER TABLE "Landlord" ADD COLUMN "landlordType" "ProviderKind" NOT NULL DEFAULT 'UNKNOWN';
 
 -- CreateTable
 CREATE TABLE "District" (

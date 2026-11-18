@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,16 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/features/auth/auth-context";
-import { fetchLandlords } from "@/features/directory/directory-api";
+import { LandlordPicker, PickedLandlord } from "@/components/landlord/LandlordPicker";
 import { toast } from "sonner";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
-  const { data: apiLandlords } = useQuery({
-    queryKey: ["landlords"],
-    queryFn: fetchLandlords,
-  });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,11 +19,7 @@ export default function RegisterPage() {
   const [landlordId, setLandlordId] = useState("");
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const landlordOptions = apiLandlords?.map((landlord) => ({
-    id: landlord.id,
-    name: landlord.name,
-    city: landlord.city,
-  })) ?? [];
+  const [pickedLandlord, setPickedLandlord] = useState<PickedLandlord | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,18 +79,11 @@ export default function RegisterPage() {
           {role === "LANDLORD" && (
             <div>
               <Label htmlFor="landlord">Vermieter-Zuordnung</Label>
-              <Select value={landlordId} onValueChange={setLandlordId}>
-                <SelectTrigger id="landlord" className="mt-1.5">
-                  <SelectValue placeholder="Bestehenden Vermieter wählen" />
-                </SelectTrigger>
-                <SelectContent>
-                  {landlordOptions.map((landlord) => (
-                    <SelectItem key={landlord.id} value={landlord.id}>
-                      {landlord.name} ({landlord.city})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <LandlordPicker
+                label="Unternehmen im Verzeichnis"
+                value={pickedLandlord}
+                onChange={(landlord) => { setPickedLandlord(landlord); setLandlordId(landlord?.id ?? ""); }}
+              />
             </div>
           )}
           <div>

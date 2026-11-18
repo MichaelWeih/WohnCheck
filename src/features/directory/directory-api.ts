@@ -1,22 +1,55 @@
 import { apiRequest } from "@/lib/api";
+import type {
+  CreateMappingReportRequest,
+  CreateMappingReportResponse,
+  CreatePropertyReportRequest,
+  CreatePropertyReportResponse,
+  DiscoveryRequestResponse,
+  LandlordExternalResponse,
+  LandlordListResponse,
+  LandlordProfileResponse,
+  LandlordSort,
+  PropertyDetailResponse,
+  PropertyLookupResponse,
+  SearchResponse,
+  SuggestResponse,
+} from "@/features/api-types";
 import {
   AddressScoreContextResponse,
   AddressSuggestionsResponse,
-  ApiLandlord,
+  ApiLandlordDetail,
   ApiNeighborhood,
   ApiProperty,
-  DirectorySearchResponse,
   ExternalListingLinksResponse,
   MarketPricesResponse,
 } from "./directory-types";
 
-export function fetchLandlords() {
-  return apiRequest<ApiLandlord[]>("/landlords", { method: "GET" });
+export function fetchLandlordList(params: { limit?: number; offset?: number; sort?: LandlordSort } = {}) {
+  const query = new URLSearchParams();
+  if (params.limit) query.set("limit", String(params.limit));
+  if (params.offset) query.set("offset", String(params.offset));
+  if (params.sort) query.set("sort", params.sort);
+  return apiRequest<LandlordListResponse>(`/landlords${query.size ? `?${query}` : ""}`, { method: "GET" });
 }
 
-export function fetchLandlord(id: string, city?: string | null) {
-  const query = city ? `?city=${encodeURIComponent(city)}` : "";
-  return apiRequest<ApiLandlord>(`/landlords/${encodeURIComponent(id)}${query}`, { method: "GET" });
+export function fetchLandlord(id: string) {
+  return apiRequest<ApiLandlordDetail>(`/landlords/${encodeURIComponent(id)}`, { method: "GET" });
+}
+
+export function fetchLandlordProfile(id: string) {
+  return apiRequest<LandlordProfileResponse>(`/landlords/${encodeURIComponent(id)}/profile`, { method: "GET" });
+}
+
+export function fetchLandlordExternal(id: string) {
+  return apiRequest<LandlordExternalResponse>(`/landlords/${encodeURIComponent(id)}/external`, { method: "GET" });
+}
+
+export function reportLandlord(id: string, body: CreateMappingReportRequest, token?: string | null) {
+  return apiRequest<CreateMappingReportResponse>(`/landlords/${encodeURIComponent(id)}/reports`, {
+    method: "POST",
+    body: JSON.stringify(body),
+    token,
+  });
 }
 
 export function fetchProperties() {
@@ -24,7 +57,24 @@ export function fetchProperties() {
 }
 
 export function fetchProperty(id: string) {
-  return apiRequest<ApiProperty>(`/properties/${id}`, { method: "GET" });
+  return apiRequest<PropertyDetailResponse>(`/properties/${encodeURIComponent(id)}`, { method: "GET" });
+}
+
+/** Who is responsible for an address? Never guesses; see PropertyLookupResponse. */
+export function lookupPropertyByAddress(address: { street: string; houseNumber?: string; postalCode?: string; city?: string }) {
+  const query = new URLSearchParams({ street: address.street });
+  if (address.houseNumber) query.set("houseNumber", address.houseNumber);
+  if (address.postalCode) query.set("postalCode", address.postalCode);
+  if (address.city) query.set("city", address.city);
+  return apiRequest<PropertyLookupResponse>(`/properties/lookup?${query}`, { method: "GET" });
+}
+
+export function reportPropertyLandlord(body: CreatePropertyReportRequest, token: string) {
+  return apiRequest<CreatePropertyReportResponse>("/properties/reports", {
+    method: "POST",
+    body: JSON.stringify(body),
+    token,
+  });
 }
 
 export function fetchListing(id: string) {
@@ -39,10 +89,22 @@ export function fetchNeighborhood(id: string) {
   return apiRequest<ApiNeighborhood>(`/neighborhoods/${id}`, { method: "GET" });
 }
 
-export function searchDirectory(query: string) {
-  return apiRequest<DirectorySearchResponse>(`/search?q=${encodeURIComponent(query)}`, {
-    method: "GET",
-  });
+/** Server-side search: normalized, fuzzy, ranked; a city word only ranks ("Vonovia Berlin"). */
+export function searchDirectory(query: string, signal?: AbortSignal) {
+  return apiRequest<SearchResponse>(`/search?q=${encodeURIComponent(query)}`, { method: "GET", signal });
+}
+
+export function suggestDirectory(query: string, signal?: AbortSignal) {
+  return apiRequest<SuggestResponse>(`/search/suggest?q=${encodeURIComponent(query)}`, { method: "GET", signal });
+}
+
+/** Search-on-miss: only ever started by an explicit click. */
+export function requestDiscovery(query: string) {
+  return apiRequest<DiscoveryRequestResponse>("/discovery/requests", { method: "POST", body: JSON.stringify({ query }) });
+}
+
+export function fetchDiscoveryRequest(id: string) {
+  return apiRequest<DiscoveryRequestResponse>(`/discovery/requests/${encodeURIComponent(id)}`, { method: "GET" });
 }
 
 export function fetchAddressSuggestions(query: string) {

@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-const company = { id: 'ui-test-company', slug: 'ui-test-company', name: 'Test Wohnungsverwaltung mit einem sehr langen Unternehmensnamen GmbH & Co. KG', companyType: 'Hausverwaltung', city: 'Berlin', reviewCount: 0, ratingOverall: null, properties: [] };
-const result = { landlords: [company], properties: [], neighborhoods: [] };
+const company = {
+  id: 'ui-test-company', slug: 'ui-test-company', name: 'Test Wohnungsverwaltung mit einem sehr langen Unternehmensnamen GmbH & Co. KG',
+  kind: 'PROPERTY_MANAGER', kindLabel: 'Hausverwaltung', companyType: 'Hausverwaltung', city: 'Berlin', state: 'DE-BE', stateLabel: 'Berlin', website: null,
+  verificationStatus: 'UNVERIFIED', verificationLabel: 'Nicht geprüft', operationalStatus: 'UNKNOWN', reviewCount: 0, ratingOverall: null,
+  redirectedFromId: null, properties: [], listings: [],
+};
+const result = { query: 'Test', landlords: [{ ...company, matchedAlias: null }], properties: [], neighborhoods: [], discoveryEligible: false };
 
 test('live directory: search, keyboard autocomplete, profile and login return path', async ({ page }) => {
   const errors: string[] = [];
@@ -33,10 +38,10 @@ test('browser history keeps search text in sync and Escape dismisses suggestions
   await expect(page.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('empty search offers typo correction from the real directory', async ({ page }) => {
+test('a typo still finds the company through the server-side fuzzy search', async ({ page }) => {
   await page.goto('/suche?q=Vonvia');
-  await expect(page.getByRole('heading', { name: 'Meintest du …?' })).toBeVisible();
-  await expect(page.locator('.directory-row', { hasText: 'Vonovia' })).toBeVisible();
+  await expect(page.locator('.directory-row', { hasText: 'Vonovia' }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Keine Ergebnisse/ })).toHaveCount(0);
 });
 
 test('loading, error recovery and empty results stay distinct', async ({ page }) => {
@@ -79,10 +84,11 @@ test('review form uses live directory data and keyboard stars; submission is moc
   await page.addInitScript(() => localStorage.setItem('wohncheck_auth', JSON.stringify({ accessToken: 'ui-test-only' })));
   await page.route('**/api/auth/me', route => route.fulfill({ json: { user: { id: 'ui-test', displayName: 'Testnutzer', role: 'USER', email: 'test@example.invalid' } } }));
   await page.route('**/api/search?*', route => route.fulfill({ json: result }));
+  await page.route('**/api/landlords/ui-test-company', route => route.fulfill({ json: company }));
   let submitted: Record<string, unknown> | undefined;
   await page.route('**/api/reviews', async route => { submitted = route.request().postDataJSON(); await route.fulfill({ json: { id: 'ui-test-review' } }); });
   await page.goto('/bewertung/neu?targetType=landlord&targetId=ui-test-company');
-  await expect(page.getByText(company.name, { exact: false }).first()).toBeVisible();
+  await expect(page.getByRole('combobox', { name: 'Vermieter *' })).toHaveValue(company.name);
   await page.getByLabel('Titel deiner Bewertung *', { exact: true }).fill('Meine Erfahrung');
   await page.getByLabel('Dein Erfahrungsbericht *', { exact: true }).fill('Dies ist eine lokale Testbewertung.');
   const star = page.getByRole('button', { name: 'Bewertung: 4 von 5 Sternen', exact: true });

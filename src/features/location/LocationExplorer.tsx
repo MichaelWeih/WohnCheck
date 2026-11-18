@@ -10,6 +10,7 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { LandlordAtAddress } from "@/components/landlord/LandlordAtAddress";
 import { AddressSearch } from "./AddressSearch";
 import {
   addressParams,
@@ -357,6 +358,14 @@ export default function LocationExplorer() {
               }
             />
           </div>
+          <LandlordAtAddress
+            address={{
+              street: address.street,
+              houseNumber: address.accuracy === "building" ? address.houseNumber : undefined,
+              postalCode: address.postalCode,
+              city: address.city,
+            }}
+          />
           <CategoryFilters
             categories={categories}
             kinds={kinds}

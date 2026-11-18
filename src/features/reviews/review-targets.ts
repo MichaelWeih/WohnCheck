@@ -1,5 +1,3 @@
-import { landlords, neighborhoods, properties } from "@/data/mock-data";
-
 export type ReviewTargetType = "landlord" | "property" | "neighborhood";
 export type ReviewTargetTypeApi = "LANDLORD" | "PROPERTY" | "NEIGHBORHOOD";
 
@@ -11,13 +9,15 @@ export type ReviewTargetOption = {
 };
 
 export const reviewCategories: Record<ReviewTargetType, string[]> = {
+  // Must match REVIEW_CATEGORIES in backend/src/modules/reviews/reviews.service.ts.
   landlord: [
+    "Erreichbarkeit",
     "Kommunikation",
-    "Fairness",
-    "Reaktionszeit",
+    "Reparaturen und Instandhaltung",
+    "Zuverlässigkeit",
     "Nebenkosten-Transparenz",
-    "Kautionsrückgabe",
-    "Instandhaltung",
+    "Umgang mit Beschwerden",
+    "Fairness",
   ],
   property: [
     "Sauberkeit",
@@ -54,35 +54,6 @@ export const apiToReviewTypeMap: Record<ReviewTargetTypeApi, ReviewTargetType> =
   PROPERTY: "property",
   NEIGHBORHOOD: "neighborhood",
 };
-
-const allTargets: ReviewTargetOption[] = [
-  ...landlords.map((landlord) => ({
-    id: landlord.id,
-    type: "landlord" as const,
-    label: landlord.name,
-    subtitle: `${landlord.company_type} in ${landlord.city}`,
-  })),
-  ...properties.map((property) => ({
-    id: property.id,
-    type: "property" as const,
-    label: `${property.street} ${property.house_number}`,
-    subtitle: `${property.postal_code} ${property.city}`,
-  })),
-  ...neighborhoods.map((neighborhood) => ({
-    id: neighborhood.id,
-    type: "neighborhood" as const,
-    label: neighborhood.district_name,
-    subtitle: `${neighborhood.postal_code} ${neighborhood.city}`,
-  })),
-];
-
-export function getTargetsForType(type: ReviewTargetType): ReviewTargetOption[] {
-  return allTargets.filter((target) => target.type === type);
-}
-
-export function getTargetByTypeAndId(type: ReviewTargetType, id: string) {
-  return allTargets.find((target) => target.type === type && target.id === id);
-}
 
 export function parseReviewTargetType(value: string | null): ReviewTargetType | null {
   if (!value) {

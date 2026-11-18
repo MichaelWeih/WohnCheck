@@ -6,5 +6,5 @@ TODO: Document your project here
 
 - [Adresscheck mit Umgebungskarte](docs/umgebungskarte.md): Architektur, Datenquellen, Umgebungsvariablen, Start- und Testbefehle, Datenlimits
 - [Backend-Architektur](docs/backend-architecture.md)
-- [Vermieter-Verzeichnis](docs/vermieter-verzeichnis.md)
+- [Vermieter-Verzeichnis: Spezifikation](docs/vermieter-verzeichnis.md) und [Audit, Umsetzung, Betrieb](docs/vermieter-audit.md)
 - [UI-Redesign](docs/ui-redesign.md)

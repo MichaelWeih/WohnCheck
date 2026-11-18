@@ -1,27 +1,29 @@
-import type { PropertyPartyView } from "@/features/api-types";
+import type { LandlordDetailResponse, PropertyRelationView, SearchPropertyHit } from "@/features/api-types";
 
-/** Present on list and search responses; computed from published reviews. */
+/**
+ * Frontend-only shapes of directory responses that are not (yet) part of the shared api-types.ts.
+ * Landlord cards, search, profiles, buildings and the address lookup use the shared types directly.
+ */
+
+/** Present on list and search responses; computed from published WohnCheck reviews only. */
 export interface ApiRatingSummary {
   ratingOverall?: number | null;
   reviewCount?: number;
 }
 
-export interface ApiLandlord extends ApiRatingSummary {
+/** GET /properties item and search hit. `landlord` is null when no public, verified landlord is known. */
+export type ApiProperty = Omit<SearchPropertyHit, "landlordId"> & {
+  landlordId: string | null;
+  neighborhood?: ApiNeighborhood | null;
+};
+
+export interface ApiNeighborhood extends ApiRatingSummary {
   id: string;
-  name: string;
-  companyType: string;
+  districtName: string;
   city: string;
-  website?: string | null;
+  postalCode: string;
   slug: string;
   properties?: ApiProperty[];
-  listings?: ApiListingCard[];
-  profile?: ApiLandlordProfile;
-  score?: ApiLandlordScore;
-  publicSources?: ApiLandlordPublicSource[];
-  externalLinks?: ApiLandlordExternalLink[];
-  reviewCount?: number;
-  ratingOverall?: number | null;
-  ratings?: Record<string, number>;
 }
 
 export interface ApiListingCard {
@@ -35,121 +37,14 @@ export interface ApiListingCard {
   coldRent?: number | null;
   warmRent?: number | null;
   pricePerSqm?: number | null;
-  districtMedianPricePerSqm?: number | null;
-  priceDeviationPercent?: number | null;
   status: string;
-  dataQualityScore: number;
-  sourceProvider?: {
-    key: string;
-    name: string;
-    legalUseStatus: string;
-    qualityScore?: number | null;
-  } | null;
 }
 
-export interface ApiLandlordProfile {
-  isExternalCandidate?: boolean;
-  knownListingsCount: number;
-  activeListingsCount: number;
-  averagePricePerSqm?: number | null;
-  activeDistricts: string[];
-  lastUpdatedAt?: string | Date | null;
-  dataQuality?: number | null;
-  summary?: string;
-}
-
-export interface ApiLandlordScoreFactor {
-  key: string;
-  label: string;
-  value?: number | null;
-  weight: number;
-  impact: "positive" | "negative" | "neutral";
-  explanation: string;
-}
-
-export interface ApiLandlordScore {
-  totalScore: number;
-  confidenceScore: number;
-  label: string;
-  note: string;
-  factors: ApiLandlordScoreFactor[];
-}
-
-export interface ApiLandlordPublicSource {
-  sourceKey: string;
-  sourceName: string;
-  sourceUrl: string;
-  observedAt?: string | Date | null;
-  confidence?: number | null;
-  extractedText?: string;
-}
-
-export interface ApiLandlordExternalLink {
-  label: string;
-  url: string;
-  type: "website" | "source" | "listing" | "contact";
-}
-
-export interface ApiExternalLandlord {
-  id: string;
-  name: string;
-  companyType: string;
-  city: string;
-  website?: string | null;
-  sourceName?: string | null;
-  sourceUrl?: string | null;
-  confidence?: number;
-  reviewCount?: number;
-  ratingOverall?: number | null;
-  ratings?: Record<string, number>;
-}
-
-export interface ApiProperty extends ApiRatingSummary {
-  id: string;
-  street: string;
-  houseNumber: string;
-  postalCode: string;
-  city: string;
-  slug: string;
-  landlordId: string;
-  neighborhoodId?: string | null;
-  /** null when the property's landlord is not public. */
-  landlord?: Pick<ApiLandlord, "id" | "name" | "slug"> | null;
-  neighborhood?: ApiNeighborhood | null;
-  /** Owner / landlord / manager of the property (GET /properties/:id); only public companies. */
-  parties?: PropertyPartyView[];
-  reviewCount?: number;
-  ratingOverall?: number | null;
-  ratings?: Record<string, number>;
-  latestScore?: {
-    id: string;
-    targetType: "PROPERTY";
-    targetId: string;
-    totalScore: string | number;
-    confidenceScore?: string | number | null;
-    calculationVersion: string;
-    computedAt: string;
-  } | null;
-}
-
-export interface ApiNeighborhood extends ApiRatingSummary {
-  id: string;
-  districtName: string;
-  city: string;
-  postalCode: string;
-  slug: string;
-  properties?: ApiProperty[];
-  reviewCount?: number;
-  ratingOverall?: number | null;
-  ratings?: Record<string, number>;
-}
-
-export interface DirectorySearchResponse {
-  landlords: ApiLandlord[];
-  properties: ApiProperty[];
-  neighborhoods: ApiNeighborhood[];
-  externalLandlords?: ApiExternalLandlord[];
-}
+/** GET /landlords/:id — card + buildings with their (verified or former) role. */
+export type ApiLandlordDetail = Omit<LandlordDetailResponse, "properties"> & {
+  properties: Array<LandlordDetailResponse["properties"][number] & ApiRatingSummary & { roles: PropertyRelationView[] }>;
+  listings: ApiListingCard[];
+};
 
 export interface AddressSuggestion {
   id: string;

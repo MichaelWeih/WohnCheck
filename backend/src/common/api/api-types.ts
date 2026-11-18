@@ -380,3 +380,82 @@ export interface DiscoveryRequestResponse {
   pollAfterMs: number | null;
   completedAt: IsoDateTime | null;
 }
+
+// ---------------------------------------------------------------------------------------------
+// Buildings and their organisations (module directory)
+// ---------------------------------------------------------------------------------------------
+export type PartyVerificationStatusApi = "VERIFIED" | "REPORTED" | "UNCLEAR" | "HISTORIC";
+
+/** One organisation of a building in one role. Only VERIFIED (current) and HISTORIC (former) rows are public. */
+export interface PropertyRelationView extends PropertyPartyView {
+  status: "current" | "former";
+  /** "Bestätigt" or "Früher zuständig". */
+  statusLabel: string;
+  validFrom: IsoDateTime | null;
+  validTo: IsoDateTime | null;
+  /** Set when the relation is known for one flat only, e.g. "WE 12". */
+  unitLabel: string | null;
+  lastCheckedAt: IsoDateTime | null;
+}
+
+/** GET /properties/:id */
+export interface PropertyDetailResponse {
+  id: string; street: string; houseNumber: string; postalCode: string; city: string; slug: string;
+  neighborhood: { id: string; districtName: string; city: string } | null;
+  /** Primary landlord, only when public and verified; null = unknown (never guessed). */
+  landlord: LandlordRef | null;
+  /** Verified current organisations by role. Empty = no landlord / manager / owner known. */
+  parties: PropertyRelationView[];
+  formerParties: PropertyRelationView[];
+  /** Unverified user reports for this building (count only; content is never public). */
+  openReports: number;
+  ratingOverall: number | null;
+  reviewCount: number;
+}
+
+/**
+ * GET /properties/lookup?street&houseNumber&postalCode&city — who is responsible for an address?
+ * Stages: 1 verified relation of a known building, 2 published portfolio lists, 3 other public sources,
+ * 4 user reports (count only), 5 nothing known. Stages 2 and 3 have no usable source yet; they never guess.
+ */
+export interface PropertyLookupResponse {
+  address: { street: string; houseNumber: string | null; postalCode: string | null; city: string | null };
+  /** "verified": at least one verified current organisation; "none": nothing verified (reports may exist). */
+  status: "verified" | "none";
+  /** Why nothing could be shown, when status is "none". */
+  reason: "no_house_number" | "unknown_building" | "no_verified_relation" | null;
+  property: { id: string; slug: string } | null;
+  parties: PropertyRelationView[];
+  formerParties: PropertyRelationView[];
+  openReports: number;
+  /** German sentence for the UI. */
+  message: string;
+  /** Which stages were checked, for transparency in the UI. */
+  checkedStages: Array<{ stage: 1 | 2 | 3 | 4; label: string; result: "match" | "no_match" | "not_available" }>;
+}
+
+/** POST /properties/reports (login required) -> 201 CreatePropertyReportResponse */
+export interface CreatePropertyReportRequest {
+  street: string;
+  houseNumber: string;
+  postalCode: string;
+  city: string;
+  role: PropertyRoleApi;
+  /** An ACTIVE landlord of the directory … */
+  landlordId?: string;
+  /** … or a company name that is not in the directory yet (never for private persons). */
+  organizationName?: string;
+  /** The landlord is a private person: no name is stored. */
+  privateLandlord?: boolean;
+  /** Optional public source (http/https). */
+  evidenceUrl?: string;
+  reporterRole?: ReporterRoleApi;
+  /** Optional note, 0..1000 characters. Not public. */
+  message?: string;
+}
+export interface CreatePropertyReportResponse {
+  id: string;
+  status: "OPEN";
+  /** Always a reminder that the report is unverified until WohnCheck checked it. */
+  message: string;
+}

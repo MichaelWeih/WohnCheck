@@ -21,22 +21,6 @@ export class DataSourcesController {
     return this.dataSourcesService.getSourceCatalog();
   }
 
-  @Get("landlord-candidates")
-  getLandlordCandidates(@Query() query: DataSourceQueryDto) {
-    return this.dataSourcesService.getLandlordCandidates(
-      query.city,
-      query.refresh === "true",
-    );
-  }
-
-  @Get("public-landlord-directory")
-  getPublicLandlordDirectory(@Query() query: DataSourceQueryDto) {
-    return this.dataSourcesService.getPublicLandlordDirectory(
-      query.city,
-      query.refresh === "true",
-    );
-  }
-
   @Get("area-signals")
   getAreaSignals(@Query() query: DataSourceQueryDto) {
     return this.dataSourcesService.getAreaSignals(

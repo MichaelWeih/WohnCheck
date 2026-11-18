@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LandlordPicker, PickedLandlord } from "@/components/landlord/LandlordPicker";
+import { fetchLandlord, fetchNeighborhoods, fetchProperties } from "@/features/directory/directory-api";
 import { useQuery } from "@tanstack/react-query";
-import { searchDirectory } from "@/features/directory/directory-api";
-import { adaptSearchResults } from "@/features/directory/directory-adapter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { StarRating } from "@/components/StarRating";
 import { Button } from "@/components/ui/button";
@@ -37,8 +37,27 @@ export default function WriteReviewPageV2() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const targetsQuery = useQuery({ queryKey: ["directory-search", ""], queryFn: () => searchDirectory("") });
-  const targets = targetsQuery.data ? adaptSearchResults(targetsQuery.data).map(item => ({ id: item.id, type: item.type, label: item.title, subtitle: item.subtitle })) : [];
+  // Buildings and neighbourhoods are few; landlords (1000+) are searched on the server with LandlordPicker.
+  const targetsQuery = useQuery({
+    queryKey: ["review-targets"],
+    queryFn: async () => {
+      const [properties, neighborhoods] = await Promise.all([fetchProperties(), fetchNeighborhoods()]);
+      return [
+        ...properties.map((p) => ({ id: p.id, type: "property" as const, label: `${p.street} ${p.houseNumber}`, subtitle: `${p.postalCode} ${p.city}` })),
+        ...neighborhoods.map((n) => ({ id: n.id, type: "neighborhood" as const, label: n.districtName, subtitle: `${n.postalCode} ${n.city}` })),
+      ];
+    },
+  });
+  const targets = targetsQuery.data ?? [];
+  const [pickedLandlord, setPickedLandlord] = useState<PickedLandlord | null>(null);
+  const lockedLandlord = useQuery({
+    queryKey: ["landlord", initialTargetId],
+    queryFn: () => fetchLandlord(initialTargetId),
+    enabled: initialTargetType === "landlord" && Boolean(initialTargetId),
+  });
+  useEffect(() => {
+    if (lockedLandlord.data) setPickedLandlord({ id: lockedLandlord.data.id, label: lockedLandlord.data.name, sublabel: lockedLandlord.data.kindLabel });
+  }, [lockedLandlord.data]);
   const currentCategories = targetType ? reviewCategories[targetType] : [];
   const availableTargets = targets.filter(target => target.type === targetType);
   const selectedTarget = availableTargets.find(target => target.id === targetId);
@@ -100,8 +119,7 @@ export default function WriteReviewPageV2() {
         <p className="text-muted-foreground mb-6">Teile deine Wohnerfahrung und hilf anderen Mietern.</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {targetsQuery.isError && <p role="alert" className="text-destructive">Die verfügbaren Vermieter und Wohnorte konnten nicht geladen werden. Bitte lade die Seite erneut.</p>}
-          {targetsQuery.isLoading && <p role="status">Vermieter und Wohnorte werden geladen …</p>}
+          {targetsQuery.isError && <p role="alert" className="text-destructive">Die verfügbaren Wohnorte konnten nicht geladen werden. Bitte lade die Seite erneut.</p>}
           <div>
             <Label htmlFor="target-type">Was möchtest du bewerten? *</Label>
             <Select
@@ -127,6 +145,14 @@ export default function WriteReviewPageV2() {
           </div>
 
           <div>
+            {targetType === "landlord" ? (
+              <LandlordPicker
+                label="Vermieter *"
+                value={pickedLandlord}
+                disabled={targetIsLocked}
+                onChange={(landlord) => { setPickedLandlord(landlord); setTargetId(landlord?.id ?? ""); }}
+              />
+            ) : <>
             <Label htmlFor="target">Vermieter oder Wohnort *</Label>
             <Select value={targetId} onValueChange={setTargetId} disabled={!targetType || targetIsLocked}>
               <SelectTrigger id="target" className="mt-1.5">
@@ -145,6 +171,7 @@ export default function WriteReviewPageV2() {
                 Ausgewählt: {selectedTarget.label} ({selectedTarget.subtitle})
               </p>
             )}
+            </>}
           </div>
 
           <div>
